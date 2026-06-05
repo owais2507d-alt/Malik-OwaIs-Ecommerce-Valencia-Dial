@@ -1,0 +1,212 @@
+========================================================================
+            LARAVEL CUSTOM E-COMMERCE - ULTIMATE ROADMAP
+           (No Packages - Portfolio & Interview Ready)
+========================================================================
+
+------------------------------------------------------------------------
+PHASE 0: THE DIRECTORY & FILE BLUEPRINT (Kitne Folders Aur Files Banengi)
+------------------------------------------------------------------------
+*Note: Yeh woh saari files aur folders hain jo aap is project mein CUSTOM banayenge.*
+
+[ ] 1. CONTROLLERS FOLDERS & FILES (`app/Http/Controllers/`)
+       ├── Auth/
+       │   └── AuthController.php            -> (Login, Register, Logout Logic)
+       ├── Admin/
+       │   ├── DashboardController.php       -> (Stats Display)
+       │   ├── CategoryController.php        -> (Category CRUD)
+       │   ├── BrandController.php           -> (Brand CRUD)
+       │   ├── ProductController.php         -> (Product CRUD + Image Upload)
+       │   ├── OrderController.php           -> (Order Management)
+       │   └── ReviewController.php          -> (Review Moderation)
+       └── Frontend/
+           ├── HomeController.php          -> (Homepage Items Display)
+           ├── ShopController.php          -> (Filters, Search, Product Detail)
+           ├── CartController.php          -> (Session + DB Cart Custom Logic)
+           ├── WishlistController.php      -> (Wishlist Logic)
+           ├── CheckoutController.php      -> (Order Saving & Stripe Gateway)
+           └── DashboardController.php     -> (Customer Order History & Profile)
+
+[ ] 2. MIDDLEWARE FILES (`app/Http/Middleware/`)
+       ├── AdminMiddleware.php             -> (Sirf Admin verify karne ke liye)
+       └── CustomerMiddleware.php          -> (Sirf Customer verify karne ke liye)
+
+[ ] 3. MAIL DIVISION (`app/Mail/`)
+       └── CustomOrderMail.php             -> (Dynamic Email Content Handler)
+
+[ ] 4. VIEWS FOLDERS & BLADE FILES (`resources/views/`)
+       ├── layouts/
+       │   ├── app.blade.php               -> (Frontend Base Layout: Navbar, Footer)
+       │   └── admin.blade.php             -> (Admin Base Layout: Sidebar, Header)
+       ├── auth/
+       │   ├── login.blade.php             -> (Custom Login Form)
+       │   └── register.blade.php          -> (Custom Register Form)
+       ├── admin/
+       │   ├── dashboard.blade.php         -> (Stats Panel Visual)
+       │   ├── categories/ (index, create, edit.blade.php) -> (3 Files)
+       │   ├── brands/ (index, create, edit.blade.php)     -> (3 Files)
+       │   ├── products/ (index, create, edit.blade.php)   -> (3 Files)
+       │   ├── orders/ (index, show.blade.php)            -> (2 Files)
+       │   └── reviews/index.blade.php     -> (1 File)
+       ├── frontend/
+       │   ├── home.blade.php              -> (Hero, Featured, Categories)
+       │   ├── shop.blade.php              -> (Grid + Filter Sidebar)
+       │   ├── product-detail.blade.php    -> (Single view, reviews & stock status)
+       │   ├── cart.blade.php              -> (Items list, Qty update buttons)
+       │   ├── checkout.blade.php          -> (Shipping Details + Stripe Field)
+       │   ├── success.blade.php           -> (Thank You Page)
+       │   └── customer/
+       │       ├── dashboard.blade.php     -> (Customer Profile Overview)
+       │       ├── orders.blade.php        -> (Order History List)
+       │       └── order-detail.blade.php  -> (Single Order Tracking view)
+       └── emails/
+           └── order-confirmation.blade.php -> (Tailwind HTML Email Invoice layout)
+
+------------------------------------------------------------------------
+PHASE 1: PROJECT SETUP (Buniyaad)
+------------------------------------------------------------------------
+[ ] 1. Laravel Install: Fresh project setup karein.
+       CMD: `composer create-project laravel/laravel ecommerce`
+[ ] 2. Git & GitHub: Version control start karein.
+       CMD: `git init` -> Remote repository connect karein -> First Commit.
+[ ] 3. Database Sync: `.env` file mein database name `ecommerce_db` set karein.
+[ ] 4. Tailwind CSS Setup: 
+       - Install npm packages.
+       - `tailwind.config.js` mein blade paths add karein.
+       - `resources/css/app.css` mein `@tailwind directives` daalein.
+       - Run command: `npm run dev`
+[ ] 5. Create Folders: Phase 0 ke mutabiq saare khali folders abhi se generate kar lein taaki architecture clear rahe.
+
+------------------------------------------------------------------------
+PHASE 2: DATABASE DESIGN (Migrations & Models)
+------------------------------------------------------------------------
+*Note: Har table ke liye `php artisan make:model ModelName -m` run karein.*
+
+[ ] 1. users: (id, name, email, password, role [default: 'customer'])
+[ ] 2. categories: (id, name, slug, status [default: 1])
+[ ] 3. brands: (id, name, slug, status [default: 1])
+[ ] 4. products: (id, category_id, brand_id, name, slug, description, price, sale_price, quantity, image, status)
+[ ] 5. carts: (id, user_id)
+[ ] 6. cart_items: (id, cart_id, product_id, quantity)
+[ ] 7. orders: (id, user_id, total, shipping_name, phone, address, city, postal_code, payment_method, payment_status, order_status)
+[ ] 8. order_items: (id, order_id, product_id, quantity, price)
+[ ] 9. wishlists: (id, user_id, product_id)
+[ ] 10. reviews: (id, user_id, product_id, rating, review)
+
+*Kaam Khatam Karke:* Run `php artisan migrate`
+
+------------------------------------------------------------------------
+PHASE 3: CUSTOM AUTHENTICATION (Bina Breeze/Jetstream Ke)
+------------------------------------------------------------------------
+[ ] 1. AuthController banayein (`app/Http/Controllers/Auth/AuthController.php`).
+[ ] 2. Views Setup: UI design karein Tailwind se (`auth/login.blade.php` & `auth/register.blade.php`).
+[ ] 3. Register Logic: Validate input -> `Hash::make($request->password)` -> User create karein -> Auto Login karein via `Auth::login($user)`.
+[ ] 4. Login Logic: `Auth::attempt(['email' => ..., 'password' => ...])` check karein -> Session generate karein.
+[ ] 5. Logout System: `Auth::logout()` -> Session invalidate aur regenerate karein.
+
+------------------------------------------------------------------------
+PHASE 4: CUSTOM ROLE MANAGEMENT & MIDDLEWARE
+------------------------------------------------------------------------
+[ ] 1. Middleware 1: `php artisan make:middleware AdminMiddleware`
+       - Logic: Agar user login nahi hai ya uski role 'admin' nahi hai -> Redirect to login.
+[ ] 2. Middleware 2: `php artisan make:middleware CustomerMiddleware`
+       - Logic: Agar user login nahi hai -> Redirect to login.
+[ ] 3. Kernel Registration: Dono middlewares ko `app/Http/Kernel.php` (ya Laravel 11+ mein `bootstrap/app.php`) mein register karein.
+[ ] 4. Route Protection: `routes/web.php` mein Admin aur Customer ke routes ko alag-alag groups mein wrap karein.
+
+------------------------------------------------------------------------
+PHASE 5: ADMIN PANEL DEVELOPMENT (Backend Command Center)
+------------------------------------------------------------------------
+[ ] 1. Admin Layout: Ek common template master file banayein (`layouts/admin.blade.php`) jisme Sidebar aur Navbar ho.
+[ ] 2. Dashboard: Blade page banayein jo database se Total Users, Products, Orders, aur Total Revenue counts show karey.
+[ ] 3. Category CRUD: Forms banayein, Controller mein `Str::slug($request->name)` use karke auto-slug generate karein.
+[ ] 4. Brand CRUD: Same category ki tarah simple Add/Edit/Delete screens.
+[ ] 5. Product CRUD (Image Upload): 
+       - Form mein `enctype="multipart/form-data"` lazmi lagayein.
+       - Image ko `Storage::disk('public')->put('products', ...)` se save karein.
+       - Stock Management logic lagayein (Quantity input).
+[ ] 6. Order Management: Admin sabhi orders dekh sake aur unka status (Pending, Shipped, Delivered, Cancelled) dropdown se update kar sake.
+[ ] 7. Review Management: Customers ke ghatia ya spam reviews ko admin delete kar sake.
+
+------------------------------------------------------------------------
+PHASE 6: FRONTEND LAYOUT & PAGES (Main Website)
+------------------------------------------------------------------------
+[ ] 1. Frontend Layout: Main user layout (`layouts/app.blade.php`) banayein jisme Tailwind-based header, search bar, cart icon, aur footer ho.
+[ ] 2. Home Page:
+       - Hero Carousel/Banner.
+       - Featured Products & Latest Products sections (Query: `orderBy('id', 'desc')->take(8)`).
+       - Category Grid display.
+[ ] 3. Shop Page (Advanced Filters):
+       - Side filter panel (Categories, Brands check boxes).
+       - Price Range Filter (Min & Max input).
+       - Main Grid: Products show karein with Tailwind Pagination (`->paginate(12)`).
+[ ] 4. Product Detail Page:
+       - Single product view, product description, dynamic stock badge (In Stock / Out of Stock).
+       - Reviews display section aur "Add Review" form (sirf unke liye jinhone product buy kiya ho).
+[ ] 5. Dynamic Pages: Category-wise, Brand-wise, aur Search Results ke pages setup karein.
+
+------------------------------------------------------------------------
+PHASE 7: CUSTOM CART SYSTEM (Session + DB Architecture)
+------------------------------------------------------------------------
+[ ] 1. Session Cart (For Guests/All): 
+       - Add to Cart click hone par session mein ek array maintain karein: `session()->get('cart', [])`.
+       - Array structure: `product_id => ['name', 'price', 'quantity', 'image']`.
+[ ] 2. Database Cart (For Logged-In Users):
+       - Jab user login kare, session cart ka data utha kar `carts` aur `cart_items` table mein transfer kar dein.
+[ ] 3. Cart Page: Qty update (+ / - buttons) aur Remove Item ka custom Route aur Controller logic script karein.
+[ ] 4. Math Logic: Subtotal aur Grand Total nikalne ka backend controller function likhein.
+
+------------------------------------------------------------------------
+PHASE 8: CUSTOM WISHLIST SYSTEM
+------------------------------------------------------------------------
+[ ] 1. Database logic: Click hone par check karein agar user logged in hai, toh `wishlists` table mein row insert karein.
+[ ] 2. Wishlist Page: User ko uski saved products dikhein.
+[ ] 3. "Move to Cart" Button: Wishlist se item delete karke Cart system mein inject karein.
+
+------------------------------------------------------------------------
+PHASE 9: CHECKOUT & ORDER MANAGEMENT
+------------------------------------------------------------------------
+[ ] 1. Checkout Page: Form banayein shipping details ke liye (Name, Phone, Address, City, Zip).
+[ ] 2. Order Placement Logic (Database Transaction):
+       - Step A: `orders` table mein main record insert karein.
+       - Step B: Loop chalayein cart items par aur har item ko `order_items` table mein save karein.
+       - Step C: Product table mein se `quantity` minus (reduce) karein.
+       - Step D: Cart clear kar dein.
+[ ] 3. Customer Dashboard: User apne purane orders ki history dekh sake aur track kar sake (Pending vs Delivered).
+
+------------------------------------------------------------------------
+PHASE 10: CUSTOM EMAIL SYSTEM (Mailable Classes)
+------------------------------------------------------------------------
+[ ] 1. `.env` config: Mailtrap or SMTP details configure karein.
+[ ] 2. Mailable Creation: `php artisan make:mail CustomOrderMail`
+[ ] 3. HTML Views: Tailwind inline styles use karke `emails/order-confirmation.blade.php` ko clean design dein.
+[ ] 4. Triggers (Controller Events):
+       - User Register ho -> Send Welcome Email.
+       - Order Place ho -> Send Order Invoice Email to Customer AND Notify Admin via email.
+       - Status Change ho (Shipped/Delivered) -> Send status notification mail.
+
+------------------------------------------------------------------------
+PHASE 11: CUSTOM PAYMENT INTEGRATION
+------------------------------------------------------------------------
+[ ] 1. Cash on Delivery (COD): Simple logic, order place karte hi `payment_status` ko 'Pending' set karein.
+[ ] 2. Stripe Gateway:
+       - Include Stripe PHP SDK via composer: `composer require stripe/stripe-php`.
+       - Frontend par Stripe Elements (JavaScript form) setup karein.
+       - Backend controller mein Stripe Token process karke charge create karein.
+       - Charge successful hone par `payment_status` ko 'Paid' update karein.
+
+------------------------------------------------------------------------
+PHASE 12: SEO, TESTING & DEPLOYMENT
+------------------------------------------------------------------------
+[ ] 1. SEO Friendly Slugs: Controllers mein queries `id` ke bajaye `slug` par chalayein (e.g., `Product::where('slug', $slug)->first()`).
+[ ] 2. Manual Testing: Pura flow start to finish testing karein (Register -> Shop -> Filter -> Add to Cart -> Checkout -> Pay via Stripe Card -> Check Email).
+[ ] 3. Server Deployment:
+       - Code push to GitHub.
+       - Live server par clone karein.
+       - Symlink create karein: `php artisan storage:link`
+       - Performance boost commands run karein:
+         `php artisan optimize`
+         `php artisan config:cache`
+         `php artisan route:cache`
+========================================================================
+STATUS: COMPILED WITH BLUEPRINT | HAPPY CODING!
+========================================================================
