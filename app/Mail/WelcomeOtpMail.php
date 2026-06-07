@@ -29,11 +29,10 @@ class WelcomeOtpMail extends Mailable
         );
     }
 
-    public function content(): Content
+   public function content(): Content
     {
-        // Yahan view aur data pass karna hai
         return new Content(
-            view: 'emails.welcome-otp',
+            view: 'email.welcome-otp', // 'emails.' hata diya kyunki file direct views folder mein hai
             with: [
                 'user' => $this->user,
                 'otp' => $this->otp,
