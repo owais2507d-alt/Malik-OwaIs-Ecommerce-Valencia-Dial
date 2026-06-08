@@ -53,7 +53,7 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             Log::error('Mail sending failed in register: ' . $e->getMessage());
             
-            // Agar mail fail ho to user ko batayein ke .env check karein
+            //
             return redirect()->route('verify.otp')->with('error', 'Account created, but Mail failed to send. Error: ' . $e->getMessage());
         }
 
@@ -130,7 +130,7 @@ class AuthController extends Controller
         if ($user) {
             $newOtp = rand(100000, 999999);
             
-            // updated_at timestamp update karne ke liye touch() ya update use karein
+            // updated_at timestamp u
             $user->update(['otp_code' => $newOtp]);
             
             try {

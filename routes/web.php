@@ -1,12 +1,14 @@
 <?php
 
+use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Admin\DashboardController;
 
 
 // Home Route (Frontend landing page)
 Route::get('/', function () {
-    return view('frontend.home'); // Aapki frontend home blade file ka path
+    return view('frontend.home'); 
 })->name('home');
 
 
@@ -35,8 +37,9 @@ Route::middleware('auth')->group(function () {
     // Logout Route
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    // Admin Dashboard
-    Route::get('/admin/dashboard', function () {
-        return "Welcome to Valencia Dial Admin Dashboard!";
-    })->name('admin.dashboard');
+    // Admin Dashboard  security routing 
+    Route::middleware([AdminMiddleware::class])->group(function(){
+        Route::get('admin/dashboard',[DashboardController::class,'index'])->name('admin.dashboard');
+    });
+   
 });

@@ -32,7 +32,7 @@ class WelcomeOtpMail extends Mailable
    public function content(): Content
     {
         return new Content(
-            view: 'email.welcome-otp', // 'emails.' hata diya kyunki file direct views folder mein hai
+            view: 'email.welcome-otp', 
             with: [
                 'user' => $this->user,
                 'otp' => $this->otp,
