@@ -46,7 +46,7 @@
                 <h2 class="luxury-title text-3xl lg:text-4xl text-white font-medium leading-tight tracking-wide">
                     Welcome <br>Back To <br><span style="color: var(--text-gold);">The Elite</span>.
                 </h2>
-                <div class="w-12 h-[1px]" style="background-color: rgba(212, 175, 55, 0.6);"></div>
+                <div class="w-12 h-1px" style="background-color: rgba(212, 175, 55, 0.6);"></div>
                 <p class="text-stone-400 text-xs font-light leading-relaxed tracking-wide max-w-xs">
                     Sign in to resume control of your bespoke collections, manage active dashboards, and explore our newest signature premium dials.
                 </p>

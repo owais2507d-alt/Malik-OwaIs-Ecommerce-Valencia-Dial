@@ -47,5 +47,49 @@ class WatchController extends Controller
 
         return redirect()->route('admin.watches.index')->with('success', 'Premium Watch added successfully!');
     }
+
+    public function edit($id)
+{
+    $watch = Watch::findOrFail($id);
+    return view('admin.watches.edit', compact('watch'));
+}
+    public function update(Request $request ,$id){
+        $watch =Watch::findOrFail($id); 
+        $request->validate([
+            'name' => 'required|string|max:255',
+        'brand' => 'required|string|max:255',
+        'price' => 'required|numeric|min:0',
+        'stock' => 'required|integer|min:0',
+        'description' => 'nullable|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
+        ]);
+
+        $data =$request->only('name','brand','price','stock','description');
+
+        if($request->hasFile('image')){
+            if($watch->image){
+                storage::disk('public')->delete($watch->image);
+            }
+            //save new image
+           $data['image'] =$request->file('image')->store('watches','public');
+
+        }
+        $watch->update($data);
+ return redirect()->route('admin.watches.index')->with('success', 'Masterpiece credentials updated successfully.');
+    }
+
+    public function destroy($id)
+{
+    $watch = Watch::findOrFail($id);
+
+    // Image file bhi storage se khatam karo
+    if ($watch->image) {
+        Storage::disk('public')->delete($watch->image);
+    }
+
+    $watch->delete();
+
+    return redirect()->route('admin.watches.index')->with('success', 'Watch entry successfully exiled from vault.');
+}
 }
     

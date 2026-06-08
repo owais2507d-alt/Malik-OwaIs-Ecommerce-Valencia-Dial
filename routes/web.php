@@ -113,4 +113,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/watches/create', [WatchController::class, 'create'])->name('admin.watches.create');
         Route::post('/admin/watches', [WatchController::class, 'store'])->name('admin.watches.store');
     });
+    
+    Route::get('/admin/watches/{id}/edit', [WatchController::class, 'edit'])->name('admin.watches.edit');
+Route::put('/admin/watches/{id}', [WatchController::class, 'update'])->name('admin.watches.update');
+Route::delete('/admin/watches/{id}', [WatchController::class, 'destroy'])->name('admin.watches.destroy');
+
 });
