@@ -22,7 +22,7 @@ class AdminMiddleware
             }
          }
 
-         return redirect()->route('home')->withErrors('error','you do not have admin acess');
+         return redirect()->route('shop.index')->withErrors('error','you do not have admin acess');
         
     }
 }

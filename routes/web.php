@@ -1,121 +1,78 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Password;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\ResetPasswordController; 
 use App\Http\Controllers\Admin\WatchController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Frontend\HomeController;
 
 /*
 |--------------------------------------------------------------------------
-| Frontend Public Routes
+| Public Routes & Core Showroom (Sectored with Authentication)
 |--------------------------------------------------------------------------
 */
+// Error image_a10062.png resolved: Changed .name('home') to .name('shop.index')
+// Middleware auth applied so guest users are forced to login first
+Route::get('/', [HomeController::class, 'index'])->name('shop.index')->middleware('auth');
+Route::get('/watch/{id}', [HomeController::class, 'show'])->name('shop.show')->middleware('auth');
 
-Route::get('/', function () {
-    return view('frontend.home'); 
-})->name('home');
 
 /*
 |--------------------------------------------------------------------------
-| Guest Authentication Routes (Only for Logged-Out Users)
+| Guest Authentication Gateway (Only for Logged-Out Users)
 |--------------------------------------------------------------------------
 */
-
 Route::middleware('guest')->group(function () {
     
-    // Registration Feature
+    // Identity Registry (Registration)
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
 
-    // OTP Verification Process
+    // One-Time Passcode Lifecycle (OTP)
     Route::get('/verify-otp', [AuthController::class, 'showVerifyOtp'])->name('verify.otp');
     Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
     Route::post('/verify-otp/resend', [AuthController::class, 'resendOtp'])->name('verify.resend');
 
-    // Authentication Session Routes
+    // Secure Gate Entry (Login)
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
 
-    // 1. Forgot Password (Request Link Form)
-    Route::get('/forgot-password', function () {
-        return view('auth.forgot-password');
-    })->name('password.request');
-
-    // 2. Forgot Password (Process & Send Link)
-    Route::post('/forgot-password', function (Request $request) {
-        $request->validate(['email' => 'required|email']);
-
-        $status = Password::sendResetLink($request->only('email'));
-
-        return $status === Password::RESET_LINK_SENT
-            ? back()->with('status', __($status))
-            : back()->withErrors(['email' => __($status)]);
-    })->name('password.email');
-
-    // 3. Reset Password (Render New Password Form)
-    Route::get('/reset-password/{token}', function (string $token) {
-        return view('auth.reset-password', ['token' => $token]);
-    })->name('password.reset');
-
-    // 4. Reset Password (Update Password in Database)
-    Route::post('/reset-password', function (Request $request) {
-        $request->validate([
-            'token'    => 'required',
-            'email'    => 'required|email',
-            'password' => 'required|min:6|confirmed',
-        ]);
-
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                $user->forceFill([
-                    'password' => Hash::make($password)
-                ])->setRememberToken(Str::random(60));
-
-                $user->save();
-            }
-        );
-
-        return $status === Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('success', __($status))
-            : back()->withErrors(['email' => __($status)]);
-    })->name('password.update');
+    // Security Credential Recovery (Forgot / Reset Password)
+    Route::get('/forgot-password', [ResetPasswordController::class, 'showForgotForm'])->name('password.request');
+    Route::post('/forgot-password', [ResetPasswordController::class, 'sendResetLink'])->name('password.email');
+    Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+    Route::post('/reset-password', [ResetPasswordController::class, 'updatePassword'])->name('password.update');
 });
+
 
 /*
 |--------------------------------------------------------------------------
-| Authenticated Session Routes (Requires Valid Login)
+| Protected Operational Subsystems (Requires Valid Authentication)
 |--------------------------------------------------------------------------
 */
-
 Route::middleware('auth')->group(function () {
     
-    // Terminate User Session
+    // Revoke Session (Logout)
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     /*
     |--------------------------------------------------------------------------
-    | Secure Admin Panel Routes (Protected via AdminMiddleware)
+    | Elite Secure Admin Console (Protected via Role Shield)
     |--------------------------------------------------------------------------
     */
-    Route::middleware([AdminMiddleware::class])->group(function() {
+    Route::middleware([AdminMiddleware::class])->prefix('admin')->name('admin.')->group(function() {
         
-        // Admin Dashboard
-        Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+        // Control Tower Central Dashboard
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-        // Watch Inventory Framework Controls 
-        Route::get('/admin/watches', [WatchController::class, 'index'])->name('admin.watches.index');
-        Route::get('/admin/watches/create', [WatchController::class, 'create'])->name('admin.watches.create');
-        Route::post('/admin/watches', [WatchController::class, 'store'])->name('admin.watches.store');
+        // Master Catalogue Operations (Watch CRUD Matrix)
+        Route::get('/watches', [WatchController::class, 'index'])->name('watches.index');
+        Route::get('/watches/create', [WatchController::class, 'create'])->name('watches.create');
+        Route::post('/watches', [WatchController::class, 'store'])->name('watches.store');
+        Route::get('/watches/{id}/edit', [WatchController::class, 'edit'])->name('watches.edit');
+        Route::put('/watches/{id}', [WatchController::class, 'update'])->name('watches.update');
+        Route::delete('/watches/{id}', [WatchController::class, 'destroy'])->name('watches.destroy');
     });
-    
-    Route::get('/admin/watches/{id}/edit', [WatchController::class, 'edit'])->name('admin.watches.edit');
-Route::put('/admin/watches/{id}', [WatchController::class, 'update'])->name('admin.watches.update');
-Route::delete('/admin/watches/{id}', [WatchController::class, 'destroy'])->name('admin.watches.destroy');
-
 });
