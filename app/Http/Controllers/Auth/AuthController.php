@@ -40,7 +40,6 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'customer',
             'otp_code' => $otp,
             'is_verified' => 0
         ]); 
@@ -109,7 +108,7 @@ class AuthController extends Controller
                 return redirect()->route('admin.dashboard');
             }
 
-            return redirect()->route('home'); 
+            return redirect()->route('shop.index'); 
         }
 
         return back()->withErrors(['otp' => 'Invalid OTP, please recheck.']);
@@ -182,7 +181,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $request->remember)) {
             $request->session()->regenerate();
-            return Auth::user()->role === 'admin' ? redirect()->route('admin.dashboard') : redirect()->route('home');
+            return redirect("/");
         }
 
         return back()->withErrors(['email' => 'Invalid email or password'])->onlyInput('email');

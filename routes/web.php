@@ -7,21 +7,38 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Admin\WatchController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Frontend\CartController;
 
 /*
 |--------------------------------------------------------------------------
-| Public Routes & Core Showroom (Sectored with Authentication)
+| Public Routes & Core Showroom (Sectored - Accessible to Everyone)
 |--------------------------------------------------------------------------
+| Ab koi bhi user bina login kiye aapka home page aur single product details
+| dekh sakta hai. No more annoying redirection!
 */
-// Error image_a10062.png resolved: Changed .name('home') to .name('shop.index')
-// Middleware auth applied so guest users are forced to login first
-Route::get('/', [HomeController::class, 'index'])->name('shop.index')->middleware('auth');
-Route::get('/watch/{id}', [HomeController::class, 'show'])->name('shop.show')->middleware('auth');
+Route::get('/', [HomeController::class, 'index'])->name('shop.index');
+Route::get('/watch/{id}', [HomeController::class, 'show'])->name('shop.show');
 
 
 /*
 |--------------------------------------------------------------------------
-| Guest Authentication Gateway (Only for Logged-Out Users)
+| Protected Client Vault (Authenticated Public Users Only)
+|--------------------------------------------------------------------------
+| Is block ke andar sirf wahi routes aayenge jinke liye login hona laazmi hai.
+*/
+Route::middleware('auth')->group(function () {
+    
+    // Revoke Session (Logout)
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    
+    // Note: Future mein Cart aur Checkout ke routes bhi aap is block ke andar daalna.
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Guest Authentication Gateway (Only for Logged-Out Public Users)
 |--------------------------------------------------------------------------
 */
 Route::middleware('guest')->group(function () {
@@ -35,7 +52,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
     Route::post('/verify-otp/resend', [AuthController::class, 'resendOtp'])->name('verify.resend');
 
-    // Secure Gate Entry (Login)
+    // Secure Gate Entry (Public Login)
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
 
@@ -44,35 +61,35 @@ Route::middleware('guest')->group(function () {
     Route::post('/forgot-password', [ResetPasswordController::class, 'sendResetLink'])->name('password.email');
     Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
     Route::post('/reset-password', [ResetPasswordController::class, 'updatePassword'])->name('password.update');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Dedicated Private Admin Authentication Gateway
+    |--------------------------------------------------------------------------
+    | Placed strictly under 'guest' middleware so logged-out admins can access.
+    */
+
 });
+
+
+    Route::get('admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
+    Route::post('admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
 
 
 /*
 |--------------------------------------------------------------------------
-| Protected Operational Subsystems (Requires Valid Authentication)
+| Elite Secure Admin Console (Protected via Auth & Role Shield)
 |--------------------------------------------------------------------------
 */
-Route::middleware('auth')->group(function () {
+Route::middleware('admin')->prefix('admin')->name('admin.')->group(function() {
     
-    // Revoke Session (Logout)
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-    /*
-    |--------------------------------------------------------------------------
-    | Elite Secure Admin Console (Protected via Role Shield)
-    |--------------------------------------------------------------------------
-    */
-    Route::middleware([AdminMiddleware::class])->prefix('admin')->name('admin.')->group(function() {
-        
-        // Control Tower Central Dashboard
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-        // Master Catalogue Operations (Watch CRUD Matrix)
-        Route::get('/watches', [WatchController::class, 'index'])->name('watches.index');
-        Route::get('/watches/create', [WatchController::class, 'create'])->name('watches.create');
-        Route::post('/watches', [WatchController::class, 'store'])->name('watches.store');
-        Route::get('/watches/{id}/edit', [WatchController::class, 'edit'])->name('watches.edit');
-        Route::put('/watches/{id}', [WatchController::class, 'update'])->name('watches.update');
-        Route::delete('/watches/{id}', [WatchController::class, 'destroy'])->name('watches.destroy');
-    });
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('watches', WatchController::class);
 });
+
+////  Bespoke Cart Lifecycle Routes
+
+
+Route::get('/cart',[CartController::class,'index'])->name('cart.index');
+Route::post('/cart/add',[CartController::class,'add'])->name('cart.add');
+Route::post('/cart/remove/{$id}',[CartController::class,'remove'])->name('cart.remove');

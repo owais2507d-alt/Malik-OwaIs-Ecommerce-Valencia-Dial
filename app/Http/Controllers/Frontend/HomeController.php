@@ -1,22 +1,34 @@
 <?php
 
 namespace App\Http\Controllers\Frontend;
-use App\Models\Watch;
 
+use App\Models\Watch;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-public function index(){
-    $watches =Watch::latest()->get();
+    /**
+     * Display the dynamic luxury showcase matrix.
+     */
+    public function index()
+    {
+        // Fetching latest watches from secure database registry
+        $watches = Watch::latest()->get();
 
+        
+        return view('frontend.shop', compact('watches'));
+    }
 
-    return view('shop', compact('watches'));
-}
-public function show($id)
-{
-    $watch = Watch::findOrFail($id);
-    return view('show', compact('watch'));
-}
-}
+    /**
+     * Display the individual horology masterpiece specifications.
+     */
+    public function show($id)
+    {
+        
+        $watch = Watch::findOrFail($id);
+        
+
+        return view('frontend.products-details', compact('watch'));
+    }
+} 

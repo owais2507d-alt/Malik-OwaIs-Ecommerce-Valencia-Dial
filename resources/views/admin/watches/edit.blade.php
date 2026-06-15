@@ -82,7 +82,7 @@
                     </div>
                 @endif
 
-                <input type="file" name="image" accept="image/*" class="w-full bg-[#0c0c0e] border rounded-none px-4 py-2.5 text-stone-400 text-sm focus:outline-none cursor-pointer file:bg-transparent file:border-0 file:text-[var(--text-gold)] file:font-medium file:mr-4 file:uppercase file:text-xs file:tracking-widest" style="border-color: var(--border-input);">
+                <input type="file" name="image" accept="image/*" class="w-full bg-[#0c0c0e] border rounded-none px-4 py-2.5 text-stone-400 text-sm focus:outline-none cursor-pointer file:bg-transparent file:border-0 file:text-var(--text-gold) file:font-medium file:mr-4 file:uppercase file:text-xs file:tracking-widest" style="border-color: var(--border-input);">
                 @error('image') <span class="text-red-400 text-xs block font-light">{{ $message }}</span> @enderror
             </div>
 
