@@ -12,18 +12,19 @@ class AdminMiddleware
     /**
      * Handle an incoming request.
      */
-    public function handle(Request $request, Closure $next): Response
-    {
-        // Agar user logged in hai aur uska role admin hai, toh hi aage jaane do
-        if (
-            Auth::guard('admin')->check()
-        ) {
-            return $next($request);
-        }
-
-        // Agar normal user yahan aane ki koshish kare, toh usko naye Admin Login par pheko
-        return redirect()->route('admin.login')->withErrors([
-            'email' => 'Administrative clearance required to access this terminal.',
-        ]);
+   public function handle(Request $request, Closure $next): Response
+{
+    if (
+        $request->routeIs('admin.login') ||
+        $request->routeIs('admin.login.submit')
+    ) {
+        return $next($request);
     }
+
+    if (Auth::guard('admin')->check()) {
+        return $next($request);
+    }
+
+    return redirect()->route('admin.login');
+}
 }
