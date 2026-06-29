@@ -1,0 +1,279 @@
+<body class="bg-[#050507] text-white antialiased">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 space-y-16">
+        
+        <!-- Hero Welcoming Section -->
+        <div class="text-center space-y-4 max-w-2xl mx-auto pt-8">
+            <span class="text-[9px] uppercase tracking-[0.4em] text-[#d4af37] font-semibold block animate-pulse">Now Boarding Excellence</span>
+            <h2 class="luxury-title text-4xl md:text-5xl font-light tracking-wide text-white">The Masterpiece Vault</h2>
+            <div class="h-1px w-16 bg-[#d4af37]/40 mx-auto my-4"></div>
+            <p class="text-stone-500 text-xs tracking-wide leading-relaxed font-light">
+                Explore our meticulously curated selection of fine mechanical engineering and timeless prestige. Every dial tells a legacy.
+            </p>
+        </div>  
+
+        <!-- Product Grid System -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+            
+            <!-- Watch Card 1 -->
+            <div class="group relative flex flex-col justify-between border p-5 smooth-transition bg-[#0b0b0e]/30 hover:bg-[#0b0b0e] hover:shadow-[0_30px_60px_rgba(0,0,0,0.85)]" 
+                 style="border-color: var(--border-muted);">
+                
+                <div class="w-full h-80 bg-[#050507] border overflow-hidden p-2 relative flex items-center justify-center" style="border-color: var(--border-muted);">
+                    <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&h=400&fit=crop" 
+                         alt="Rolex Submariner" 
+                         class="w-full h-full object-cover smooth-transition group-hover:scale-105 duration-700">
+                    
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 smooth-transition flex items-center justify-center backdrop-blur-[2px]">
+                        <a href="#" class="border border-[#d4af37]/40 bg-[#050507] px-4 py-2.5 text-[9px] uppercase tracking-[0.25em] text-stone-200 hover:text-black hover:bg-[#d4af37] smooth-transition font-medium">
+                            View Spec Sheet
+                        </a>
+                    </div>
+                    
+                    <span class="absolute top-4 right-4 text-[8px] uppercase font-semibold tracking-widest text-amber-400 bg-amber-950/80 border border-amber-900/60 px-2.5 py-1 animate-pulse z-10">
+                        Limited Allocation
+                    </span>
+                </div>
+
+                <div class="mt-6 space-y-2.5">
+                    <div class="flex justify-between items-baseline">
+                        <span class="text-[10px] uppercase tracking-widest text-stone-500 font-semibold">Rolex</span>
+                        <span class="text-xs font-semibold tracking-wide" style="color: var(--text-gold);">
+                            $12,450.00
+                        </span>
+                    </div>
+                    
+                    <h3 class="text-base font-medium text-white tracking-wide group-hover:text-[#d4af37] smooth-transition">
+                        Submariner Date
+                    </h3>
+                    
+                    <p class="text-stone-500 text-xs font-light line-clamp-2 h-8 leading-relaxed">
+                        Oystersteel with black Cerachrom bezel, 41mm case, caliber 3235 movement.
+                    </p>
+                </div>
+
+                <div class="mt-6 pt-2">
+                    <button class="smooth-transition w-full text-[10px] uppercase tracking-[0.2em] font-bold py-3.5 border text-stone-300 hover:text-black hover:bg-[#d4af37] border-[#14141a] hover:border-[#d4af37] bg-[#07070a] cursor-pointer">
+                        Acquire Masterpiece
+                    </button>
+                </div>
+            </div>
+
+            <!-- Watch Card 2 -->
+            <div class="group relative flex flex-col justify-between border p-5 smooth-transition bg-[#0b0b0e]/30 hover:bg-[#0b0b0e] hover:shadow-[0_30px_60px_rgba(0,0,0,0.85)]" 
+                 style="border-color: var(--border-muted);">
+                
+                <div class="w-full h-80 bg-[#050507] border overflow-hidden p-2 relative flex items-center justify-center" style="border-color: var(--border-muted);">
+                    <img src="https://images.unsplash.com/photo-1533139502658-0198f920d8e8?w=400&h=400&fit=crop" 
+                         alt="Omega Speedmaster" 
+                         class="w-full h-full object-cover smooth-transition group-hover:scale-105 duration-700">
+                    
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 smooth-transition flex items-center justify-center backdrop-blur-[2px]">
+                        <a href="#" class="border border-[#d4af37]/40 bg-[#050507] px-4 py-2.5 text-[9px] uppercase tracking-[0.25em] text-stone-200 hover:text-black hover:bg-[#d4af37] smooth-transition font-medium">
+                            View Spec Sheet
+                        </a>
+                    </div>
+                    
+                    <span class="absolute top-4 right-4 text-[8px] uppercase font-semibold tracking-widest text-red-400 bg-red-950/80 border border-red-900/60 px-2.5 py-1 z-10">
+                        Sold Out
+                    </span>
+                </div>
+
+                <div class="mt-6 space-y-2.5">
+                    <div class="flex justify-between items-baseline">
+                        <span class="text-[10px] uppercase tracking-widest text-stone-500 font-semibold">Omega</span>
+                        <span class="text-xs font-semibold tracking-wide" style="color: var(--text-gold);">
+                            $8,750.00
+                        </span>
+                    </div>
+                    
+                    <h3 class="text-base font-medium text-white tracking-wide group-hover:text-[#d4af37] smooth-transition">
+                        Speedmaster Professional
+                    </h3>
+                    
+                    <p class="text-stone-500 text-xs font-light line-clamp-2 h-8 leading-relaxed">
+                        Moonwatch, manual-winding, hesalite crystal, 42mm stainless steel case.
+                    </p>
+                </div>
+
+                <div class="mt-6 pt-2">
+                    <button disabled class="w-full text-[10px] uppercase tracking-[0.2em] font-semibold py-3.5 border border-stone-900 text-stone-700 bg-stone-950/40 cursor-not-allowed">
+                        Allocation Depleted
+                    </button>
+                </div>
+            </div>
+
+            <!-- Watch Card 3 -->
+            <div class="group relative flex flex-col justify-between border p-5 smooth-transition bg-[#0b0b0e]/30 hover:bg-[#0b0b0e] hover:shadow-[0_30px_60px_rgba(0,0,0,0.85)]" 
+                 style="border-color: var(--border-muted);">
+                
+                <div class="w-full h-80 bg-[#050507] border overflow-hidden p-2 relative flex items-center justify-center" style="border-color: var(--border-muted);">
+                    <img src="https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=400&h=400&fit=crop" 
+                         alt="Cartier Santos" 
+                         class="w-full h-full object-cover smooth-transition group-hover:scale-105 duration-700">
+                    
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 smooth-transition flex items-center justify-center backdrop-blur-[2px]">
+                        <a href="#" class="border border-[#d4af37]/40 bg-[#050507] px-4 py-2.5 text-[9px] uppercase tracking-[0.25em] text-stone-200 hover:text-black hover:bg-[#d4af37] smooth-transition font-medium">
+                            View Spec Sheet
+                        </a>
+                    </div>
+                    
+                    <span class="absolute top-4 right-4 text-[8px] uppercase font-semibold tracking-widest text-amber-400 bg-amber-950/80 border border-amber-900/60 px-2.5 py-1 animate-pulse z-10">
+                        Limited Allocation
+                    </span>
+                </div>
+
+                <div class="mt-6 space-y-2.5">
+                    <div class="flex justify-between items-baseline">
+                        <span class="text-[10px] uppercase tracking-widest text-stone-500 font-semibold">Cartier</span>
+                        <span class="text-xs font-semibold tracking-wide" style="color: var(--text-gold);">
+                            $9,200.00
+                        </span>
+                    </div>
+                    
+                    <h3 class="text-base font-medium text-white tracking-wide group-hover:text-[#d4af37] smooth-transition">
+                        Santos de Cartier
+                    </h3>
+                    
+                    <p class="text-stone-500 text-xs font-light line-clamp-2 h-8 leading-relaxed">
+                        Medium model, steel case, 7-sided crown set with faceted sapphire.
+                    </p>
+                </div>
+
+                <div class="mt-6 pt-2">
+                    <button class="smooth-transition w-full text-[10px] uppercase tracking-[0.2em] font-bold py-3.5 border text-stone-300 hover:text-black hover:bg-[#d4af37] border-[#14141a] hover:border-[#d4af37] bg-[#07070a] cursor-pointer">
+                        Acquire Masterpiece
+                    </button>
+                </div>
+            </div>
+
+            <!-- Watch Card 4 -->
+            <div class="group relative flex flex-col justify-between border p-5 smooth-transition bg-[#0b0b0e]/30 hover:bg-[#0b0b0e] hover:shadow-[0_30px_60px_rgba(0,0,0,0.85)]" 
+                 style="border-color: var(--border-muted);">
+                
+                <div class="w-full h-80 bg-[#050507] border overflow-hidden p-2 relative flex items-center justify-center" style="border-color: var(--border-muted);">
+                    <img src="https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?w=400&h=400&fit=crop" 
+                         alt="Audemars Piguet Royal Oak" 
+                         class="w-full h-full object-cover smooth-transition group-hover:scale-105 duration-700">
+                    
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 smooth-transition flex items-center justify-center backdrop-blur-[2px]">
+                        <a href="#" class="border border-[#d4af37]/40 bg-[#050507] px-4 py-2.5 text-[9px] uppercase tracking-[0.25em] text-stone-200 hover:text-black hover:bg-[#d4af37] smooth-transition font-medium">
+                            View Spec Sheet
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mt-6 space-y-2.5">
+                    <div class="flex justify-between items-baseline">
+                        <span class="text-[10px] uppercase tracking-widest text-stone-500 font-semibold">Audemars Piguet</span>
+                        <span class="text-xs font-semibold tracking-wide" style="color: var(--text-gold);">
+                            $34,500.00
+                        </span>
+                    </div>
+                    
+                    <h3 class="text-base font-medium text-white tracking-wide group-hover:text-[#d4af37] smooth-transition">
+                        Royal Oak Selfwinding
+                    </h3>
+                    
+                    <p class="text-stone-500 text-xs font-light line-clamp-2 h-8 leading-relaxed">
+                        Stainless steel, 41mm, blue dial with Grande Tapisserie pattern.
+                    </p>
+                </div>
+
+                <div class="mt-6 pt-2">
+                    <button class="smooth-transition w-full text-[10px] uppercase tracking-[0.2em] font-bold py-3.5 border text-stone-300 hover:text-black hover:bg-[#d4af37] border-[#14141a] hover:border-[#d4af37] bg-[#07070a] cursor-pointer">
+                        Acquire Masterpiece
+                    </button>
+                </div>
+            </div>
+
+            <!-- Watch Card 5 -->
+            <div class="group relative flex flex-col justify-between border p-5 smooth-transition bg-[#0b0b0e]/30 hover:bg-[#0b0b0e] hover:shadow-[0_30px_60px_rgba(0,0,0,0.85)]" 
+                 style="border-color: var(--border-muted);">
+                
+                <div class="w-full h-80 bg-[#050507] border overflow-hidden p-2 relative flex items-center justify-center" style="border-color: var(--border-muted);">
+                    <img src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=400&h=400&fit=crop" 
+                         alt="Patek Philippe Nautilus" 
+                         class="w-full h-full object-cover smooth-transition group-hover:scale-105 duration-700">
+                    
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 smooth-transition flex items-center justify-center backdrop-blur-[2px]">
+                        <a href="#" class="border border-[#d4af37]/40 bg-[#050507] px-4 py-2.5 text-[9px] uppercase tracking-[0.25em] text-stone-200 hover:text-black hover:bg-[#d4af37] smooth-transition font-medium">
+                            View Spec Sheet
+                        </a>
+                    </div>
+                    
+                    <span class="absolute top-4 right-4 text-[8px] uppercase font-semibold tracking-widest text-amber-400 bg-amber-950/80 border border-amber-900/60 px-2.5 py-1 animate-pulse z-10">
+                        Limited Allocation
+                    </span>
+                </div>
+
+                <div class="mt-6 space-y-2.5">
+                    <div class="flex justify-between items-baseline">
+                        <span class="text-[10px] uppercase tracking-widest text-stone-500 font-semibold">Patek Philippe</span>
+                        <span class="text-xs font-semibold tracking-wide" style="color: var(--text-gold);">
+                            $42,800.00
+                        </span>
+                    </div>
+                    
+                    <h3 class="text-base font-medium text-white tracking-wide group-hover:text-[#d4af37] smooth-transition">
+                        Nautilus 5711
+                    </h3>
+                    
+                    <p class="text-stone-500 text-xs font-light line-clamp-2 h-8 leading-relaxed">
+                        Blue dial with horizontal embossing, 40mm steel case, date window.
+                    </p>
+                </div>
+
+                <div class="mt-6 pt-2">
+                    <button class="smooth-transition w-full text-[10px] uppercase tracking-[0.2em] font-bold py-3.5 border text-stone-300 hover:text-black hover:bg-[#d4af37] border-[#14141a] hover:border-[#d4af37] bg-[#07070a] cursor-pointer">
+                        Acquire Masterpiece
+                    </button>
+                </div>
+            </div>
+
+            <!-- Watch Card 6 -->
+            <div class="group relative flex flex-col justify-between border p-5 smooth-transition bg-[#0b0b0e]/30 hover:bg-[#0b0b0e] hover:shadow-[0_30px_60px_rgba(0,0,0,0.85)]" 
+                 style="border-color: var(--border-muted);">
+                
+                <div class="w-full h-80 bg-[#050507] border overflow-hidden p-2 relative flex items-center justify-center" style="border-color: var(--border-muted);">
+                    <img src="https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?w=400&h=400&fit=crop" 
+                         alt="IWC Portugieser" 
+                         class="w-full h-full object-cover smooth-transition group-hover:scale-105 duration-700">
+                    
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 smooth-transition flex items-center justify-center backdrop-blur-[2px]">
+                        <a href="#" class="border border-[#d4af37]/40 bg-[#050507] px-4 py-2.5 text-[9px] uppercase tracking-[0.25em] text-stone-200 hover:text-black hover:bg-[#d4af37] smooth-transition font-medium">
+                            View Spec Sheet
+                        </a>
+                    </div>
+                    
+                    <span class="absolute top-4 right-4 text-[8px] uppercase font-semibold tracking-widest text-red-400 bg-red-950/80 border border-red-900/60 px-2.5 py-1 z-10">
+                        Sold Out
+                    </span>
+                </div>
+
+                <div class="mt-6 space-y-2.5">
+                    <div class="flex justify-between items-baseline">
+                        <span class="text-[10px] uppercase tracking-widest text-stone-500 font-semibold">IWC</span>
+                        <span class="text-xs font-semibold tracking-wide" style="color: var(--text-gold);">
+                            $11,200.00
+                        </span>
+                    </div>
+                    
+                    <h3 class="text-base font-medium text-white tracking-wide group-hover:text-[#d4af37] smooth-transition">
+                        Portugieser Automatic
+                    </h3>
+                    
+                    <p class="text-stone-500 text-xs font-light line-clamp-2 h-8 leading-relaxed">
+                        42mm, 7-day power reserve, silver-plated dial with embossed indices.
+                    </p>
+                </div>
+
+                <div class="mt-6 pt-2">
+                    <button disabled class="w-full text-[10px] uppercase tracking-[0.2em] font-semibold py-3.5 border border-stone-900 text-stone-700 bg-stone-950/40 cursor-not-allowed">
+                        Allocation Depleted
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
