@@ -47,10 +47,10 @@
                     <span class="absolute -bottom-1 left-0 w-6 h-[1px] bg-[#e5c158]/40"></span>
                 </h4>
                 <ul class="space-y-3 text-xs font-light">
-                    <li><a href="#" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">Precision Timepieces</a></li>
-                    <li><a href="#" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">Acoustic Earpods</a></li>
-                    <li><a href="#" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">Studio Headphones</a></li>
-                    <li><a href="#" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">Limited Allocations</a></li>
+                    <li><a href="{{ route('user.shop') }}" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">All Products</a></li>
+                    <li><a href="{{ route('user.shop') }}" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">Precision Timepieces</a></li>
+                    <li><a href="{{ route('user.gallery') }}" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">Visual Gallery</a></li>
+                    <li><a href="{{ route('user.about') }}" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">The Atelier</a></li>
                 </ul>
             </div>
 
@@ -61,10 +61,10 @@
                     <span class="absolute -bottom-1 left-0 w-6 h-[1px] bg-[#e5c158]/40"></span>
                 </h4>
                 <ul class="space-y-3 text-xs font-light">
-                    <li><a href="#" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">Order Tracking</a></li>
-                    <li><a href="#" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">Vault Security</a></li>
-                    <li><a href="#" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">Product Care</a></li>
-                    <li><a href="#" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">Private Consultations</a></li>
+                    <li><a href="{{ route('user.contact') }}" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">Contact Us</a></li>
+                    <li><a href="{{ route('user.about') }}" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">About Us</a></li>
+                    <li><a href="{{ route('user.shop') }}" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">Browse Collection</a></li>
+                    <li><a href="{{ route('user.contact') }}" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">Private Consultations</a></li>
                 </ul>
             </div>
 

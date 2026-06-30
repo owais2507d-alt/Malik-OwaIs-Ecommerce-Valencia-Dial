@@ -71,14 +71,20 @@
 
             <!-- Navigation -->
             <div class="flex-1 overflow-y-auto py-8 px-4 space-y-2">
-                <a href="{{ route('admin.dashboard') }}" class="nav-link active flex items-center gap-3 px-6 py-4 rounded-2xl text-white text-[15px]">
+                <a href="{{ route('admin.dashboard') }}" class="nav-link flex items-center gap-3 px-6 py-4 rounded-2xl text-white text-[15px] {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <i class="fas fa-home w-5"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="{{ route('admin.categories.index') }}" class="nav-link flex items-center gap-3 px-6 py-4 rounded-2xl text-white text-[15px]">
-                    <i class="fas fa-watch w-5"></i>
+                <a href="{{ route('admin.categories.index') }}" class="nav-link flex items-center gap-3 px-6 py-4 rounded-2xl text-white text-[15px] {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
+                    <i class="fas fa-tags w-5"></i>
                     <span>Categories</span>
                 </a>
+                <a href="{{ route('admin.products.index') }}" class="nav-link flex items-center gap-3 px-6 py-4 rounded-2xl text-white text-[15px] {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
+                    <i class="fas fa-box w-5"></i>
+                    <span>Products</span>
+                </a>
+
+             
                 {{-- <a href="" class="nav-link flex items-center gap-3 px-6 py-4 rounded-2xl text-white text-[15px]">
                     <i class="fas fa-shopping-bag w-5"></i>
                     <span>Orders</span>

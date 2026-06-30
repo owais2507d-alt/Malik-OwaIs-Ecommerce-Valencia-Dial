@@ -46,14 +46,11 @@ class AuthController extends Controller
 
         session(['verify_email' => $user->email]);
 
-        // 2. Send Mail with Error Catching
+        // 2. Queue Mail (non-blocking — user can resend OTP if mail doesn't arrive)
         try {
-            Mail::to($user->email)->send(new WelcomeOtpMail($user, $otp));
+            Mail::to($user->email)->queue(new WelcomeOtpMail($user, $otp));
         } catch (\Exception $e) {
-            Log::error('Mail sending failed in register: ' . $e->getMessage());
-            
-            //
-            return redirect()->route('user.verify.otp')->with('error', 'Account created, but Mail failed to send. Error: ' . $e->getMessage());
+            Log::error('Mail queue failed in register: ' . $e->getMessage());
         }
 
         return redirect()->route('user.verify.otp')->with('success', 'Registration successful! Check your email for OTP.');
@@ -133,11 +130,11 @@ class AuthController extends Controller
             $user->update(['otp_code' => $newOtp]);
             
             try {
-                Mail::to($user->email)->send(new WelcomeOtpMail($user, $newOtp));
-                return back()->with('success', 'New OTP sent. Valid for 2 minutes.');
+                Mail::to($user->email)->queue(new WelcomeOtpMail($user, $newOtp));
+                return back()->with('success', 'New OTP queued. Valid for 2 minutes.');
             } catch (\Exception $e) {
-                Log::error('Mail sending failed in resendOtp: ' . $e->getMessage());
-                return back()->with('error', 'Failed to send new OTP email.');
+                Log::error('Mail queue failed in resendOtp: ' . $e->getMessage());
+                return back()->with('error', 'Failed to queue new OTP email.');
             }
         }
 
@@ -170,13 +167,13 @@ class AuthController extends Controller
             $user->update(['otp_code' => $newOtp]);
             
             try {
-                Mail::to($user->email)->send(new WelcomeOtpMail($user, $newOtp));
+                Mail::to($user->email)->queue(new WelcomeOtpMail($user, $newOtp));
             } catch (\Exception $e) {
-                Log::error('Mail sending failed in login: ' . $e->getMessage());
+                Log::error('Mail queue failed in login: ' . $e->getMessage());
             }
             
             session(['verify_email' => $user->email]);
-            return redirect()->route('verify.otp')->with('success', 'Account not verified. New OTP sent.');
+            return redirect()->route('user.verify.otp')->with('success', 'Account not verified. New OTP sent.');
         }
 
         if (Auth::attempt($credentials, $request->remember)) {

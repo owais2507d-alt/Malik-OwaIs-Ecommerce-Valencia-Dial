@@ -1,137 +1,212 @@
 @extends('layouts.admin')
 
-@section('title', 'Add Masterpiece - Valencia Admin')
+@section('title', 'Create Product')
+
+@push('styles')
+<style>
+    .form-input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        font-size: 0.9rem;
+        transition: all 0.2s;
+        background: #f9fafb;
+    }
+    .form-input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+        background: white;
+    }
+    .form-label {
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 0.5rem;
+    }
+    .form-select {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        font-size: 0.9rem;
+        background: #f9fafb;
+        transition: all 0.2s;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236b7280' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+    }
+    .form-select:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+        background: white;
+    }
+    .image-upload-area {
+        border: 2px dashed #d1d5db;
+        border-radius: 16px;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+    .image-upload-area:hover {
+        border-color: #3b82f6;
+        background: #f0f7ff;
+    }
+</style>
+@endpush
 
 @section('content')
-
-<div class="max-w-6xl mx-auto">
-
+<div class="max-w-4xl mx-auto">
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10">
-        <div>
-            <h1 class="text-3xl font-semibold text-gray-900">Catalog New Masterpiece</h1>
-            <p class="text-gray-600 mt-1">Add an exclusive timepiece to the Valencia Vault</p>
-        </div>
-        
-        <a href="{{ route('admin.watches.index') }}" 
-           class="inline-flex items-center gap-2 px-6 py-3 bg-white border border-gray-300 hover:border-gray-400 rounded-2xl text-gray-700 hover:text-gray-900 transition-all">
-            <i class="fas fa-arrow-left"></i>
-            <span>Back to Vault</span>
+    <div class="mb-8">
+        <a href="{{ route('admin.products.index') }}" class="text-gray-500 hover:text-gray-700 text-sm inline-flex items-center gap-2 mb-4">
+            <i class="fas fa-arrow-left text-xs"></i>
+            Back to Products
         </a>
+        <h2 class="text-3xl font-bold text-gray-800">New Product</h2>
+        <p class="text-gray-500 mt-1">Add a new product to your inventory</p>
     </div>
 
-    <form action="{{ route('admin.watches.store') }}" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        @csrf
+    <!-- Form -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+        <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
 
-        <!-- Main Form -->
-        <div class="lg:col-span-8">
-            <div class="card p-8 lg:p-10">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Watch Name</label>
-                        <input type="text" name="name" id="name" placeholder="e.g., Rolex Daytona 126500LN" required
-                               class="w-full px-6 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all text-base">
-                        @error('name') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Brand</label>
-                        <input type="text" name="brand" id="brand" placeholder="e.g., Rolex" required
-                               class="w-full px-6 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all text-base">
-                        @error('brand') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
-                    </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Name -->
+                <div>
+                    <label class="form-label">Product Name <span class="text-red-500">*</span></label>
+                    <input type="text" name="name" value="{{ old('name') }}"
+                           class="form-input @error('name') border-red-400 @enderror"
+                           placeholder="e.g. Rolex Submariner Date">
+                    @error('name') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Price (USD)</label>
-                        <div class="relative">
-                            <span class="absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 font-semibold">$</span>
-                            <input type="number" step="0.01" name="price" placeholder="125000.00" required
-                                   class="w-full pl-10 pr-6 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all text-base font-medium">
-                        </div>
-                        @error('price') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Stock Quantity</label>
-                        <input type="number" name="stock" value="1" required
-                               class="w-full px-6 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all text-base">
-                        @error('stock') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
-                    </div>
+                <!-- Brand -->
+                <div>
+                    <label class="form-label">Brand</label>
+                    <input type="text" name="brand" value="{{ old('brand') }}"
+                           class="form-input @error('brand') border-red-400 @enderror"
+                           placeholder="e.g. Rolex, IWC, Cartier">
+                    @error('brand') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="mt-6">
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Full Description</label>
-                    <textarea name="description" rows="7" placeholder="Describe the movement, case material, dial details, complications and unique story..."
-                              class="w-full px-6 py-5 border border-gray-300 rounded-3xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all resize-y"></textarea>
-                    @error('description') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
+                <!-- Category -->
+                <div>
+                    <label class="form-label">Category</label>
+                    <select name="category_id" class="form-select @error('category_id') border-red-400 @enderror">
+                        <option value="">— Select Category —</option>
+                        @foreach($categories as $cat)
+                            <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>
+                                {{ $cat->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('category_id') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                </div>
+
+                <!-- Status -->
+                <div>
+                    <label class="form-label">Status</label>
+                    <div class="flex gap-4 mt-2">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="status" value="active" {{ old('status', 'active') === 'active' ? 'checked' : '' }}
+                                   class="text-blue-600 focus:ring-blue-500">
+                            <span class="text-sm text-gray-700">Active</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="status" value="inactive" {{ old('status') === 'inactive' ? 'checked' : '' }}
+                                   class="text-red-600 focus:ring-red-500">
+                            <span class="text-sm text-gray-700">Inactive</span>
+                        </label>
+                    </div>
+                    @error('status') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                </div>
+
+                <!-- Price -->
+                <div>
+                    <label class="form-label">Price (USD) <span class="text-red-500">*</span></label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium">$</span>
+                        <input type="number" step="0.01" name="price" value="{{ old('price') }}"
+                               class="form-input pl-8 @error('price') border-red-400 @enderror"
+                               placeholder="0.00">
+                    </div>
+                    @error('price') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                </div>
+
+                <!-- Stock -->
+                <div>
+                    <label class="form-label">Stock Quantity <span class="text-red-500">*</span></label>
+                    <input type="number" name="stock" value="{{ old('stock', 1) }}"
+                           class="form-input @error('stock') border-red-400 @enderror"
+                           placeholder="1">
+                    @error('stock') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
             </div>
-        </div>
 
-        <!-- Image Upload Sidebar -->
-        <div class="lg:col-span-4 space-y-6">
+            <!-- Description -->
+            <div class="mt-6">
+                <label class="form-label">Description</label>
+                <textarea name="description" rows="5"
+                          class="form-input @error('description') border-red-400 @enderror"
+                          placeholder="Product description, features, specifications...">{{ old('description') }}</textarea>
+                @error('description') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
 
-            <div class="card p-8">
-                <label class="block text-sm font-semibold text-gray-700 mb-4">Masterpiece Portrait</label>
-                
-                <div id="preview-container" 
-                     class="w-full aspect-square border-2 border-dashed border-gray-300 rounded-3xl flex flex-col items-center justify-center overflow-hidden hover:border-blue-400 transition-all cursor-pointer relative bg-gray-50">
-                    
-                    <img id="image-preview" src="#" alt="Preview" class="hidden w-full h-full object-cover">
-                    
-                    <div id="preview-placeholder" class="text-center px-6">
-                        <i class="fas fa-cloud-upload-alt text-6xl text-gray-300 mb-4"></i>
-                        <p class="font-medium text-gray-600">Drop image here or click to upload</p>
-                        <p class="text-xs text-gray-400 mt-2">JPG, PNG, WebP • Max 8MB</p>
+            <!-- Image -->
+            <div class="mt-6">
+                <label class="form-label">Product Image</label>
+                <div class="image-upload-area" id="uploadArea">
+                    <div id="placeholder-content">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-gray-300 mb-3"></i>
+                        <p class="text-sm font-medium text-gray-600">Click or drag to upload</p>
+                        <p class="text-xs text-gray-400 mt-1">JPG, PNG, WebP • Max 2MB</p>
                     </div>
+                    <img id="preview-img" src="#" alt="Preview" class="hidden max-h-48 mx-auto rounded-lg">
+                    <input type="file" name="image" id="imageInput" class="hidden" accept="image/*">
                 </div>
-
-                <input type="file" name="image" id="image" accept="image/*" class="hidden" onchange="previewImage()">
-
-                <button type="button" onclick="document.getElementById('image').click()" 
-                        class="mt-5 w-full py-3.5 border border-gray-300 hover:bg-gray-50 rounded-2xl text-sm font-medium transition-all">
-                    Choose Image
-                </button>
+                @error('image') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
             </div>
 
             <!-- Submit -->
-            <div class="card p-8">
-                <button type="submit" 
-                        class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-4 rounded-2xl shadow-xl shadow-blue-500/30 transition-all active:scale-95 flex items-center justify-center gap-2">
-                    <i class="fas fa-save"></i>
-                    Save Masterpiece to Vault
+            <div class="flex items-center gap-3 pt-8 border-t border-gray-100 mt-8">
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl text-sm font-medium transition-all">
+                    <i class="fas fa-check mr-2"></i>
+                    Create Product
                 </button>
+                <a href="{{ route('admin.products.index') }}" class="text-gray-500 hover:text-gray-700 text-sm font-medium px-6 py-3">
+                    Cancel
+                </a>
             </div>
-
-        </div>
-    </form>
-
+        </form>
+    </div>
 </div>
 
-@endsection
-
-@push('scripts')
 <script>
-    function previewImage() {
-        const preview = document.getElementById('image-preview');
-        const placeholder = document.getElementById('preview-placeholder');
-        const file = document.getElementById('image').files[0];
-        const reader = new FileReader();
+    const uploadArea = document.getElementById('uploadArea');
+    const imageInput = document.getElementById('imageInput');
+    const previewImg = document.getElementById('preview-img');
+    const placeholder = document.getElementById('placeholder-content');
 
-        reader.onload = function(e) {
-            preview.src = e.target.result;
-            preview.classList.remove('hidden');
-            placeholder.classList.add('hidden');
+    uploadArea.addEventListener('click', () => imageInput.click());
+
+    imageInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                previewImg.src = ev.target.result;
+                previewImg.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+            }
+            reader.readAsDataURL(file);
         }
-
-        if (file) reader.readAsDataURL(file);
-    }
-
-    // Click anywhere on preview area to upload
-    document.getElementById('preview-container').addEventListener('click', () => {
-        document.getElementById('image').click();
     });
 </script>
-@endpush
+@endsection

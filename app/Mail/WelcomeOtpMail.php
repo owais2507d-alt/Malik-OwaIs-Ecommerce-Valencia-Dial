@@ -3,16 +3,17 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class WelcomeOtpMail extends Mailable
+class WelcomeOtpMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    // Variables ko public rakhna zaroori hai taaki Blade directly access kare
+    
     public $user;
     public $otp;
 

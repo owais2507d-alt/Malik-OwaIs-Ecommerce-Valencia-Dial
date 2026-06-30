@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\Auth\AuthController;
 use App\Http\Controllers\User\Auth\ResetPasswordController; 
 use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\User\AboutController;
+use App\Http\Controllers\User\GalleryController;
+use App\Http\Controllers\User\ShopController;
+use App\Http\Controllers\User\ContactController;
 
 
 Route::middleware('guest')->group(function () {
@@ -37,5 +41,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-Route::get('/', [HomeController::class, 'index'])->name("user.home");
+Route::get('/', [HomeController::class, 'index'])->name('user.home');
+Route::get('/about', [AboutController::class, 'index'])->name('user.about');
+Route::get('/gallery', [GalleryController::class, 'index'])->name('user.gallery');
+Route::get('/shop', [ShopController::class, 'index'])->name('user.shop');
+Route::get('/contact', [ContactController::class, 'index'])->name('user.contact');
+Route::post('/contact', [ContactController::class, 'send'])->name('user.contact.send');
+Route::get('/watches', [ShopController::class, 'watches'])->name('user.watches');
 

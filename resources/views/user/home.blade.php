@@ -348,48 +348,42 @@
                 <h2 class="text-3xl md:text-5xl font-light tracking-widest text-stone-100 uppercase">Top Sellers</h2>
                 <div class="h-[1px] w-20 bg-gradient-to-r from-[#e5c158] to-transparent mt-4"></div>
             </div>
-            <a href="#" class="group text-[10px] uppercase tracking-[0.3em] text-stone-400 hover:text-[#e5c158] transition-all flex items-center gap-3 mt-6 md:mt-0 font-medium">
+            <a href="{{ route('user.shop') }}" class="group text-[10px] uppercase tracking-[0.3em] text-stone-400 hover:text-[#e5c158] transition-all flex items-center gap-3 mt-6 md:mt-0 font-medium">
                 View Entire Collection
                 <span class="text-xs transform transition-transform group-hover:translate-x-1 duration-300">→</span>
             </a>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 xl:gap-8">
-            <!-- Top Seller items with data-aos -->
-            @php
-                $topSellers = [
-                    ['brand' => 'Rolex', 'model' => 'Submariner Date', 'price' => '$12,450.00', 'image' => 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&h=400&fit=crop', 'badge' => 'Limited', 'badgeClass' => 'badge-limited', 'desc' => 'Oystersteel profile featuring a deep black Cerachrom configuration, 41mm architecture.'],
-                    ['brand' => 'Omega', 'model' => 'Speedmaster Pro', 'price' => '$8,750.00', 'image' => 'https://images.unsplash.com/photo-1533139502658-0198f920d8e8?w=400&h=400&fit=crop', 'badge' => 'Depleted', 'badgeClass' => 'badge-sold', 'desc' => 'Historic Moonwatch caliber featuring classic tactical manual winding mechanics.'],
-                    ['brand' => 'Cartier', 'model' => 'Santos de Cartier', 'price' => '$9,200.00', 'image' => 'https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=400&h=400&fit=crop', 'badge' => 'Limited', 'badgeClass' => 'badge-limited', 'desc' => 'Sculpted pristine steel architecture paired with a 7-sided sapphire crown assembly.'],
-                    ['brand' => 'Audemars Piguet', 'model' => 'Royal Oak Selfwinding', 'price' => '$34,500.00', 'image' => 'https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?w=400&h=400&fit=crop', 'badge' => 'Available', 'badgeClass' => 'badge-available', 'desc' => '41mm case configuration executing an intricate signature Grande Tapisserie pattern dial.'],
-                ];
-            @endphp
-
-            @foreach($topSellers as $index => $item)
+            @forelse($topSellers as $index => $product)
             <div class="group relative flex flex-col justify-between border border-stone-900/60 p-4 bg-[#0a0a0d]/40 transition-all duration-500 hover:bg-[#0a0a0d] hover:border-stone-800 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.7)]" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
                 <div class="w-full h-80 bg-[#050507] overflow-hidden relative p-2 border border-stone-950">
-                    <img src="{{ $item['image'] }}"
-                         alt="{{ $item['brand'] }} {{ $item['model'] }}"
+                    <img src="{{ $product->image ? asset('storage/' . $product->image) : 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&h=400&fit=crop' }}"
+                         alt="{{ $product->name }}"
                          class="w-full h-full object-cover transition-transform duration-1000 scale-95 group-hover:scale-100">
                     <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center backdrop-blur-[2px]">
                         <button class="border border-[#e5c158]/40 bg-[#050507] px-5 py-3 text-[9px] uppercase tracking-[0.25em] text-stone-200 hover:bg-[#e5c158] hover:text-black transition-all font-medium">
                             Inspect Blueprint
                         </button>
                     </div>
-                    <span class="absolute top-4 right-4 text-[8px] uppercase tracking-widest font-semibold px-2.5 py-1 {{ $item['badgeClass'] }}">
-                        {{ $item['badge'] }}
+                    <span class="absolute top-4 right-4 text-[8px] uppercase tracking-widest font-semibold px-2.5 py-1 {{ $product->stock > 3 ? 'badge-limited' : 'badge-sold' }}">
+                        {{ $product->stock > 3 ? 'Available' : ($product->stock > 0 ? 'Limited' : 'Depleted') }}
                     </span>
                 </div>
                 <div class="mt-6 space-y-3 px-1">
                     <div class="flex justify-between items-baseline">
-                        <span class="text-[10px] uppercase tracking-[0.2em] text-stone-500 font-bold">{{ $item['brand'] }}</span>
-                        <span class="text-xs font-semibold tracking-wide text-[#e5c158]">{{ $item['price'] }}</span>
+                        <span class="text-[10px] uppercase tracking-[0.2em] text-stone-500 font-bold">{{ $product->brand ?? 'Valencia' }}</span>
+                        <span class="text-xs font-semibold tracking-wide text-[#e5c158]">${{ number_format($product->price, 2) }}</span>
                     </div>
-                    <h3 class="text-base font-light text-stone-200 tracking-wide group-hover:text-[#e5c158] transition-colors duration-300">{{ $item['model'] }}</h3>
-                    <p class="text-stone-500 text-[11px] font-light leading-relaxed tracking-wide line-clamp-2 h-9 border-t border-stone-900/50 pt-2">{{ $item['desc'] }}</p>
+                    <h3 class="text-base font-light text-stone-200 tracking-wide group-hover:text-[#e5c158] transition-colors duration-300">{{ $product->name }}</h3>
+                    <p class="text-stone-500 text-[11px] font-light leading-relaxed tracking-wide line-clamp-2 h-9 border-t border-stone-900/50 pt-2">{{ $product->description ?? 'Crafted for the discerning collector.' }}</p>
                 </div>
             </div>
-            @endforeach
+            @empty
+            <div class="col-span-full text-center py-16 text-stone-500">
+                <p>No products available yet.</p>
+            </div>
+            @endforelse
         </div>
     </div>
 </section>
@@ -409,20 +403,12 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 xl:gap-10 auto-rows-fr">
-            @php
-                $categories = [
-                    ['name' => 'Watches', 'image' => 'https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=600&h=800&fit=crop', 'label' => 'Horology'],
-                    ['name' => 'Earpods', 'image' => 'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=600&h=800&fit=crop', 'label' => 'Acoustics'],
-                    ['name' => 'Headphones', 'image' => 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=600&h=800&fit=crop', 'label' => 'Immersive'],
-                ];
-            @endphp
-
-            @foreach($categories as $index => $category)
-            <a href="#" class="group relative flex flex-col justify-between rounded-2xl bg-[#0a0a0d]/60 backdrop-blur-sm border border-stone-900/50 p-4 transition-all duration-500 hover:bg-[#0f0f13] hover:border-stone-800/80 shadow-advanced card-advanced overflow-hidden" data-aos="fade-up" data-aos-delay="{{ $index * 150 }}">
+            @forelse($categories as $index => $cat)
+            <a href="{{ route('user.shop', ['category' => $cat->id]) }}" class="group relative flex flex-col justify-between rounded-2xl bg-[#0a0a0d]/60 backdrop-blur-sm border border-stone-900/50 p-4 transition-all duration-500 hover:bg-[#0f0f13] hover:border-stone-800/80 shadow-advanced card-advanced overflow-hidden" data-aos="fade-up" data-aos-delay="{{ $index * 150 }}">
                 <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc1IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiBmaWx0ZXI9InVybCgjZikiIG9wYWNpdHk9IjAuMDMiIC8+PC9zdmc+')] opacity-30 pointer-events-none"></div>
                 <div class="relative w-full h-[400px] sm:h-[460px] overflow-hidden rounded-xl bg-[#050507] border border-stone-950/80">
-                    <img src="{{ $category['image'] }}"
-                         alt="Premium {{ $category['name'] }}"
+                    <img src="{{ $cat->image ? asset('storage/' . $cat->image) : 'https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=600&h=800&fit=crop' }}"
+                         alt="{{ $cat->name }}"
                          class="w-full h-full object-cover img-zoom scale-[1.02] transition-transform duration-1000 ease-out">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-70 group-hover:opacity-50 transition-opacity duration-700"></div>
                     <div class="absolute inset-0 overlay-shine"></div>
@@ -432,10 +418,10 @@
                 </div>
                 <div class="mt-5 space-y-2 px-1 relative">
                     <div class="flex justify-between items-center">
-                        <span class="text-[10px] uppercase tracking-[0.3em] text-stone-400 font-bold group-hover:text-[#e5c158] transition-colors duration-300">{{ $category['label'] }}</span>
+                        <span class="text-[10px] uppercase tracking-[0.3em] text-stone-400 font-bold group-hover:text-[#e5c158] transition-colors duration-300">{{ $cat->name }}</span>
                         <span class="text-[11px] tracking-widest text-stone-500 group-hover:text-stone-300 group-hover:translate-x-1 transition-all duration-300 flex items-center gap-1">Explore <span class="text-[#e5c158]/70 text-xs">→</span></span>
                     </div>
-                    <h3 class="text-xl font-light text-stone-100 tracking-widest uppercase">{{ $category['name'] }}</h3>
+                    <h3 class="text-xl font-light text-stone-100 tracking-widest uppercase">{{ $cat->name }}</h3>
                     <div class="h-[1px] w-12 bg-stone-800 line-extend group-hover:bg-[#e5c158]/40"></div>
                     <div class="flex items-center gap-2 pt-1">
                         <span class="text-[9px] uppercase tracking-[0.15em] text-stone-600">exclusive</span>
@@ -444,7 +430,11 @@
                     </div>
                 </div>
             </a>
-            @endforeach
+            @empty
+            <div class="col-span-full text-center py-16 text-stone-500">
+                <p>No categories yet.</p>
+            </div>
+            @endforelse
         </div>
     </div>
 </section>
@@ -463,62 +453,21 @@
                 <div class="h-[1px] w-20 bg-gradient-to-r from-[#e5c158] to-transparent mt-4"></div>
                 <p class="text-stone-500 text-[11px] tracking-[0.2em] uppercase mt-3 font-light">Curated for the discerning collector</p>
             </div>
-            <a href="#" class="group text-[10px] uppercase tracking-[0.3em] text-stone-400 hover:text-[#e5c158] transition-all flex items-center gap-3 mt-6 md:mt-0 font-medium border border-stone-800/50 px-5 py-2.5 rounded-full hover:border-[#e5c158]/30 hover:bg-[#e5c158]/5">
+            <a href="{{ route('user.shop') }}" class="group text-[10px] uppercase tracking-[0.3em] text-stone-400 hover:text-[#e5c158] transition-all flex items-center gap-3 mt-6 md:mt-0 font-medium border border-stone-800/50 px-5 py-2.5 rounded-full hover:border-[#e5c158]/30 hover:bg-[#e5c158]/5">
                 View All Collections
                 <span class="text-sm transform transition-transform group-hover:translate-x-1 duration-300">→</span>
             </a>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 xl:gap-8">
-            @php
-                $featured = [
-                    [
-                        'brand' => 'Rolex',
-                        'model' => 'GMT-Master II',
-                        'price' => '$16,800',
-                        'image' => 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=600&h=600&fit=crop',
-                        'badge' => 'Limited',
-                        'badgeClass' => 'badge-limited',
-                        'specs' => '40mm · Cal. 3285',
-                        'rating' => '4.9',
-                        'stock' => '2 left in stock',
-                        'edition' => '2026 Edition'
-                    ],
-                    [
-                        'brand' => 'IWC',
-                        'model' => 'Portugieser Automatic',
-                        'price' => '$11,200',
-                        'image' => 'https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=600&h=600&fit=crop',
-                        'badge' => 'Sold Out',
-                        'badgeClass' => 'badge-sold',
-                        'specs' => '42mm · 7-day reserve',
-                        'rating' => '4.8',
-                        'stock' => 'Currently unavailable',
-                        'edition' => 'Classic'
-                    ],
-                    [
-                        'brand' => 'Audemars Piguet',
-                        'model' => 'Royal Oak Offshore',
-                        'price' => '$47,200',
-                        'image' => 'https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?w=600&h=600&fit=crop',
-                        'badge' => 'Limited',
-                        'badgeClass' => 'badge-limited',
-                        'specs' => '42mm · Cal. 4404',
-                        'rating' => '4.9',
-                        'stock' => '1 left in stock',
-                        'edition' => 'Iconic'
-                    ],
-                ];
-            @endphp
-
-            @foreach($featured as $index => $item)
+            @forelse($featured as $index => $product)
             <div class="group relative bg-gradient-to-b from-[#0a0a0d] to-[#060608] backdrop-blur-sm border border-stone-900/60 rounded-2xl overflow-hidden transition-all duration-700 hover:border-[#e5c158]/40 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.9),0_0_0_1px_rgba(229,193,88,0.1)_inset] hover:-translate-y-3" data-aos="fade-up" data-aos-delay="{{ $index * 150 }}">
                 
                 <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#e5c158]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                 
                 <div class="relative overflow-hidden h-[340px] bg-[#050507]">
-                    <img src="{{ $item['image'] }}"
-                         alt="{{ $item['brand'] }} {{ $item['model'] }}"
+                    <img src="{{ $product->image ? asset('storage/' . $product->image) : 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=600&h=600&fit=crop' }}"
+                         alt="{{ $product->name }}"
                          class="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110">
                     
                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-700"></div>
@@ -532,8 +481,8 @@
                     </div>
                     
                     <div class="absolute top-4 right-4 flex flex-col gap-2">
-                        <span class="px-3.5 py-1.5 rounded-full {{ $item['badgeClass'] }} backdrop-blur-sm shadow-lg shadow-black/30">
-                            {{ $item['badge'] }}
+                        <span class="px-3.5 py-1.5 rounded-full {{ $product->stock > 3 ? 'badge-limited' : 'badge-sold' }} backdrop-blur-sm shadow-lg shadow-black/30">
+                            {{ $product->stock > 3 ? 'Available' : ($product->stock > 0 ? 'Limited' : 'Sold Out') }}
                         </span>
                     </div>
                     
@@ -544,7 +493,7 @@
                     </div>
                     
                     <div class="absolute bottom-4 right-4 bg-black/60 backdrop-blur-sm px-4 py-2 rounded-full border border-stone-800/50 group-hover:border-[#e5c158]/20 transition-all duration-300">
-                        <span class="text-sm font-semibold text-[#e5c158] tracking-wide">{{ $item['price'] }}</span>
+                        <span class="text-sm font-semibold text-[#e5c158] tracking-wide">${{ number_format($product->price, 2) }}</span>
                     </div>
                 </div>
                 
@@ -552,24 +501,24 @@
                     <div class="flex items-start justify-between">
                         <div>
                             <div class="flex items-center gap-2">
-                                <span class="text-[9px] uppercase tracking-[0.3em] text-stone-500 font-semibold">{{ $item['brand'] }}</span>
+                                <span class="text-[9px] uppercase tracking-[0.3em] text-stone-500 font-semibold">{{ $product->brand ?? 'Valencia' }}</span>
                                 <span class="w-1 h-1 rounded-full bg-stone-700"></span>
-                                <span class="text-[8px] uppercase tracking-[0.15em] text-stone-600">{{ $item['edition'] }}</span>
+                                <span class="text-[8px] uppercase tracking-[0.15em] text-stone-600">{{ $product->category->name ?? 'Collection' }}</span>
                             </div>
-                            <h3 class="text-lg font-light text-white tracking-wide group-hover:text-[#e5c158] transition-colors duration-500 mt-1">{{ $item['model'] }}</h3>
+                            <h3 class="text-lg font-light text-white tracking-wide group-hover:text-[#e5c158] transition-colors duration-500 mt-1">{{ $product->name }}</h3>
                         </div>
                     </div>
                     
                     <div class="flex items-center gap-4 text-[10px] text-stone-500">
                         <span class="flex items-center gap-1.5">
                             <svg class="w-3.5 h-3.5 text-[#e5c158]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                            {{ $item['rating'] }}
+                            4.9
                         </span>
                         <span class="w-px h-3 bg-stone-800"></span>
-                        <span>{{ $item['specs'] }}</span>
+                        <span>{{ $product->category->name ?? 'Luxury' }}</span>
                         <span class="w-px h-3 bg-stone-800"></span>
-                        <span class="{{ $item['badge'] === 'Sold Out' ? 'text-red-400/60' : 'text-emerald-400/60' }}">
-                            {{ $item['badge'] === 'Sold Out' ? 'Unavailable' : 'In Stock' }}
+                        <span class="{{ $product->stock > 0 ? 'text-emerald-400/60' : 'text-red-400/60' }}">
+                            {{ $product->stock > 0 ? 'In Stock' : 'Unavailable' }}
                         </span>
                     </div>
                     
@@ -577,10 +526,10 @@
                     
                     <div class="flex items-center justify-between pt-1">
                         <div class="flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full {{ $item['badge'] === 'Sold Out' ? 'bg-stone-700/50' : 'bg-emerald-500/60' }} animate-pulse"></span>
-                            <span class="text-[8px] uppercase tracking-[0.2em] text-stone-500">{{ $item['stock'] }}</span>
+                            <span class="w-2 h-2 rounded-full {{ $product->stock > 0 ? 'bg-emerald-500/60' : 'bg-stone-700/50' }} animate-pulse"></span>
+                            <span class="text-[8px] uppercase tracking-[0.2em] text-stone-500">{{ $product->stock > 0 ? $product->stock . ' left' : 'Out of stock' }}</span>
                         </div>
-                        @if($item['badge'] === 'Sold Out')
+                        @if($product->stock < 1)
                             <button disabled class="px-6 py-2.5 text-[9px] uppercase tracking-[0.2em] font-semibold border border-stone-800 text-stone-600 bg-stone-950/40 rounded-full cursor-not-allowed">
                                 Depleted
                             </button>
@@ -596,12 +545,16 @@
                     </div>
                 </div>
             </div>
-            @endforeach
+            @empty
+            <div class="col-span-full text-center py-16 text-stone-500">
+                <p>No featured products yet.</p>
+            </div>
+            @endforelse
         </div>
         
         <!-- Bottom CTA -->
         <div class="text-center mt-14" data-aos="fade-up" data-aos-delay="400">
-            <a href="#" class="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-stone-500 border border-stone-800/50 px-8 py-3.5 rounded-full hover:border-[#e5c158]/30 hover:text-stone-300 transition-all duration-500 bg-[#0a0a0d]/30 backdrop-blur-sm group">
+            <a href="{{ route('user.shop') }}" class="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-stone-500 border border-stone-800/50 px-8 py-3.5 rounded-full hover:border-[#e5c158]/30 hover:text-stone-300 transition-all duration-500 bg-[#0a0a0d]/30 backdrop-blur-sm group">
                 <span>Explore the full collection</span>
                 <span class="w-5 h-[1px] bg-stone-700 group-hover:bg-[#e5c158]/50 transition-all duration-300"></span>
                 <span class="text-[#e5c158]/60 group-hover:translate-x-1 transition-transform duration-300">→</span>

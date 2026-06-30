@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Create Category')
+@section('title', 'Edit Category')
 
 @push('styles')
 <style>
@@ -33,6 +33,7 @@
         object-fit: cover;
         border-radius: 12px;
         border: 2px dashed #d1d5db;
+        overflow: hidden;
     }
 </style>
 @endpush
@@ -45,20 +46,21 @@
             <i class="fas fa-arrow-left text-xs"></i>
             Back to Categories
         </a>
-        <h2 class="text-3xl font-bold text-gray-800">New Category</h2>
-        <p class="text-gray-500 mt-1">Add a new category to organize your products</p>
+        <h2 class="text-3xl font-bold text-gray-800">Edit Category</h2>
+        <p class="text-gray-500 mt-1">Update "{{ $category->name }}" details</p>
     </div>
 
     <!-- Form -->
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-        <form action="{{ route('admin.categories.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.categories.update', $category) }}" method="POST" enctype="multipart/form-data">
             @csrf
+            @method('PUT')
 
             <div class="space-y-6">
                 <!-- Name -->
                 <div>
                     <label class="form-label">Category Name <span class="text-red-500">*</span></label>
-                    <input type="text" name="name" value="{{ old('name') }}"
+                    <input type="text" name="name" value="{{ old('name', $category->name) }}"
                            class="form-input @error('name') border-red-400 @enderror"
                            placeholder="e.g. Luxury Watches">
                     @error('name')
@@ -71,7 +73,7 @@
                     <label class="form-label">Description</label>
                     <textarea name="description" rows="4"
                               class="form-input @error('description') border-red-400 @enderror"
-                              placeholder="Brief description of this category...">{{ old('description') }}</textarea>
+                              placeholder="Brief description of this category...">{{ old('description', $category->description) }}</textarea>
                     @error('description')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
@@ -81,17 +83,27 @@
                 <div>
                     <label class="form-label">Category Image</label>
                     <div class="flex items-center gap-6">
-                        <div id="preview-container" class="image-preview bg-gray-50 flex items-center justify-center text-gray-400 overflow-hidden">
-                            <i class="fas fa-image text-2xl" id="preview-icon"></i>
+                        <div class="image-preview bg-gray-50 flex items-center justify-center text-gray-400">
+                            @if($category->image)
+                                <img src="{{ asset('storage/' . $category->image) }}" class="w-full h-full object-cover" id="current-img">
+                            @else
+                                <i class="fas fa-image text-2xl" id="preview-icon"></i>
+                            @endif
                             <img id="preview-img" src="#" alt="Preview" class="w-full h-full object-cover hidden">
                         </div>
                         <div class="flex-1">
                             <label class="cursor-pointer bg-gray-50 hover:bg-gray-100 border border-dashed border-gray-300 rounded-xl px-6 py-4 text-center block transition-colors">
                                 <i class="fas fa-upload text-gray-400 text-lg mb-1"></i>
-                                <p class="text-sm text-gray-600 font-medium">Click to upload</p>
+                                <p class="text-sm text-gray-600 font-medium">Click to change image</p>
                                 <p class="text-xs text-gray-400 mt-1">PNG, JPG or WebP (max 2MB)</p>
                                 <input type="file" name="image" id="imageInput" class="hidden" accept="image/*">
                             </label>
+                            @if($category->image)
+                            <p class="text-xs text-gray-400 mt-2">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                Leave empty to keep current image
+                            </p>
+                            @endif
                             @error('image')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
@@ -104,12 +116,14 @@
                     <label class="form-label">Status</label>
                     <div class="flex gap-4">
                         <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="radio" name="status" value="active" {{ old('status', 'active') === 'active' ? 'checked' : '' }}
+                            <input type="radio" name="status" value="active"
+                                   {{ old('status', $category->status) === 'active' ? 'checked' : '' }}
                                    class="text-blue-600 focus:ring-blue-500">
                             <span class="text-sm text-gray-700">Active</span>
                         </label>
                         <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="radio" name="status" value="inactive" {{ old('status') === 'inactive' ? 'checked' : '' }}
+                            <input type="radio" name="status" value="inactive"
+                                   {{ old('status', $category->status) === 'inactive' ? 'checked' : '' }}
                                    class="text-red-600 focus:ring-red-500">
                             <span class="text-sm text-gray-700">Inactive</span>
                         </label>
@@ -123,8 +137,8 @@
             <!-- Submit -->
             <div class="flex items-center gap-3 pt-8 border-t border-gray-100 mt-8">
                 <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl text-sm font-medium transition-all">
-                    <i class="fas fa-check mr-2"></i>
-                    Create Category
+                    <i class="fas fa-save mr-2"></i>
+                    Update Category
                 </button>
                 <a href="{{ route('admin.categories.index') }}" class="text-gray-500 hover:text-gray-700 text-sm font-medium px-6 py-3">
                     Cancel
@@ -140,9 +154,13 @@
         if (file) {
             const reader = new FileReader();
             reader.onload = function(ev) {
-                document.getElementById('preview-img').src = ev.target.result;
-                document.getElementById('preview-img').classList.remove('hidden');
-                document.getElementById('preview-icon').classList.add('hidden');
+                const previewImg = document.getElementById('preview-img');
+                previewImg.src = ev.target.result;
+                previewImg.classList.remove('hidden');
+                const currentImg = document.getElementById('current-img');
+                if (currentImg) currentImg.classList.add('hidden');
+                const icon = document.getElementById('preview-icon');
+                if (icon) icon.classList.add('hidden');
             }
             reader.readAsDataURL(file);
         }

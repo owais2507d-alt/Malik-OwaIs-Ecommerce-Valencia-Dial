@@ -13,11 +13,12 @@
 
             <nav
                 class="hidden lg:flex items-center space-x-10 xl:space-x-14 text-[10px] uppercase tracking-[0.35em] font-medium">
-                <a href="{{ url('/') }}" class="text-stone-200 hover-gold-glow smooth-transition">Home</a>
-                <a href="#"
-                    class="text-stone-400 hover-gold-glow smooth-transition">Products</a>
-                <a href="#" class="text-stone-400 hover-gold-glow smooth-transition">About</a>
-                <a href="#" class="text-stone-400 hover-gold-glow smooth-transition">Contact</a>
+                <a href="{{ route('user.home') }}" class="text-stone-200 hover-gold-glow smooth-transition">Home</a>
+                <a href="{{ route('user.watches') }}" class="text-stone-400 hover-gold-glow smooth-transition">Watches</a>
+                <a href="{{ route('user.shop') }}" class="text-stone-400 hover-gold-glow smooth-transition">All Products</a>
+                <a href="{{ route('user.gallery') }}" class="text-stone-400 hover-gold-glow smooth-transition">Gallery</a>
+                <a href="{{ route('user.about') }}" class="text-stone-400 hover-gold-glow smooth-transition">About</a>
+                <a href="{{ route('user.contact') }}" class="text-stone-400 hover-gold-glow smooth-transition">Contact</a>
             </nav>
 
             <div class="hidden lg:flex items-center space-x-8 text-[10px] uppercase tracking-[0.25em] font-light">
@@ -76,13 +77,17 @@
             x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0"
             x-transition:leave-end="opacity-0 -translate-y-4" style="display: none;">
             <div class="flex flex-col space-y-6 text-center tracking-[0.3em] text-[11px] uppercase pt-12 px-6">
-                <a href="{{ url('/') }}" @click="mobileMenuOpen = false"
+                <a href="{{ route('user.home') }}" @click="mobileMenuOpen = false"
                     class="text-stone-200 py-2 border-b border-stone-900/40 hover:text-white">Home</a>
-                <a href="#" @click="mobileMenuOpen = false"
-                    class="text-stone-400 py-2 border-b border-stone-900/40 hover:text-white">Products</a>
-                <a href="#" @click="mobileMenuOpen = false"
+                <a href="{{ route('user.watches') }}" @click="mobileMenuOpen = false"
+                    class="text-stone-400 py-2 border-b border-stone-900/40 hover:text-white">Watches</a>
+                <a href="{{ route('user.shop') }}" @click="mobileMenuOpen = false"
+                    class="text-stone-400 py-2 border-b border-stone-900/40 hover:text-white">All Products</a>
+                <a href="{{ route('user.gallery') }}" @click="mobileMenuOpen = false"
+                    class="text-stone-400 py-2 border-b border-stone-900/40 hover:text-white">Gallery</a>
+                <a href="{{ route('user.about') }}" @click="mobileMenuOpen = false"
                     class="text-stone-400 py-2 border-b border-stone-900/40 hover:text-white">About</a>
-                <a href="#" @click="mobileMenuOpen = false"
+                <a href="{{ route('user.contact') }}" @click="mobileMenuOpen = false"
                     class="text-stone-400 py-2 border-b border-stone-900/40 hover:text-white">Contact</a>
 
                 <div class="pt-6">

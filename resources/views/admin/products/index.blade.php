@@ -1,105 +1,137 @@
 @extends('layouts.admin')
 
-@section('title', 'Bespoke Inventory - Valencia')
+@section('title', 'Products')
+
+@push('styles')
+<style>
+    .product-img {
+        width: 56px;
+        height: 56px;
+        object-fit: cover;
+        border-radius: 12px;
+    }
+    .stock-badge {
+        font-size: 0.7rem;
+        letter-spacing: 0.05em;
+        padding: 0.25rem 0.75rem;
+        border-radius: 999px;
+        font-weight: 500;
+    }
+    .stock-in {
+        background: #dcfce7;
+        color: #166534;
+    }
+    .stock-out {
+        background: #fef2f2;
+        color: #991b1b;
+    }
+    .status-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+    .status-active { background: #22c55e; }
+    .status-inactive { background: #9ca3af; }
+    .action-btn {
+        width: 34px;
+        height: 34px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        transition: all 0.2s;
+        border: none;
+    }
+</style>
+@endpush
 
 @section('content')
-
-<div class="space-y-8">
-
+<div class="max-w-7xl mx-auto">
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+    <div class="flex items-center justify-between mb-8">
         <div>
-            <h1 class="text-4xl font-semibold tracking-tight text-gray-900">Vault Inventory</h1>
-            <p class="text-gray-600 mt-2 text-lg">Exclusive Timepieces • Live Collection</p>
+            <h2 class="text-3xl font-bold text-gray-800">Products</h2>
+            <p class="text-gray-500 mt-1">Manage your product inventory</p>
         </div>
-
-        <a href="{{ route('admin.watches.create') }}" 
-           class="group inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold px-7 py-4 rounded-3xl shadow-xl shadow-blue-500/30 transition-all duration-200 active:scale-95">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 transition-transform group-active:rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
-            <span>Add Masterpiece</span>
+        <a href="{{ route('admin.products.create') }}"
+           class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-sm font-medium transition-all inline-flex items-center gap-2">
+            <i class="fas fa-plus"></i>
+            New Product
         </a>
     </div>
 
     <!-- Success Message -->
     @if(session('success'))
-        <div class="bg-emerald-50 border border-emerald-100 text-emerald-700 rounded-3xl px-6 py-4 flex items-center gap-3">
-            <span class="text-2xl">🎉</span>
-            <span class="font-medium">{{ session('success') }}</span>
-        </div>
+    <div class="bg-green-50 border border-green-200 text-green-700 px-6 py-4 rounded-xl mb-6 flex items-center gap-3">
+        <i class="fas fa-check-circle text-green-500"></i>
+        <span class="text-sm font-medium">{{ session('success') }}</span>
+    </div>
     @endif
 
-    <div class="card overflow-hidden">
-
-        <!-- Table Header -->
-        <div class="px-6 py-5 border-b flex flex-col sm:flex-row gap-4 items-center justify-between bg-white">
-            <h3 class="font-semibold text-xl text-gray-800">Active Stock ({{ $watches->count() }})</h3>
-            
-            <div class="relative w-full sm:w-80">
-                <input type="text" id="searchInput" placeholder="Search by name, brand..." 
-                       class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-3xl focus:outline-none focus:border-blue-400 text-sm">
-                <i class="fas fa-search absolute left-4 top-4 text-gray-400"></i>
-            </div>
-        </div>
-
-        <!-- Desktop Table -->
-        <div class="overflow-x-auto hidden md:block">
+    <!-- Table -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="overflow-x-auto">
             <table class="w-full">
                 <thead>
-                    <tr class="bg-gray-50 border-b text-xs uppercase font-semibold text-gray-500">
-                        <th class="py-5 px-6 text-left">Preview</th>
-                        <th class="py-5 px-6 text-left">Masterpiece</th>
-                        <th class="py-5 px-6 text-left">Brand</th>
-                        <th class="py-5 px-6 text-right">Valuation</th>
-                        <th class="py-5 px-6 text-center">Stock</th>
-                        <th class="py-5 px-6 text-center">Actions</th>
+                    <tr class="bg-gray-50 border-b border-gray-100">
+                        <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Product</th>
+                        <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Brand</th>
+                        <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Category</th>
+                        <th class="text-right text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Price</th>
+                        <th class="text-center text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Stock</th>
+                        <th class="text-center text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Status</th>
+                        <th class="text-right text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-100 text-sm">
-                    @forelse($watches as $watch)
-                    <tr class="hover:bg-blue-50/50 transition-colors group">
-                        <td class="px-6 py-5">
-                            @if($watch->image)
-                                <div class="w-16 h-16 rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
-                                    <img src="{{ asset('storage/' . $watch->image) }}" alt="{{ $watch->name }}" 
-                                         class="w-full h-full object-cover group-hover:scale-105 transition-transform">
+                <tbody class="divide-y divide-gray-50">
+                    @forelse($products as $product)
+                    <tr class="hover:bg-gray-50/50 transition-colors">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                @if($product->image)
+                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="product-img">
+                                @else
+                                    <div class="product-img bg-gray-100 flex items-center justify-center text-gray-400">
+                                        <i class="fas fa-box text-sm"></i>
+                                    </div>
+                                @endif
+                                <div>
+                                    <span class="font-medium text-gray-800">{{ $product->name }}</span>
+                                    <p class="text-xs text-gray-400 mt-0.5">{{ Str::limit($product->description, 50) ?? '—' }}</p>
                                 </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-600">{{ $product->brand ?? '—' }}</td>
+                        <td class="px-6 py-4">
+                            @if($product->category)
+                                <span class="text-sm text-gray-600">{{ $product->category->name }}</span>
                             @else
-                                <div class="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center text-gray-400 text-xs">No Image</div>
+                                <span class="text-sm text-gray-400">—</span>
                             @endif
                         </td>
-                        <td class="px-6 py-5">
-                            <div class="font-semibold text-gray-900">{{ $watch->name }}</div>
-                            <div class="text-xs text-gray-500 line-clamp-2 mt-1">{{ Str::limit($watch->description, 85) }}</div>
+                        <td class="px-6 py-4 text-right font-semibold text-gray-800">${{ number_format($product->price, 2) }}</td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="stock-badge {{ $product->stock > 0 ? 'stock-in' : 'stock-out' }}">
+                                {{ $product->stock > 0 ? $product->stock . ' in stock' : 'Out of stock' }}
+                            </span>
                         </td>
-                        <td class="px-6 py-5 font-medium text-gray-700">{{ $watch->brand }}</td>
-                        <td class="px-6 py-5 text-right font-bold text-lg text-gray-900">
-                            ${{ number_format($watch->price, 2) }}
+                        <td class="px-6 py-4 text-center">
+                            <span class="status-indicator {{ $product->status === 'active' ? 'status-active' : 'status-inactive' }}"></span>
                         </td>
-                        <td class="px-6 py-5 text-center">
-                            @if($watch->stock > 0)
-                                <span class="inline-flex px-4 py-1.5 bg-emerald-100 text-emerald-700 rounded-2xl text-xs font-semibold">
-                                    {{ $watch->stock }} Available
-                                </span>
-                            @else
-                                <span class="inline-flex px-4 py-1.5 bg-red-100 text-red-700 rounded-2xl text-xs font-semibold">
-                                    Out of Stock
-                                </span>
-                            @endif
-                        </td>
-                        <td class="px-6 py-5 text-center">
-                            <div class="flex items-center justify-center gap-4">
-                                <a href="{{ route('admin.watches.edit', $watch->id) }}" 
-                                   class="text-blue-600 hover:text-blue-700 transition-colors">
-                                    <i class="fas fa-edit text-xl"></i>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <a href="{{ route('admin.products.edit', $product) }}"
+                                   class="action-btn bg-blue-50 text-blue-600 hover:bg-blue-100"
+                                   title="Edit">
+                                    <i class="fas fa-pen text-xs"></i>
                                 </a>
-                                <form action="{{ route('admin.watches.destroy', $watch->id) }}" method="POST" 
-                                      onsubmit="return confirm('Are you sure you want to delete this masterpiece?')">
+                                <form action="{{ route('admin.products.destroy', $product) }}" method="POST"
+                                      onsubmit="return confirm('Delete this product?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-500 hover:text-red-600 transition-colors">
-                                        <i class="fas fa-trash text-xl"></i>
+                                    <button type="submit" class="action-btn bg-red-50 text-red-500 hover:bg-red-100" title="Delete">
+                                        <i class="fas fa-trash text-xs"></i>
                                     </button>
                                 </form>
                             </div>
@@ -107,11 +139,11 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6" class="py-24 text-center">
-                            <div class="text-gray-400">
-                                <i class="fas fa-box-open text-5xl mb-4"></i>
-                                <p class="text-xl">Vault is empty</p>
-                                <p class="text-sm mt-2">Add your first masterpiece</p>
+                        <td colspan="7" class="px-6 py-16 text-center">
+                            <div class="flex flex-col items-center gap-3">
+                                <i class="fas fa-box-open text-4xl text-gray-300"></i>
+                                <p class="text-gray-500 font-medium">No products yet</p>
+                                <a href="{{ route('admin.products.create') }}" class="text-blue-600 text-sm hover:underline">Add your first product</a>
                             </div>
                         </td>
                     </tr>
@@ -120,87 +152,11 @@
             </table>
         </div>
 
-        <!-- Mobile Card View -->
-        <div class="md:hidden p-4 space-y-5">
-            @forelse($watches as $watch)
-            <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm hover:shadow-md transition-all">
-                <div class="flex gap-5">
-                    @if($watch->image)
-                        <div class="w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0 border">
-                            <img src="{{ asset('storage/' . $watch->image) }}" alt="" class="w-full h-full object-cover">
-                        </div>
-                    @endif
-                    
-                    <div class="flex-1">
-                        <div class="font-semibold text-lg text-gray-900">{{ $watch->name }}</div>
-                        <div class="text-gray-600">{{ $watch->brand }}</div>
-                        <div class="text-2xl font-bold text-gray-900 mt-2">${{ number_format($watch->price) }}</div>
-                        
-                        <div class="mt-4">
-                            @if($watch->stock > 0)
-                                <span class="text-emerald-600 bg-emerald-50 px-3 py-1 rounded-2xl text-sm font-medium">● {{ $watch->stock }} in stock</span>
-                            @else
-                                <span class="text-red-600 bg-red-50 px-3 py-1 rounded-2xl text-sm font-medium">Out of Stock</span>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3 mt-6">
-                    <a href="{{ route('admin.watches.edit', $watch->id) }}" 
-                       class="text-center py-3 bg-blue-50 text-blue-700 rounded-2xl font-semibold hover:bg-blue-100 transition-all">
-                        Edit
-                    </a>
-                    <form action="{{ route('admin.watches.destroy', $watch->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button onclick="return confirm('Delete this masterpiece?')" 
-                                class="w-full py-3 bg-red-50 text-red-600 rounded-2xl font-semibold hover:bg-red-100 transition-all">
-                            Delete
-                        </button>
-                    </form>
-                </div>
-            </div>
-            @empty
-            <div class="text-center py-16 text-gray-400">
-                <i class="fas fa-box-open text-6xl mb-4 opacity-50"></i>
-                <p class="text-xl">No watches yet</p>
-            </div>
-            @endforelse
+        @if($products->hasPages())
+        <div class="px-6 py-4 border-t border-gray-100">
+            {{ $products->links() }}
         </div>
-
+        @endif
     </div>
 </div>
-
 @endsection
-
-@push('scripts')
-<script>
-    // Live Search
-    const searchInput = document.getElementById('searchInput');
-    
-    if (searchInput) {
-        searchInput.addEventListener('keyup', function() {
-            const term = this.value.toLowerCase().trim();
-            
-            // Desktop Table Rows
-            document.querySelectorAll('tbody tr').forEach(row => {
-                if (row.textContent.toLowerCase().includes(term)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-
-            // Mobile Cards
-            document.querySelectorAll('.md\\:hidden .bg-white').forEach(card => {
-                if (card.textContent.toLowerCase().includes(term)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-    }
-</script>
-@endpush
