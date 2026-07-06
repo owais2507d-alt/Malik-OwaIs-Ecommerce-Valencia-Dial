@@ -4,757 +4,408 @@
 
 @push('styles')
 <style>
-    /* ============================================
-       ROOT THEME VARIABLES
-       ============================================ */
-    :root {
-        --color-dark-gold: #d4af37;
-        --color-light-gold: #e5c158;
-        --color-pale-gold: #f5e6b0;
-        --text-gold: #d4af37;
-        --border-muted: #1c1c22;
-        --bg-deep: #050507;
-        --bg-card: #0b0b0e;
-        --text-stone: #a1a1aa;
-        --text-stone-light: #d4d4d8;
-        --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
+:root { --gold: #e5c158; --bg-deep: #050507; --bg-card: #0a0a0d; }
+body { background: var(--bg-deep); color: #e4e4e7; }
+.luxury-title { font-family: 'Cormorant Garamond', serif; }
 
-    /* ============================================
-       BASE & UTILITY RESETS
-       ============================================ */
-    body {
-        background-color: var(--bg-deep);
-        color: #f5f5f7;
-        font-family: 'Inter', 'Helvetica Neue', sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        letter-spacing: 0.02em;
-    }
+.product-minimal { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.04); transition: all 0.6s cubic-bezier(0.16,1,0.3,1); }
+.product-minimal:hover { border-color: rgba(229,193,88,0.2); transform: translateY(-4px); }
 
-    .luxury-title {
-        font-family: 'Playfair Display', 'Times New Roman', serif;
-        font-weight: 300;
-        letter-spacing: 0.1em;
-    }
+.feature-card { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.04); transition: all 0.5s ease; }
+.feature-card:hover { border-color: rgba(229,193,88,0.12); background: #0d0d12; }
 
-    .smooth-transition {
-        transition: var(--transition-smooth);
-    }
+.stat-number { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; line-height: 1; color: var(--gold); }
 
-    .text-dark-gold {
-        color: var(--color-dark-gold);
-    }
-    .border-dark-gold {
-        border-color: var(--color-dark-gold);
-    }
-    .bg-dark-gold {
-        background-color: var(--color-dark-gold);
-    }
-    .bg-deep {
-        background-color: var(--bg-deep);
-    }
-    .bg-card {
-        background-color: var(--bg-card);
-    }
-    .text-stone {
-        color: var(--text-stone);
-    }
-    .border-muted {
-        border-color: var(--border-muted);
-    }
+.section-marker { font-size: 0.55rem; letter-spacing: 0.4em; text-transform: uppercase; color: rgba(229,193,88,0.6); font-weight: 500; border-left: 2px solid #e5c158; padding-left: 14px; }
 
-    .h-1px {
-        height: 1px;
-    }
-    .w-16 {
-        width: 4rem;
-    }
+.gold-line { width: 3rem; height: 1px; background: rgba(229,193,88,0.35); }
+.gold-divider { width: 100%; max-width: 12rem; height: 1px; background: linear-gradient(90deg, transparent, rgba(229,193,88,0.2), transparent); margin: 2rem auto; }
 
-    /* custom scroll */
-    ::-webkit-scrollbar {
-        width: 6px;
-        background: #0a0a0d;
-    }
-    ::-webkit-scrollbar-thumb {
-        background: var(--color-dark-gold);
-        border-radius: 20px;
-    }
+.carousel-track { display: flex; gap: 2rem; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; padding: 0.25rem 0.25rem 1rem 0.25rem; scrollbar-width: none; }
+.carousel-track::-webkit-scrollbar { display: none; }
+.carousel-item { flex: 0 0 280px; scroll-snap-align: start; }
+@media (min-width: 640px) { .carousel-item { flex: 0 0 260px; } }
+@media (min-width: 1024px) { .carousel-item { flex: 0 0 270px; } }
 
-    /* gold shimmer for accents */
-    .gold-shimmer {
-        background: linear-gradient(120deg, rgba(212, 175, 55, 0.05) 0%, rgba(212, 175, 55, 0.15) 50%, rgba(212, 175, 55, 0.05) 100%);
-        background-size: 200% 100%;
-        animation: shimmer 6s infinite linear;
-    }
+.img-wrapper { position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; background: #0b0b0f; border: 1px solid #1c1c22; transition: border 0.3s; }
+.group:hover .img-wrapper { border-color: #3a3a44; }
+.img-wrapper .primary-img, .img-wrapper .secondary-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 0.6s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.6s ease; will-change: transform, opacity; }
+.img-wrapper .primary-img { opacity: 1; z-index: 2; transform: scale(1); }
+.img-wrapper .secondary-img { opacity: 0; z-index: 1; transform: scale(1.05); }
+.group:hover .img-wrapper .primary-img { opacity: 0; transform: scale(1.1); }
+.group:hover .img-wrapper .secondary-img { opacity: 1; transform: scale(1); }
 
-    @keyframes shimmer {
-        0% { background-position: -200% 0; }
-        100% { background-position: 200% 0; }
-    }
+.product-card { background: rgba(10,10,13,0.4); backdrop-filter: blur(2px); border: 1px solid #1b1b22; transition: all 0.3s ease; }
+.product-card:hover { background: #0f0f14; border-color: #3a3a44; transform: translateY(-4px); }
 
-    /* hero glow */
-    .hero-glow {
-        position: absolute;
-        width: 600px;
-        height: 350px;
-        background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, transparent 70%);
-        filter: blur(120px);
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        pointer-events: none;
-        z-index: 0;
-    }
+.badge-new { background: rgba(229,193,88,0.08); border: 1px solid rgba(229,193,88,0.2); color: #e5c158; }
+.badge-off { background: rgba(168,85,247,0.12); border: 1px solid rgba(168,85,247,0.2); color: #c084fc; }
 
-    /* category card overlay */
-    .category-overlay {
-        background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
-    }
+.scroll-btn { background: #0e0e12; border: 1px solid #222; color: #aaa; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 999px; transition: 0.2s; cursor: pointer; }
+.scroll-btn:hover { background: #1a1a1f; border-color: #e5c158; color: #e5c158; }
 
-    /* trust icon hover */
-    .trust-icon {
-        transition: var(--transition-smooth);
-    }
-    .trust-icon:hover {
-        color: var(--color-dark-gold);
-        transform: translateY(-4px) scale(1.05);
-    }
+.color-dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; border: 1px solid #2a2a30; transition: border 0.2s; cursor: default; }
+.color-dot:hover { border-color: #e5c158; }
 
-    /* button primary gold */
-    .btn-gold {
-        background: var(--color-dark-gold);
-        color: #0a0a0d;
-        border: 1px solid var(--color-dark-gold);
-        font-weight: 600;
-        letter-spacing: 0.2em;
-        transition: var(--transition-smooth);
-    }
-    .btn-gold:hover {
-        background: transparent;
-        color: var(--color-dark-gold);
-        border-color: var(--color-dark-gold);
-        box-shadow: 0 0 30px rgba(212, 175, 55, 0.15);
-    }
+.btn-buy { background: #7a1f1f; color: white; font-size: 10px; letter-spacing: 0.1em; padding: 0.45rem 1rem; border-radius: 2px; transition: 0.2s; border: none; font-weight: 500; }
+.btn-buy:hover { background: #9f2b2b; }
 
-    .btn-outline-gold {
-        background: transparent;
-        color: var(--text-stone-light);
-        border: 1px solid rgba(212, 175, 55, 0.3);
-        letter-spacing: 0.2em;
-        transition: var(--transition-smooth);
-    }
-    .btn-outline-gold:hover {
-        background: var(--color-dark-gold);
-        color: #0a0a0d;
-        border-color: var(--color-dark-gold);
-        box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
-    }
-
-    /* product card */
-    .product-card {
-        background: var(--bg-card);
-        border: 1px solid var(--border-muted);
-        transition: var(--transition-smooth);
-    }
-    .product-card:hover {
-        border-color: rgba(212, 175, 55, 0.3);
-        transform: translateY(-6px);
-        box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-    }
-
-    .product-img {
-        background: #0a0a0e;
-        transition: var(--transition-smooth);
-    }
-    .product-card:hover .product-img img {
-        transform: scale(1.04);
-    }
-
-    .badge-limited {
-        background: rgba(212, 175, 55, 0.15);
-        border: 1px solid rgba(212, 175, 55, 0.3);
-        color: var(--color-light-gold);
-        font-size: 8px;
-        letter-spacing: 0.15em;
-        padding: 0.25rem 0.75rem;
-        text-transform: uppercase;
-    }
-
-    .badge-sold {
-        background: rgba(220, 38, 38, 0.15);
-        border: 1px solid rgba(220, 38, 38, 0.3);
-        color: #f87171;
-        font-size: 8px;
-        letter-spacing: 0.15em;
-        padding: 0.25rem 0.75rem;
-        text-transform: uppercase;
-    }
-
-    /* Pulse animation */
-    @keyframes pulse {
-        0%, 100% { opacity: 0.4; }
-        50% { opacity: 1; }
-    }
-    .animate-pulse {
-        animation: pulse 2s ease-in-out infinite;
-    }
-
-    /* AOS Override */
-    [data-aos] {
-        pointer-events: none;
-    }
-    [data-aos].aos-animate {
-        pointer-events: auto;
-    }
-
-    /* responsive fine-tune */
-    @media (max-width: 640px) {
-        .hero-glow {
-            width: 300px;
-            height: 200px;
-            filter: blur(80px);
-        }
-        .luxury-title {
-            font-size: 2.5rem;
-        }
-    }
+@media (max-width: 640px) { .stat-number { font-size: 2.5rem; } }
 </style>
 @endpush
 
 @section('content')
 
-<!-- ============================================================
-     HERO SECTION
-     ============================================================ -->
-<section class="relative min-h-[70vh] flex items-center justify-center overflow-hidden border-b border-stone-900/40 bg-gradient-to-b from-[#0a0a0d] via-[#050507] to-[#040405] px-4 py-20 md:py-28">
-    <div class="hero-glow"></div>
-
-    <div class="relative z-10 max-w-5xl mx-auto text-center space-y-8">
-        <div class="flex items-center justify-center space-x-4" data-aos="fade-down" data-aos-delay="200">
-            <span class="h-px w-10 sm:w-16 bg-gradient-to-r from-transparent to-[#e5c158] opacity-60"></span>
-            <span class="text-[10px] sm:text-xs uppercase tracking-[0.5em] text-dark-gold font-medium">ESTABLISHED. 2026</span>
-            <span class="h-px w-10 sm:w-16 bg-gradient-to-l from-transparent to-[#e5c158] opacity-60"></span>
-        </div>
-
-        <h1 class="luxury-title text-5xl sm:text-7xl md:text-8xl font-light tracking-[0.12em] text-stone-200 uppercase leading-[1.1]" data-aos="zoom-in" data-aos-delay="300">
-            Valencia <br class="sm:hidden">
-            <span class="font-normal text-dark-gold">Dial</span>
-        </h1>
-
-        <p class="text-stone-500 text-sm sm:text-base max-w-2xl mx-auto font-light leading-relaxed tracking-widest px-2" data-aos="fade-up" data-aos-delay="400">
-            Step into our sanctuary of refined curation—a digital atelier where exceptional craftsmanship meets
-            timeless design. Every piece within our collection is selected for those who shape their own narrative,
-            transcending borders and convention.
-        </p>
-
-        @guest
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4" data-aos="fade-up" data-aos-delay="500">
-            <a href="{{ route('user.login') }}"
-               class="relative overflow-hidden px-8 py-4 text-[10px] uppercase tracking-[0.3em] font-medium min-w-[180px] text-center transition-all duration-500 ease-out border border-[#e5c158]/40 text-[#e5c158] hover:text-stone-950 hover:border-[#e5c158] hover:shadow-[0_0_30px_rgba(229,193,88,0.15)] group">
-                <span class="relative z-10">Login</span>
-                <span class="absolute inset-0 bg-[#e5c158] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out origin-left"></span>
-            </a>
-
-            <a href="{{ route('user.register') }}"
-               class="relative overflow-hidden px-8 py-4 text-[10px] uppercase tracking-[0.3em] font-medium min-w-[180px] text-center transition-all duration-500 ease-out bg-[#e5c158] text-stone-950 hover:text-stone-950 border border-[#e5c158] shadow-2xl shadow-black/50 hover:shadow-[0_0_40px_rgba(229,193,88,0.25)] group">
-                <span class="relative z-10">Create Account</span>
-                <span class="absolute inset-0 bg-stone-950 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out origin-left"></span>
-                <span class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></span>
-            </a>
-        </div>
-        @endguest
-
-        <!-- scroll indicator -->
-        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-40" data-aos="fade-up" data-aos-delay="600">
-            <span class="text-[8px] uppercase tracking-[0.3em] text-stone-500">Scroll</span>
-            <div class="w-px h-10 bg-gradient-to-b from-dark-gold to-transparent"></div>
-        </div>
-    </div>
-</section>
-
-<!-- ============================================================
-     PREMIUM URGENCY BANNER
-     ============================================================ -->
-<section class="relative py-14 md:py-20 bg-gradient-to-r from-[#0a0a0d] via-[#0b0b0e] to-[#0a0a0d] border-y border-stone-800/60 overflow-hidden">
-    <div class="max-w-7xl mx-auto px-6 relative z-10">
-        <div class="flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-16">
-            <!-- Left Side - Message -->
-            <div class="flex items-start gap-6" data-aos="fade-right" data-aos-duration="800">
-                <div class="text-5xl md:text-6xl text-dark-gold opacity-90">⌛</div>
-                <div>
-                    <span class="inline-block px-4 py-1.5 text-[10px] uppercase tracking-[0.5em] font-semibold border border-dark-gold/30 text-dark-gold mb-3">
-                        LIMITED ALLOCATION
-                    </span>
-                    <h3 class="text-2xl md:text-3xl text-white font-light tracking-wide luxury-title">
-                        Only a Few Masterpieces Remain
-                    </h3>
-                    <p class="text-stone-400 mt-3 max-w-md text-[15px]">
-                        These rare timepieces are allocated exclusively for true collectors. Once they're gone, they're gone.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Center - Countdown -->
-            <div class="flex-shrink-0" data-aos="zoom-in" data-aos-delay="200" data-aos-duration="800">
-                <div class="bg-[#111113] border border-dark-gold/20 rounded-2xl px-8 md:px-10 py-7 shadow-2xl shadow-black/80">
-                    <div class="text-center mb-4">
-                        <span class="text-xs uppercase tracking-[0.4em] text-stone-500 font-medium">Ends In</span>
-                    </div>
-                    <div id="countdown-timer" class="flex items-center justify-center gap-4 md:gap-8 text-center">
-                        <div>
-                            <span id="countdown-hours" class="block text-4xl md:text-6xl font-light text-dark-gold tabular-nums">47</span>
-                            <span class="text-[10px] uppercase tracking-widest text-stone-500">Hours</span>
-                        </div>
-                        <span class="text-3xl md:text-4xl text-stone-700 font-thin">:</span>
-                        <div>
-                            <span id="countdown-minutes" class="block text-4xl md:text-6xl font-light text-dark-gold tabular-nums">19</span>
-                            <span class="text-[10px] uppercase tracking-widest text-stone-500">Minutes</span>
-                        </div>
-                        <span class="text-3xl md:text-4xl text-stone-700 font-thin">:</span>
-                        <div>
-                            <span id="countdown-seconds" class="block text-4xl md:text-6xl font-light text-dark-gold tabular-nums">37</span>
-                            <span class="text-[10px] uppercase tracking-widest text-stone-500">Seconds</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right Side - CTA -->
-            <div class="flex-shrink-0 text-center lg:text-left" data-aos="fade-left" data-aos-delay="400" data-aos-duration="800">
-                <a href="#featured"
-                   class="group inline-flex items-center gap-3 bg-dark-gold hover:bg-white text-black hover:text-black font-semibold px-9 py-5 rounded-xl text-sm uppercase tracking-[0.125em] transition-all duration-300 hover:shadow-2xl hover:shadow-dark-gold/40">
-                    <span>SECURE YOUR PIECE</span>
-                    <span class="text-xl group-hover:translate-x-1 transition-transform">→</span>
+{{-- 1. HERO — Split layout: text left, product visual right --}}
+<section class="relative min-h-[85vh] flex items-center justify-center border-b border-stone-900 bg-gradient-to-b from-[#0a0a0d] to-[#050507] px-6 overflow-hidden">
+    <div class="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center py-12">
+        <div class="space-y-6 text-center lg:text-left" data-aos="fade-right">
+            <span class="text-[11px] uppercase tracking-[0.3em] text-[#e5c158] font-semibold">Est. 2026</span>
+            <h1 class="text-4xl md:text-7xl font-extralight tracking-widest text-white leading-tight uppercase">
+                Valencia <br class="hidden md:block"><span class="font-normal text-[#e5c158]">Dial</span>
+            </h1>
+            <div class="gold-divider mx-auto lg:mx-0"></div>
+            <p class="text-xs md:text-sm text-stone-400 tracking-wider max-w-md mx-auto lg:mx-0 font-light leading-relaxed">
+                A digital atelier where exceptional craftsmanship meets timeless design. Luxury audio tech and micro-engineered timepieces forged for modern pioneers.
+            </p>
+            <div class="pt-4 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <a href="{{ route('user.shop') }}" class="px-8 py-3 bg-[#e5c158] hover:bg-[#d4b047] text-black text-xs font-semibold tracking-[0.2em] uppercase transition-all duration-300">
+                    Explore Collection
                 </a>
-                <p class="text-[10px] text-stone-500 mt-4 tracking-widest">Only 12 pieces left in this drop</p>
+                @guest
+                <a href="{{ route('user.register') }}" class="px-8 py-3 border border-stone-800 hover:border-[#e5c158]/50 text-white text-xs font-medium tracking-[0.2em] uppercase transition-all duration-300 bg-stone-950/40">
+                    Join the Vault
+                </a>
+                @endguest
+            </div>
+        </div>
+        <div class="relative flex justify-center items-center" data-aos="fade-left">
+            <div class="absolute w-72 h-72 md:w-96 md:h-96 bg-[#e5c158]/5 rounded-full blur-3xl"></div>
+            <div class="relative w-full max-w-md aspect-square bg-[#0a0a0d]/50 border border-stone-900 flex items-center justify-center backdrop-blur-md overflow-hidden">
+                <span class="text-[10px] tracking-[0.3em] text-stone-600 uppercase">[Premium Product Close-Up]</span>
             </div>
         </div>
     </div>
-
-    <!-- Subtle decorative elements -->
-    <div class="absolute top-0 left-1/3 w-px h-full bg-gradient-to-b from-transparent via-dark-gold/10 to-transparent"></div>
-    <div class="absolute bottom-0 right-1/4 w-px h-2/3 bg-gradient-to-t from-transparent via-dark-gold/10 to-transparent"></div>
 </section>
 
-<!-- ============================================================
-     TOP SELLING SECTION
-     ============================================================ -->
-<section class="py-20 md:py-28 bg-[#050507] border-b border-stone-900/40">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-16" data-aos="fade-up">
-            <div class="space-y-2">
-                <span class="text-[9px] uppercase tracking-[0.5em] text-[#e5c158] font-medium block">Most Coveted Assets</span>
-                <h2 class="text-3xl md:text-5xl font-light tracking-widest text-stone-100 uppercase">Top Sellers</h2>
-                <div class="h-[1px] w-20 bg-gradient-to-r from-[#e5c158] to-transparent mt-4"></div>
-            </div>
-            <a href="{{ route('user.shop') }}" class="group text-[10px] uppercase tracking-[0.3em] text-stone-400 hover:text-[#e5c158] transition-all flex items-center gap-3 mt-6 md:mt-0 font-medium">
-                View Entire Collection
-                <span class="text-xs transform transition-transform group-hover:translate-x-1 duration-300">→</span>
-            </a>
+{{-- 2. CART SECTION — Product showcase with add-to-cart --}}
+<section class="py-20 md:py-28 border-b border-stone-900">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="mb-14 text-center" data-aos="fade-up">
+            <p class="section-marker inline-block text-left">The Vault</p>
+            <h2 class="luxury-title text-3xl md:text-5xl text-white font-light tracking-wide mt-3">Shop the <span class="text-[#e5c158]">Collection</span></h2>
+            <div class="gold-line mx-auto mt-4"></div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 xl:gap-8">
-            @forelse($topSellers as $index => $product)
-            <div class="group relative flex flex-col justify-between border border-stone-900/60 p-4 bg-[#0a0a0d]/40 transition-all duration-500 hover:bg-[#0a0a0d] hover:border-stone-800 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.7)]" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
-                <div class="w-full h-80 bg-[#050507] overflow-hidden relative p-2 border border-stone-950">
-                    <img src="{{ $product->image ? asset('storage/' . $product->image) : 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&h=400&fit=crop' }}"
-                         alt="{{ $product->name }}"
-                         class="w-full h-full object-cover transition-transform duration-1000 scale-95 group-hover:scale-100">
-                    <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center backdrop-blur-[2px]">
-                        <button class="border border-[#e5c158]/40 bg-[#050507] px-5 py-3 text-[9px] uppercase tracking-[0.25em] text-stone-200 hover:bg-[#e5c158] hover:text-black transition-all font-medium">
-                            Inspect Blueprint
-                        </button>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            @php $cartProducts = $topSellers->merge($featured); @endphp
+            @forelse($cartProducts as $product)
+            <div class="group" data-aos="fade-up" data-aos-delay="{{ $loop->index * 60 }}">
+                <div class="relative aspect-square overflow-hidden bg-[#050507] border border-stone-900 group-hover:border-[#e5c158]/20 transition-all duration-500">
+                    <div class="relative w-full h-full overflow-hidden">
+                        <img src="{{ $product->image ? asset('storage/' . $product->image) : 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&h=400&fit=crop' }}"
+                             alt="{{ $product->name }}"
+                             class="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
+                             loading="lazy">
+                        @if($product->image_secondary)
+                        <img src="{{ asset('storage/' . $product->image_secondary) }}"
+                             alt="{{ $product->name }}"
+                             class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 opacity-0 group-hover:opacity-100"
+                             loading="lazy">
+                        @endif
                     </div>
-                    <span class="absolute top-4 right-4 text-[8px] uppercase tracking-widest font-semibold px-2.5 py-1 {{ $product->stock > 3 ? 'badge-limited' : 'badge-sold' }}">
-                        {{ $product->stock > 3 ? 'Available' : ($product->stock > 0 ? 'Limited' : 'Depleted') }}
-                    </span>
+                    <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex items-center justify-center">
+                        <form action="{{ route('user.cart.add', $product) }}" method="POST" onclick="event.stopPropagation()">
+                            @csrf
+                            <input type="hidden" name="quantity" value="1">
+                            @if($product->stock > 0)
+                            <button type="submit" class="btn-add-cart">Add to Cart</button>
+                            @else
+                            <span class="btn-disabled">Sold Out</span>
+                            @endif
+                        </form>
+                    </div>
+                    @if($product->stock <= 3 && $product->stock > 0)
+                    <span class="absolute top-2 right-2 text-[0.35rem] tracking-[0.25em] uppercase px-2 py-1 bg-[#e5c158]/15 text-[#e5c158] border border-[#e5c158]/20">Limited</span>
+                    @endif
                 </div>
-                <div class="mt-6 space-y-3 px-1">
-                    <div class="flex justify-between items-baseline">
-                        <span class="text-[10px] uppercase tracking-[0.2em] text-stone-500 font-bold">{{ $product->brand ?? 'Valencia' }}</span>
-                        <span class="text-xs font-semibold tracking-wide text-[#e5c158]">${{ number_format($product->price, 2) }}</span>
-                    </div>
-                    <h3 class="text-base font-light text-stone-200 tracking-wide group-hover:text-[#e5c158] transition-colors duration-300">{{ $product->name }}</h3>
-                    <p class="text-stone-500 text-[11px] font-light leading-relaxed tracking-wide line-clamp-2 h-9 border-t border-stone-900/50 pt-2">{{ $product->description ?? 'Crafted for the discerning collector.' }}</p>
+                <div class="pt-3 pb-2">
+                    <p class="text-[0.4rem] tracking-[0.3em] uppercase text-stone-500 font-medium">{{ $product->brand ?? 'Valencia' }}</p>
+                    <h3 class="text-sm text-white font-light tracking-wide truncate">{{ $product->name }}</h3>
+                    <p class="text-sm text-[#e5c158] font-light mt-0.5">${{ number_format($product->price, 2) }}</p>
                 </div>
             </div>
             @empty
-            <div class="col-span-full text-center py-16 text-stone-500">
-                <p>No products available yet.</p>
-            </div>
+            <p class="col-span-full text-center text-stone-500 py-16">No products available.</p>
             @endforelse
+        </div>
+
+        <div class="text-center mt-10" data-aos="fade-up">
+            <a href="{{ route('user.shop') }}" class="btn-outline btn-lg">Browse Full Collection →</a>
         </div>
     </div>
 </section>
 
-<!-- ============================================================
-     CATEGORY SECTIONS
-     ============================================================ -->
-<section class="py-20 md:py-28 bg-[#050507] border-b border-stone-900/40 relative overflow-hidden">
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-[#e5c158]/[0.02] blur-[120px] pointer-events-none"></div>
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-        <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
-            <span class="text-[9px] uppercase tracking-[0.5em] text-[#e5c158] font-medium block bg-[#e5c158]/5 py-1.5 px-4 rounded-full w-fit mx-auto backdrop-blur-sm border border-[#e5c158]/10">Curated Ecosystem</span>
-            <h2 class="text-3xl md:text-5xl font-light tracking-[0.18em] text-stone-100 uppercase mt-5 gold-glow">The Atelier Categories</h2>
-            <div class="h-[1px] w-20 bg-gradient-to-r from-transparent via-[#e5c158] to-transparent mx-auto mt-4"></div>
-            <p class="text-stone-500 text-[11px] tracking-[0.2em] uppercase mt-5 font-light">exclusive selections · timeless craft</p>
+{{-- 3. QUICK CATEGORY CIRCULAR CAROUSEL --}}
+<section class="py-16 border-b border-stone-900 bg-[#07070a]">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-10" data-aos="fade-up">
+            <p class="section-marker inline-block text-left">Quick Navigation</p>
+            <h2 class="luxury-title text-2xl md:text-4xl text-white font-light tracking-wide mt-3">Browse by <span class="text-[#e5c158]">Category</span></h2>
         </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 xl:gap-10 auto-rows-fr">
-            @forelse($categories as $index => $cat)
-            <a href="{{ route('user.shop', ['category' => $cat->id]) }}" class="group relative flex flex-col justify-between rounded-2xl bg-[#0a0a0d]/60 backdrop-blur-sm border border-stone-900/50 p-4 transition-all duration-500 hover:bg-[#0f0f13] hover:border-stone-800/80 shadow-advanced card-advanced overflow-hidden" data-aos="fade-up" data-aos-delay="{{ $index * 150 }}">
-                <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc1IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiBmaWx0ZXI9InVybCgjZikiIG9wYWNpdHk9IjAuMDMiIC8+PC9zdmc+')] opacity-30 pointer-events-none"></div>
-                <div class="relative w-full h-[400px] sm:h-[460px] overflow-hidden rounded-xl bg-[#050507] border border-stone-950/80">
-                    <img src="{{ $cat->image ? asset('storage/' . $cat->image) : 'https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=600&h=800&fit=crop' }}"
-                         alt="{{ $cat->name }}"
-                         class="w-full h-full object-cover img-zoom scale-[1.02] transition-transform duration-1000 ease-out">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-70 group-hover:opacity-50 transition-opacity duration-700"></div>
-                    <div class="absolute inset-0 overlay-shine"></div>
-                    <div class="absolute top-4 left-4 bg-black/40 backdrop-blur-sm px-3 py-1 rounded-full border border-white/5">
-                        <span class="text-[8px] tracking-[0.25em] text-[#e5c158] font-bold uppercase">curated</span>
-                    </div>
-                </div>
-                <div class="mt-5 space-y-2 px-1 relative">
-                    <div class="flex justify-between items-center">
-                        <span class="text-[10px] uppercase tracking-[0.3em] text-stone-400 font-bold group-hover:text-[#e5c158] transition-colors duration-300">{{ $cat->name }}</span>
-                        <span class="text-[11px] tracking-widest text-stone-500 group-hover:text-stone-300 group-hover:translate-x-1 transition-all duration-300 flex items-center gap-1">Explore <span class="text-[#e5c158]/70 text-xs">→</span></span>
-                    </div>
-                    <h3 class="text-xl font-light text-stone-100 tracking-widest uppercase">{{ $cat->name }}</h3>
-                    <div class="h-[1px] w-12 bg-stone-800 line-extend group-hover:bg-[#e5c158]/40"></div>
-                    <div class="flex items-center gap-2 pt-1">
-                        <span class="text-[9px] uppercase tracking-[0.15em] text-stone-600">exclusive</span>
-                        <span class="w-1 h-1 rounded-full bg-stone-700"></span>
-                        <span class="text-[9px] uppercase tracking-[0.15em] text-stone-600">limited</span>
-                    </div>
-                </div>
-            </a>
-            @empty
-            <div class="col-span-full text-center py-16 text-stone-500">
-                <p>No categories yet.</p>
-            </div>
-            @endforelse
-        </div>
-    </div>
-</section>
-
-<!-- ============================================================
-     FEATURED PRODUCTS
-     ============================================================ -->
-<section id="featured" class="py-16 md:py-24 bg-deep relative overflow-hidden">
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-[#e5c158]/[0.02] blur-[140px] pointer-events-none"></div>
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-14" data-aos="fade-up">
-            <div>
-                <span class="text-[9px] uppercase tracking-[0.5em] text-[#e5c158] font-medium block bg-[#e5c158]/5 py-1.5 px-4 rounded-full w-fit backdrop-blur-sm border border-[#e5c158]/10">Masterpiece Collection</span>
-                <h2 class="luxury-title text-3xl md:text-5xl font-light text-white mt-4 tracking-wide">Featured <span class="text-dark-gold">Timepieces</span></h2>
-                <div class="h-[1px] w-20 bg-gradient-to-r from-[#e5c158] to-transparent mt-4"></div>
-                <p class="text-stone-500 text-[11px] tracking-[0.2em] uppercase mt-3 font-light">Curated for the discerning collector</p>
-            </div>
-            <a href="{{ route('user.shop') }}" class="group text-[10px] uppercase tracking-[0.3em] text-stone-400 hover:text-[#e5c158] transition-all flex items-center gap-3 mt-6 md:mt-0 font-medium border border-stone-800/50 px-5 py-2.5 rounded-full hover:border-[#e5c158]/30 hover:bg-[#e5c158]/5">
-                View All Collections
-                <span class="text-sm transform transition-transform group-hover:translate-x-1 duration-300">→</span>
-            </a>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 xl:gap-8">
-            @forelse($featured as $index => $product)
-            <div class="group relative bg-gradient-to-b from-[#0a0a0d] to-[#060608] backdrop-blur-sm border border-stone-900/60 rounded-2xl overflow-hidden transition-all duration-700 hover:border-[#e5c158]/40 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.9),0_0_0_1px_rgba(229,193,88,0.1)_inset] hover:-translate-y-3" data-aos="fade-up" data-aos-delay="{{ $index * 150 }}">
-                
-                <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#e5c158]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                
-                <div class="relative overflow-hidden h-[340px] bg-[#050507]">
-                    <img src="{{ $product->image ? asset('storage/' . $product->image) : 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=600&h=600&fit=crop' }}"
-                         alt="{{ $product->name }}"
-                         class="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110">
-                    
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-700"></div>
-                    
-                    <div class="absolute inset-0 bg-black/50 backdrop-blur-[3px] opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col items-center justify-center gap-4">
-                        <button class="relative overflow-hidden px-8 py-3.5 text-[8px] uppercase tracking-[0.25em] font-medium text-stone-200 border border-[#e5c158]/40 rounded-full hover:bg-[#e5c158] hover:text-black transition-all duration-300 group/btn">
-                            <span class="relative z-10">View Specs</span>
-                            <span class="absolute inset-0 bg-[#e5c158] scale-x-0 group-hover/btn:scale-x-100 transition-transform duration-500 origin-left"></span>
-                        </button>
-                        <span class="text-[8px] uppercase tracking-[0.3em] text-stone-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Click to inspect masterpiece</span>
-                    </div>
-                    
-                    <div class="absolute top-4 right-4 flex flex-col gap-2">
-                        <span class="px-3.5 py-1.5 rounded-full {{ $product->stock > 3 ? 'badge-limited' : 'badge-sold' }} backdrop-blur-sm shadow-lg shadow-black/30">
-                            {{ $product->stock > 3 ? 'Available' : ($product->stock > 0 ? 'Limited' : 'Sold Out') }}
-                        </span>
-                    </div>
-                    
-                    <div class="absolute bottom-4 left-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-150">
-                        <button class="w-9 h-9 rounded-full bg-black/60 backdrop-blur-sm border border-stone-800/50 flex items-center justify-center text-stone-400 hover:text-[#e5c158] hover:border-[#e5c158]/30 transition-all duration-300 text-sm hover:scale-110">♡</button>
-                        <button class="w-9 h-9 rounded-full bg-black/60 backdrop-blur-sm border border-stone-800/50 flex items-center justify-center text-stone-400 hover:text-[#e5c158] hover:border-[#e5c158]/30 transition-all duration-300 text-sm hover:scale-110">↻</button>
-                        <button class="w-9 h-9 rounded-full bg-black/60 backdrop-blur-sm border border-stone-800/50 flex items-center justify-center text-stone-400 hover:text-[#e5c158] hover:border-[#e5c158]/30 transition-all duration-300 text-sm hover:scale-110">⚡</button>
-                    </div>
-                    
-                    <div class="absolute bottom-4 right-4 bg-black/60 backdrop-blur-sm px-4 py-2 rounded-full border border-stone-800/50 group-hover:border-[#e5c158]/20 transition-all duration-300">
-                        <span class="text-sm font-semibold text-[#e5c158] tracking-wide">${{ number_format($product->price, 2) }}</span>
-                    </div>
-                </div>
-                
-                <div class="p-6 space-y-3">
-                    <div class="flex items-start justify-between">
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <span class="text-[9px] uppercase tracking-[0.3em] text-stone-500 font-semibold">{{ $product->brand ?? 'Valencia' }}</span>
-                                <span class="w-1 h-1 rounded-full bg-stone-700"></span>
-                                <span class="text-[8px] uppercase tracking-[0.15em] text-stone-600">{{ $product->category->name ?? 'Collection' }}</span>
-                            </div>
-                            <h3 class="text-lg font-light text-white tracking-wide group-hover:text-[#e5c158] transition-colors duration-500 mt-1">{{ $product->name }}</h3>
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-center gap-4 text-[10px] text-stone-500">
-                        <span class="flex items-center gap-1.5">
-                            <svg class="w-3.5 h-3.5 text-[#e5c158]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                            4.9
-                        </span>
-                        <span class="w-px h-3 bg-stone-800"></span>
-                        <span>{{ $product->category->name ?? 'Luxury' }}</span>
-                        <span class="w-px h-3 bg-stone-800"></span>
-                        <span class="{{ $product->stock > 0 ? 'text-emerald-400/60' : 'text-red-400/60' }}">
-                            {{ $product->stock > 0 ? 'In Stock' : 'Unavailable' }}
-                        </span>
-                    </div>
-                    
-                    <div class="h-[1px] w-full bg-gradient-to-r from-stone-900/50 to-transparent group-hover:from-[#e5c158]/30 transition-all duration-700"></div>
-                    
-                    <div class="flex items-center justify-between pt-1">
-                        <div class="flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full {{ $product->stock > 0 ? 'bg-emerald-500/60' : 'bg-stone-700/50' }} animate-pulse"></span>
-                            <span class="text-[8px] uppercase tracking-[0.2em] text-stone-500">{{ $product->stock > 0 ? $product->stock . ' left' : 'Out of stock' }}</span>
-                        </div>
-                        @if($product->stock < 1)
-                            <button disabled class="px-6 py-2.5 text-[9px] uppercase tracking-[0.2em] font-semibold border border-stone-800 text-stone-600 bg-stone-950/40 rounded-full cursor-not-allowed">
-                                Depleted
-                            </button>
+        <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16">
+            @forelse($categories as $cat)
+            <a href="{{ route('user.shop', ['category' => $cat->id]) }}" class="group flex flex-col items-center space-y-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
+                <div class="w-20 h-20 md:w-24 md:h-24 rounded-full border border-stone-800 bg-[#0a0a0d] p-1 flex items-center justify-center transition-all duration-300 group-hover:border-[#e5c158] group-hover:scale-105 shadow-xl">
+                    <div class="w-full h-full rounded-full bg-[#050507] overflow-hidden flex items-center justify-center">
+                        @if($cat->image)
+                        <img src="{{ asset('storage/' . $cat->image) }}" alt="{{ $cat->name }}" class="w-full h-full object-cover">
                         @else
-                            <button class="relative overflow-hidden px-6 py-2.5 text-[9px] uppercase tracking-[0.2em] font-semibold bg-[#e5c158] text-black rounded-full transition-all duration-300 hover:bg-white hover:shadow-[0_0_40px_rgba(229,193,88,0.3)] hover:scale-105 group/btn">
-                                <span class="relative z-10 flex items-center gap-2">
-                                    Acquire
-                                    <svg class="w-3 h-3 transform transition-transform group-hover/btn:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-                                </span>
-                                <span class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700"></span>
-                            </button>
+                        <span class="text-[9px] text-stone-600 tracking-wider uppercase">{{ substr($cat->name, 0, 4) }}</span>
                         @endif
                     </div>
                 </div>
-            </div>
+                <span class="text-[10px] uppercase tracking-[0.2em] text-stone-400 transition-colors duration-300 group-hover:text-[#e5c158] font-medium">{{ $cat->name }}</span>
+            </a>
             @empty
-            <div class="col-span-full text-center py-16 text-stone-500">
-                <p>No featured products yet.</p>
-            </div>
+            <p class="text-stone-500 text-xs">No categories available.</p>
             @endforelse
         </div>
-        
-        <!-- Bottom CTA -->
-        <div class="text-center mt-14" data-aos="fade-up" data-aos-delay="400">
-            <a href="{{ route('user.shop') }}" class="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-stone-500 border border-stone-800/50 px-8 py-3.5 rounded-full hover:border-[#e5c158]/30 hover:text-stone-300 transition-all duration-500 bg-[#0a0a0d]/30 backdrop-blur-sm group">
-                <span>Explore the full collection</span>
-                <span class="w-5 h-[1px] bg-stone-700 group-hover:bg-[#e5c158]/50 transition-all duration-300"></span>
-                <span class="text-[#e5c158]/60 group-hover:translate-x-1 transition-transform duration-300">→</span>
-            </a>
+    </div>
+</section>
+
+{{-- 4. STATS BANNER --}}
+<section class="py-16 md:py-20 border-b border-stone-900">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+            <div class="text-center" data-aos="fade-up"><p class="stat-number">{{ $categories->count() }}</p><p class="text-[0.5rem] uppercase tracking-[0.35em] text-stone-500 mt-2">Collections</p></div>
+            <div class="text-center" data-aos="fade-up" data-aos-delay="80"><p class="stat-number">{{ $topSellers->count() + $featured->count() }}+</p><p class="text-[0.5rem] uppercase tracking-[0.35em] text-stone-500 mt-2">Masterpieces</p></div>
+            <div class="text-center" data-aos="fade-up" data-aos-delay="160"><p class="stat-number">100%</p><p class="text-[0.5rem] uppercase tracking-[0.35em] text-stone-500 mt-2">Authenticated</p></div>
+            <div class="text-center" data-aos="fade-up" data-aos-delay="240"><p class="stat-number">24h</p><p class="text-[0.5rem] uppercase tracking-[0.35em] text-stone-500 mt-2">Concierge</p></div>
         </div>
     </div>
 </section>
 
-<!-- ============================================================
-     TRUST BUILDING SECTION
-     ============================================================ -->
-<section class="py-20 md:py-28 bg-[#050507] border-t border-stone-900/60 relative overflow-hidden">
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-gradient-to-b from-[#e5c158]/[0.03] to-transparent blur-[140px] pointer-events-none"></div>
-    
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-        
-        <div class="text-center max-w-2xl mx-auto mb-20" data-aos="fade-up" data-aos-duration="1000">
-            <span class="text-[9px] uppercase tracking-[0.5em] text-[#e5c158] font-semibold block bg-[#e5c158]/5 py-1.5 px-4 rounded-full w-fit mx-auto backdrop-blur-md border border-[#e5c158]/10">
-                Why Valencia Dial
-            </span>
-            <h2 class="text-3xl md:text-5xl font-light tracking-widest text-white uppercase mt-4">
-                The Hallmarks of <span class="text-[#e5c158]">Trust</span>
-            </h2>
-            <div class="h-[1px] w-24 bg-gradient-to-r from-transparent via-[#e5c158]/60 to-transparent mx-auto mt-5"></div>
-            <p class="text-stone-500 text-[10px] tracking-[0.25em] uppercase mt-4 font-light">Founded on integrity · engineered for true connoisseurs</p>
+{{-- 5. BEST SELLERS — Horizontal scroll carousel with premium card design --}}
+<section class="w-full max-w-7xl mx-auto border-b border-stone-900/80 pb-12 px-4 md:px-6 py-8 md:py-14">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 pb-4 border-b border-stone-900/70" data-aos="fade-up">
+        <div>
+            <p class="section-marker">Most Coveted</p>
+            <h2 class="luxury-title text-2xl md:text-4xl text-white font-light tracking-wide mt-3">Best <span class="text-[#e5c158]">Sellers</span></h2>
+        </div>
+        <a href="{{ route('user.shop') }}" class="text-[11px] uppercase tracking-[0.2em] text-[#e5c158] hover:text-white transition-colors duration-300 flex items-center gap-2">
+            View All Matrix <i class="fas fa-arrow-right text-[10px]"></i>
+        </a>
+    </div>
+
+    <div class="relative">
+        <div id="carouselTrack" class="carousel-track">
+            @forelse($topSellers as $product)
+            <div class="carousel-item group product-card p-5 flex flex-col transition-all duration-300">
+                <div class="relative">
+                    @if($product->stock <= 3 && $product->stock > 0)
+                    <span class="absolute top-3 left-3 z-20 px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest badge-off">75% OFF</span>
+                    @else
+                    <span class="absolute top-3 left-3 z-20 px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest badge-new">NEW ARRIVAL</span>
+                    @endif
+                    <div class="img-wrapper rounded-sm">
+                        <img src="{{ $product->image ? asset('storage/' . $product->image) : 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&h=400&fit=crop&crop=center' }}"
+                             alt="{{ $product->name }}"
+                             class="primary-img"
+                             loading="lazy">
+                        @if($product->image_secondary)
+                        <img src="{{ asset('storage/' . $product->image_secondary) }}"
+                             alt="{{ $product->name }}"
+                             class="secondary-img"
+                             loading="lazy">
+                        @endif
+                    </div>
+                </div>
+                <div class="mt-4 flex-1 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-sm font-medium tracking-wide text-white group-hover:text-[#e5c158] transition-colors">{{ $product->name }}</h3>
+                        <p class="text-[11px] text-stone-500 tracking-wider mt-0.5 font-light">{{ $product->category->name ?? 'Luxury' }} · +2</p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <span class="color-dot bg-[#3b2b52]"></span>
+                            <span class="color-dot bg-[#1a1a1a]"></span>
+                        </div>
+                        <div class="flex items-center gap-1 mt-2 text-[#e5c158] text-xs">
+                            <span class="rating-star text-[#e5c158] text-xs tracking-wide">★★★★★</span>
+                            <span class="text-stone-400 text-[10px] ml-1">4.85</span>
+                        </div>
+                    </div>
+                    <div class="mt-5 pt-4 border-t border-stone-950/70 flex items-center justify-between">
+                        <div>
+                            <span class="text-sm font-semibold tracking-wider text-white">${{ number_format($product->price, 2) }}</span>
+                        </div>
+                        <form action="{{ route('user.cart.add', $product) }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="quantity" value="1">
+                            @if($product->stock > 0)
+                            <button type="submit" class="btn-buy">Buy Now</button>
+                            @else
+                            <span class="text-[10px] text-stone-600 uppercase tracking-wider">Sold Out</span>
+                            @endif
+                        </form>
+                    </div>
+                </div>
+            </div>
+            @empty
+            <p class="text-stone-500 text-xs py-16">No products available yet.</p>
+            @endforelse
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 xl:gap-8">
-            
-            <div class="group relative bg-[#0a0a0d]/40 backdrop-blur-md border border-stone-900/80 rounded-sm p-8 text-center transition-all duration-500 hover:bg-[#0a0a0d] hover:border-[#e5c158]/30 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.9)] hover:-translate-y-1.5"
-                 data-aos="fade-up" data-aos-delay="100" data-aos-duration="800">
-                <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#e5c158]/0 to-transparent group-hover:via-[#e5c158]/40 transition-all duration-700"></div>
-                
-                <div class="relative flex flex-col items-center">
-                    <div class="w-16 h-16 flex items-center justify-center border border-stone-900 bg-[#050507] rounded-full text-stone-400 group-hover:text-[#e5c158] group-hover:border-[#e5c158]/20 transition-all duration-500 mb-6 group-hover:scale-105">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
-                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                        </svg>
-                    </div>
-                    
-                    <h4 class="text-xs uppercase tracking-[0.25em] text-stone-300 font-medium group-hover:text-white transition-colors duration-300">Secure Vault</h4>
-                    <div class="h-[1px] w-8 bg-stone-900 my-4 group-hover:w-16 group-hover:bg-[#e5c158]/30 transition-all duration-500"></div>
-                    <p class="text-stone-500 text-[11px] font-light leading-relaxed max-w-[200px] group-hover:text-stone-400 transition-colors duration-300">256-bit encryption architecture & fully insured logistical pipelines.</p>
-                    
-                    <span class="absolute -top-3 -right-3 text-[7px] uppercase tracking-widest text-stone-700 opacity-0 group-hover:opacity-100 transition-opacity duration-500">Secure</span>
-                </div>
-            </div>
+        <div class="flex justify-center gap-4 mt-6 md:mt-8">
+            <button id="scrollLeft" class="scroll-btn"><i class="fas fa-chevron-left text-xs"></i></button>
+            <button id="scrollRight" class="scroll-btn"><i class="fas fa-chevron-right text-xs"></i></button>
+        </div>
+    </div>
 
-            <div class="group relative bg-[#0a0a0d]/40 backdrop-blur-md border border-stone-900/80 rounded-sm p-8 text-center transition-all duration-500 hover:bg-[#0a0a0d] hover:border-[#e5c158]/30 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.9)] hover:-translate-y-1.5"
-                 data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">
-                <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#e5c158]/0 to-transparent group-hover:via-[#e5c158]/40 transition-all duration-700"></div>
-                
-                <div class="relative flex flex-col items-center">
-                    <div class="w-16 h-16 flex items-center justify-center border border-stone-900 bg-[#050507] rounded-full text-stone-400 group-hover:text-[#e5c158] group-hover:border-[#e5c158]/20 transition-all duration-500 mb-6 group-hover:scale-105">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <polyline points="12 6 12 12 16 14"></polyline>
-                        </svg>
-                    </div>
-                    
-                    <h4 class="text-xs uppercase tracking-[0.25em] text-stone-300 font-medium group-hover:text-white transition-colors duration-300">Horology Elite</h4>
-                    <div class="h-[1px] w-8 bg-stone-900 my-4 group-hover:w-16 group-hover:bg-[#e5c158]/30 transition-all duration-500"></div>
-                    <p class="text-stone-500 text-[11px] font-light leading-relaxed max-w-[200px] group-hover:text-stone-400 transition-colors duration-300">Master watchmakers retaining over 50+ years of collective lineage.</p>
-                    
-                    <span class="absolute -top-3 -right-3 text-[7px] uppercase tracking-widest text-stone-700 opacity-0 group-hover:opacity-100 transition-opacity duration-500">Expertise</span>
-                </div>
-            </div>
+    <div class="text-stone-600 text-[10px] text-center mt-6 tracking-widest border-t border-stone-900/40 pt-5">
+        <i class="fas fa-mouse-pointer mr-2 text-[#e5c158]"></i> Hover over image to switch view · scroll carousel
+    </div>
+</section>
 
-            <div class="group relative bg-[#0a0a0d]/40 backdrop-blur-md border border-stone-900/80 rounded-sm p-8 text-center transition-all duration-500 hover:bg-[#0a0a0d] hover:border-[#e5c158]/30 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.9)] hover:-translate-y-1.5"
-                 data-aos="fade-up" data-aos-delay="300" data-aos-duration="800">
-                <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#e5c158]/0 to-transparent group-hover:via-[#e5c158]/40 transition-all duration-700"></div>
-                
-                <div class="relative flex flex-col items-center">
-                    <div class="w-16 h-16 flex items-center justify-center border border-stone-900 bg-[#050507] rounded-full text-stone-400 group-hover:text-[#e5c158] group-hover:border-[#e5c158]/20 transition-all duration-500 mb-6 group-hover:scale-105">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                            <polyline points="14 2 14 8 20 8"></polyline>
-                            <line x1="16" y1="13" x2="8" y2="13"></line>
-                            <line x1="16" y1="17" x2="8" y2="17"></line>
-                            <polyline points="10 9 9 9 8 9"></polyline>
-                        </svg>
-                    </div>
-                    
-                    <h4 class="text-xs uppercase tracking-[0.25em] text-stone-300 font-medium group-hover:text-white transition-colors duration-300">Certified Assets</h4>
-                    <div class="h-[1px] w-8 bg-stone-900 my-4 group-hover:w-16 group-hover:bg-[#e5c158]/30 transition-all duration-500"></div>
-                    <p class="text-stone-500 text-[11px] font-light leading-relaxed max-w-[200px] group-hover:text-stone-400 transition-colors duration-300">Every luxury asset verified, cataloged, and fully serialized.</p>
-                    
-                    <span class="absolute -top-3 -right-3 text-[7px] uppercase tracking-widest text-stone-700 opacity-0 group-hover:opacity-100 transition-opacity duration-500">Verified</span>
-                </div>
-            </div>
+{{-- 6. CINEMATIC VIDEO LOOP BANNER --}}
+<section class="relative my-12 h-[50vh] min-h-[350px] bg-stone-950 flex items-center justify-center overflow-hidden border-y border-stone-900">
+    <div class="absolute inset-0 bg-gradient-to-r from-[#050507] via-[#050507]/70 to-[#050507] z-10"></div>
+    <div class="absolute inset-0 w-full h-full flex items-center justify-center text-stone-800 select-none">
+        <span class="text-7xl font-black uppercase opacity-5 tracking-[0.2em]">VALENCIA LUXURY LABS</span>
+    </div>
+    <div class="relative z-20 max-w-xl mx-auto text-center px-6 space-y-4" data-aos="fade-up">
+        <span class="text-[10px] uppercase tracking-[0.4em] text-[#e5c158] font-bold block">Aesthetic Blueprint</span>
+        <h2 class="text-2xl md:text-4xl font-light text-white uppercase tracking-widest luxury-title">Designed for the <span class="text-[#e5c158]">Refined</span></h2>
+        <p class="text-xs text-stone-400 font-light tracking-wide leading-relaxed max-w-lg mx-auto">
+            Watch our craft manifesto to discover how we process luxury watch elements and acoustic purity configurations.
+        </p>
+        <a href="{{ route('user.about') }}" class="inline-block mt-4 px-8 py-3 border border-stone-800 hover:border-[#e5c158]/50 text-white text-xs font-medium tracking-[0.2em] uppercase transition-all duration-300">
+            Discover More
+        </a>
+    </div>
+</section>
 
-            <div class="group relative bg-[#0a0a0d]/40 backdrop-blur-md border border-stone-900/80 rounded-sm p-8 text-center transition-all duration-500 hover:bg-[#0a0a0d] hover:border-[#e5c158]/30 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.9)] hover:-translate-y-1.5"
-                 data-aos="fade-up" data-aos-delay="400" data-aos-duration="800">
-                <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#e5c158]/0 to-transparent group-hover:via-[#e5c158]/40 transition-all duration-700"></div>
-                
-                <div class="relative flex flex-col items-center">
-                    <div class="w-16 h-16 flex items-center justify-center border border-stone-900 bg-[#050507] rounded-full text-stone-400 group-hover:text-[#e5c158] group-hover:border-[#e5c158]/20 transition-all duration-500 mb-6 group-hover:scale-105">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="9" cy="7" r="4"></circle>
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                        </svg>
-                    </div>
-                    
-                    <h4 class="text-xs uppercase tracking-[0.25em] text-stone-300 font-medium group-hover:text-white transition-colors duration-300">Concierge Care</h4>
-                    <div class="h-[1px] w-8 bg-stone-900 my-4 group-hover:w-16 group-hover:bg-[#e5c158]/30 transition-all duration-500"></div>
-                    <p class="text-stone-500 text-[11px] font-light leading-relaxed max-w-[200px] group-hover:text-stone-400 transition-colors duration-300">Dedicated private support desk and endless after-sales coverage.</p>
-                    
-                    <span class="absolute -top-3 -right-3 text-[7px] uppercase tracking-widest text-stone-700 opacity-0 group-hover:opacity-100 transition-opacity duration-500">Premium</span>
-                </div>
+{{-- 7. FEATURED --}}
+<section class="py-20 md:py-28 border-b border-stone-900">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="flex items-end justify-between mb-14" data-aos="fade-up">
+            <div>
+                <p class="section-marker">Curated Selection</p>
+                <h2 class="luxury-title text-3xl md:text-5xl text-white font-light tracking-wide mt-3">Featured <span class="text-[#e5c158]">Timepieces</span></h2>
             </div>
-
+            <a href="{{ route('user.shop') }}" class="text-[0.5rem] tracking-[0.35em] uppercase text-stone-400 hover:text-[#e5c158] transition-colors hidden md:block">View All →</a>
         </div>
 
-        <div class="mt-20 border-t border-stone-900/50 pt-12 flex flex-col lg:flex-row items-center justify-between gap-8"
-             data-aos="fade-up" data-aos-offset="50" data-aos-duration="1000">
-            <div class="flex items-center gap-6 opacity-60 hover:opacity-100 transition-opacity duration-500 flex-wrap justify-center">
-                <span class="text-[9px] uppercase tracking-[0.4em] text-stone-600 font-bold">Featured In</span>
-                <div class="flex items-center gap-6 sm:gap-8">
-                    <span class="text-stone-400 text-xs font-light tracking-[0.25em] hover:text-[#e5c158] transition-colors duration-300 cursor-default uppercase">Forbes</span>
-                    <span class="text-stone-400 text-xs font-light tracking-[0.25em] hover:text-[#e5c158] transition-colors duration-300 cursor-default uppercase">Robb Report</span>
-                    <span class="text-stone-400 text-xs font-light tracking-[0.25em] hover:text-[#e5c158] transition-colors duration-300 cursor-default uppercase">Hodinkee</span>
-                    <span class="text-stone-400 text-xs font-light tracking-[0.25em] hover:text-[#e5c158] transition-colors duration-300 cursor-default uppercase">Revolution</span>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            @forelse($featured as $i => $product)
+            <div class="feature-card group" data-aos="fade-up" data-aos-delay="{{ $i * 120 }}">
+                <div class="relative aspect-square overflow-hidden bg-[#050507]">
+                    <div class="relative w-full h-full overflow-hidden">
+                        <img src="{{ $product->image ? asset('storage/' . $product->image) : 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=600&h=600&fit=crop' }}"
+                             alt="{{ $product->name }}"
+                             class="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
+                             loading="lazy">
+                        @if($product->image_secondary)
+                        <img src="{{ asset('storage/' . $product->image_secondary) }}"
+                             alt="{{ $product->name }}"
+                             class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 opacity-0 group-hover:opacity-100"
+                             loading="lazy">
+                        @endif
+                    </div>
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                        <form action="{{ route('user.cart.add', $product) }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="quantity" value="1">
+                            @if($product->stock > 0)
+                            <button type="submit" class="btn-add-cart">Add to Cart</button>
+                            @else
+                            <span class="btn-disabled">Sold Out</span>
+                            @endif
+                        </form>
+                    </div>
+                </div>
+                <div class="p-6 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[0.45rem] tracking-[0.3em] uppercase text-stone-500">{{ $product->brand ?? 'Valencia' }}</span>
+                        <span class="text-xs text-stone-600">{{ $product->category->name ?? 'Collection' }}</span>
+                    </div>
+                    <h3 class="text-base text-white font-light tracking-wide group-hover:text-[#e5c158] transition-colors">{{ $product->name }}</h3>
+                    <div class="gold-line"></div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-lg text-[#e5c158] font-light">${{ number_format($product->price, 2) }}</span>
+                        <span class="text-[0.4rem] tracking-[0.25em] uppercase {{ $product->stock > 0 ? 'text-emerald-500/60' : 'text-red-400/60' }}">{{ $product->stock > 0 ? 'In Stock' : 'Unavailable' }}</span>
+                    </div>
                 </div>
             </div>
+            @empty
+            <p class="col-span-full text-center text-stone-500 py-16">No featured products yet.</p>
+            @endforelse
+        </div>
+    </div>
+</section>
 
-            <div class="flex items-center gap-5 text-stone-500 text-xs bg-[#0a0a0d] px-6 py-3 border border-stone-900 rounded-none hover:border-[#e5c158]/20 transition-all duration-300">
-                <div class="flex items-center gap-1.5">
-                    <span class="text-[#e5c158] text-base leading-none">★</span>
-                    <span class="text-stone-300 font-semibold tracking-wide">4.9</span>
-                    <span class="text-stone-600 text-[11px]">/ 5.0</span>
+{{-- 8. TRUST --}}
+<section class="py-20 md:py-28">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <p class="section-marker inline-block text-left">Why Valencia Dial</p>
+            <h2 class="luxury-title text-3xl md:text-5xl text-white font-light tracking-wide mt-3">The Hallmarks of <span class="text-[#e5c158]">Trust</span></h2>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="text-center p-8 border border-white/[0.04] bg-[#0a0a0e]/50" data-aos="fade-up">
+                <div class="w-12 h-12 mx-auto mb-5 flex items-center justify-center border border-white/[0.06]">
+                    <svg class="w-5 h-5 text-stone-400" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
                 </div>
-                <span class="h-4 w-[1px] bg-stone-900"></span>
-                <span class="text-stone-400 tracking-wide text-[11px]">120+ Verified Reviews</span>
-                <span class="flex items-center gap-1.5 ml-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-[pulse_2s_infinite]"></span>
-                    <span class="text-[8px] uppercase tracking-[0.2em] text-emerald-500/70 font-bold">Live</span>
+                <h4 class="text-[0.55rem] tracking-[0.3em] uppercase text-white font-medium mb-3">Secure Vault</h4>
+                <p class="text-stone-500 text-xs font-light leading-relaxed">Encrypted architecture with fully insured logistics.</p>
+            </div>
+            <div class="text-center p-8 border border-white/[0.04] bg-[#0a0a0e]/50" data-aos="fade-up" data-aos-delay="80">
+                <div class="w-12 h-12 mx-auto mb-5 flex items-center justify-center border border-white/[0.06]">
+                    <svg class="w-5 h-5 text-stone-400" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <h4 class="text-[0.55rem] tracking-[0.3em] uppercase text-white font-medium mb-3">Expert Curation</h4>
+                <p class="text-stone-500 text-xs font-light leading-relaxed">Every piece verified by master horologists.</p>
+            </div>
+            <div class="text-center p-8 border border-white/[0.04] bg-[#0a0a0e]/50" data-aos="fade-up" data-aos-delay="160">
+                <div class="w-12 h-12 mx-auto mb-5 flex items-center justify-center border border-white/[0.06]">
+                    <svg class="w-5 h-5 text-stone-400" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+                <h4 class="text-[0.55rem] tracking-[0.3em] uppercase text-white font-medium mb-3">Certified Assets</h4>
+                <p class="text-stone-500 text-xs font-light leading-relaxed">Fully cataloged and serialized authenticity.</p>
+            </div>
+            <div class="text-center p-8 border border-white/[0.04] bg-[#0a0a0e]/50" data-aos="fade-up" data-aos-delay="240">
+                <div class="w-12 h-12 mx-auto mb-5 flex items-center justify-center border border-white/[0.06]">
+                    <svg class="w-5 h-5 text-stone-400" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                </div>
+                <h4 class="text-[0.55rem] tracking-[0.3em] uppercase text-white font-medium mb-3">Concierge Care</h4>
+                <p class="text-stone-500 text-xs font-light leading-relaxed">Private support with lifetime after-sales coverage.</p>
+            </div>
+        </div>
+        <div class="mt-16 text-center" data-aos="fade-up">
+            <div class="inline-flex items-center gap-6 px-6 py-3 border border-white/[0.06] text-[0.4rem] tracking-[0.35em] uppercase text-stone-500">
+                <span class="flex items-center gap-2">
+                    <svg class="w-3 h-3 text-[#e5c158]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    4.9 / 5.0 — 120+ Verified Reviews
                 </span>
+                <span class="w-px h-3 bg-white/[0.06]"></span>
+                <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>Live 24/7 Support</span>
             </div>
         </div>
-
-        <div class="mt-10 flex flex-wrap items-center justify-center gap-6 md:gap-10 text-[8px] uppercase tracking-[0.3em] text-stone-600 font-medium"
-             data-aos="fade-zoom-in" data-aos-easing="ease-in-back" data-aos-delay="500" data-aos-offset="0">
-            <span class="flex items-center gap-2">
-                <svg class="w-3 h-3 text-[#e5c158]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon></svg>
-                Industry Sovereign Architecture
-            </span>
-            <span class="hidden sm:block w-[1px] h-3 bg-stone-900"></span>
-            <span class="flex items-center gap-2">
-                <svg class="w-3 h-3 text-[#e5c158]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                Guaranteed Authenticity
-            </span>
-            <span class="hidden sm:block w-[1px] h-3 bg-stone-900"></span>
-            <span class="flex items-center gap-2">
-                <svg class="w-3 h-3 text-[#e5c158]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-                Insured Global Custody
-            </span>
-        </div>
-
     </div>
 </section>
-
-@endsection
 
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Countdown Timer
-        let hours = 47;
-        let minutes = 19;
-        let seconds = 37;
-
-        const hoursEl = document.getElementById('countdown-hours');
-        const minutesEl = document.getElementById('countdown-minutes');
-        const secondsEl = document.getElementById('countdown-seconds');
-
-        if (hoursEl && minutesEl && secondsEl) {
-            setInterval(function() {
-                seconds--;
-                if (seconds < 0) {
-                    seconds = 59;
-                    minutes--;
-                }
-                if (minutes < 0) {
-                    minutes = 59;
-                    hours--;
-                }
-                if (hours < 0) {
-                    hours = 0;
-                    minutes = 0;
-                    seconds = 0;
-                }
-
-                hoursEl.textContent = String(hours).padStart(2, '0');
-                minutesEl.textContent = String(minutes).padStart(2, '0');
-                secondsEl.textContent = String(seconds).padStart(2, '0');
-            }, 1000);
-        }
-    });
+(function() {
+    const track = document.getElementById('carouselTrack');
+    const leftBtn = document.getElementById('scrollLeft');
+    const rightBtn = document.getElementById('scrollRight');
+    if (track && leftBtn && rightBtn) {
+        const scrollAmount = 320;
+        leftBtn.addEventListener('click', () => track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }));
+        rightBtn.addEventListener('click', () => track.scrollBy({ left: scrollAmount, behavior: 'smooth' }));
+    }
+})();
 </script>
 @endpush
+
+@endsection

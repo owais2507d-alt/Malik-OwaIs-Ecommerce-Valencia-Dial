@@ -54,7 +54,7 @@ class CategoryController extends Controller
         $request->validate([
             'name' => 'required|max:255|unique:categories,name,' . $category->id,
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:19098',
             'status' => 'required|in:active,inactive',
         ]);
 

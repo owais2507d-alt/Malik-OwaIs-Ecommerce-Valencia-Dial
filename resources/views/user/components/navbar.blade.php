@@ -22,10 +22,10 @@
             </nav>
 
             <div class="hidden lg:flex items-center space-x-8 text-[10px] uppercase tracking-[0.25em] font-light">
-                <a href="#" class="text-stone-300 hover:text-white smooth-transition flex items-center space-x-2 group">
+                <a href="{{ route('user.cart.index') }}" class="text-stone-300 hover:text-white smooth-transition flex items-center space-x-2 group">
                     <span class="tracking-[0.3em] group-hover:text-dark-gold smooth-transition">CART</span>
                     <span
-                        class="text-dark-gold group-hover:text-stone-200 smooth-transition font-normal">({{ count((array) session('cart')) }})</span>
+                        class="text-dark-gold group-hover:text-stone-200 smooth-transition font-normal">({{ count(session('cart', [])) }})</span>
                 </a>
 
                 <span class="text-stone-800">|</span>
@@ -53,8 +53,8 @@
             </div>
 
             <div class="flex items-center lg:hidden space-x-5">
-                <a href="#" class="text-[10px] tracking-[0.2em] text-stone-300 font-medium">
-                    CART <span class="text-dark-gold">(0)</span>
+                <a href="{{ route('user.cart.index') }}" class="text-[10px] tracking-[0.2em] text-stone-300 font-medium">
+                    CART <span class="text-dark-gold">({{ count(session('cart', [])) }})</span>
                 </a>
 
                 <button @click="mobileMenuOpen = !mobileMenuOpen"
@@ -102,11 +102,12 @@
                         </form>
                     @else
                         <div class="grid grid-cols-2 gap-4 pt-4">
-                            <a href="{{ route('user.login') }}"
-                                class="text-stone-300 py-3 border border-stone-800 text-[10px] tracking-[0.25em]">Login</a>
-                            <a href="{{ route('user.register') }}"
-                                class="text-black py-3 text-[10px] tracking-[0.25em] font-medium transition-opacity hover:opacity-95"
-                                style="background-color: var(--color-dark-gold);">Register</a>
+                            <a href="{{ route('user.login') }}" class="btn-outline text-center py-3">
+                                Login
+                            </a>
+                            <a href="{{ route('user.register') }}" class="btn-primary text-center py-3">
+                                Register
+                            </a>
                         </div>
                     @endauth
                 </div>

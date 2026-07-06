@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ShopController extends Controller
 {
@@ -78,5 +79,23 @@ class ShopController extends Controller
         $products = $query->paginate(12)->withQueryString();
 
         return view('user.watches', compact('products', 'watchCategory'));
+    }
+
+    public function show(Product $product)
+    {
+        $product->load('category');
+
+        $similar = Product::with('category')
+            ->where('status', 'active')
+            ->where('id', '!=', $product->id)
+            ->where(function ($q) use ($product) {
+                $q->where('category_id', $product->category_id)
+                  ->orWhere('brand', $product->brand);
+            })
+            ->inRandomOrder()
+            ->take(4)
+            ->get();
+
+        return view('user.product-detail', compact('product', 'similar'));
     }
 }

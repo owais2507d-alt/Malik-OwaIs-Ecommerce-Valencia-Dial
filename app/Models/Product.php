@@ -15,6 +15,7 @@ class Product extends Model
         'stock',
         'description',
         'image',
+        'image_secondary',
         'status',
     ];
 

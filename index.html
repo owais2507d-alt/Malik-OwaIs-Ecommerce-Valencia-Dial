@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Carousel · Best Sellers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background: #030303;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        .luxury-title {
+            letter-spacing: 0.02em;
+        }
+        .section-marker {
+            font-size: 11px;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: #a0a0a0;
+            border-left: 2px solid #e5c158;
+            padding-left: 14px;
+        }
+        .carousel-track {
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+            padding: 0.25rem 0.25rem 1rem 0.25rem;
+            scrollbar-width: none;
+        }
+        .carousel-track::-webkit-scrollbar {
+            display: none;
+        }
+        /* BADA SIZE - increased card width */
+        .carousel-item {
+            flex: 0 0 320px;  /* increased from 280px */
+            scroll-snap-align: start;
+            transition: transform 0.2s ease;
+        }
+        @media (min-width: 640px) {
+            .carousel-item {
+                flex: 0 0 300px;  /* increased from 260px */
+            }
+        }
+        @media (min-width: 1024px) {
+            .carousel-item {
+                flex: 0 0 320px;  /* increased from 270px */
+            }
+        }
+        .img-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            background: #0b0b0f;
+            border: 1px solid #1c1c22;
+            transition: border 0.3s;
+        }
+        .img-wrapper .primary-img,
+        .img-wrapper .secondary-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.6s ease;
+            will-change: transform, opacity;
+        }
+        .img-wrapper .primary-img {
+            opacity: 1;
+            z-index: 2;
+            transform: scale(1);
+        }
+        .img-wrapper .secondary-img {
+            opacity: 0;
+            z-index: 1;
+            transform: scale(1.05);
+        }
+        .group:hover .img-wrapper .primary-img {
+            opacity: 0;
+            transform: scale(1.1);
+        }
+        .group:hover .img-wrapper .secondary-img {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .badge-new {
+            background: rgba(229, 193, 88, 0.08);
+            border: 1px solid rgba(229, 193, 88, 0.2);
+            color: #e5c158;
+        }
+        .badge-off {
+            background: rgba(168, 85, 247, 0.12);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            color: #c084fc;
+        }
+        .scroll-btn {
+            background: #0e0e12;
+            border: 1px solid #222;
+            color: #aaa;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .scroll-btn:hover {
+            background: #1a1a1f;
+            border-color: #e5c158;
+            color: #e5c158;
+        }
+        .rating-star {
+            color: #e5c158;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+        .product-card {
+            background: rgba(10, 10, 13, 0.4);
+            backdrop-filter: blur(2px);
+            border: 1px solid #1b1b22;
+            transition: all 0.3s ease;
+            padding: 1.5rem;  /* increased padding */
+        }
+        .product-card:hover {
+            background: #0f0f14;
+            border-color: #3a3a44;
+            transform: translateY(-4px);
+        }
+        .color-dot {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 1px solid #2a2a30;
+            transition: border 0.2s;
+            cursor: default;
+        }
+        .color-dot:hover {
+            border-color: #e5c158;
+        }
+        .price-old {
+            font-size: 12px;
+            color: #6b6b74;
+            text-decoration: line-through;
+            margin-left: 6px;
+        }
+        .btn-buy {
+            background: #7a1f1f;
+            color: white;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            padding: 0.5rem 1.2rem;  /* slightly bigger button */
+            border-radius: 2px;
+            transition: 0.2s;
+            border: none;
+            font-weight: 500;
+        }
+        .btn-buy:hover {
+            background: #9f2b2b;
+        }
+        /* bigger text for product name and price */
+        .product-name {
+            font-size: 1rem;  /* increased from 0.875rem */
+        }
+        .product-price {
+            font-size: 1rem;  /* increased from 0.875rem */
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 md:p-8 bg-[#030303]">
+    <section class="w-full max-w-7xl mx-auto border-b border-stone-900/80 pb-12 px-4 md:px-6 py-8 md:py-14">
+
+        <!-- header -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 pb-4 border-b border-stone-900/70">
+            <div>
+                <p class="section-marker">Most Coveted</p>
+                <h2 class="luxury-title text-2xl md:text-4xl text-white font-light tracking-wide mt-3">
+                    Best <span class="text-[#e5c158]">Sellers</span>
+                </h2>
+            </div>
+            <a href="#" class="text-[11px] uppercase tracking-[0.2em] text-[#e5c158] hover:text-white transition-colors duration-300 flex items-center gap-2">
+                View All Matrix <i class="fas fa-arrow-right text-[10px]"></i>
+            </a>
+        </div>
+
+        <!-- CAROUSEL -->
+        <div class="relative">
+            <div id="carouselTrack" class="carousel-track">
+                <!-- Product 1: Evo -->
+                <div class="carousel-item group product-card flex flex-col transition-all duration-300">
+                    <div class="relative">
+                        <span class="absolute top-3 left-3 z-20 px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest badge-off">75% OFF</span>
+                        <div class="img-wrapper rounded-sm">
+                            <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&h=400&fit=crop&crop=center" alt="Evo" class="primary-img">
+                            <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=400&fit=crop&crop=center" alt="Evo secondary" class="secondary-img">
+                        </div>
+                    </div>
+                    <div class="mt-4 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="product-name font-medium tracking-wide text-white group-hover:text-[#e5c158] transition-colors">Evo</h3>
+                            <p class="text-[11px] text-stone-500 tracking-wider mt-0.5 font-light">Quad Mic · +2</p>
+                            <div class="flex items-center gap-2 mt-2">
+                                <span class="color-dot bg-[#3b2b52]"></span>
+                                <span class="color-dot bg-[#1a1a1a]"></span>
+                            </div>
+                            <div class="flex items-center gap-1 mt-2 text-[#e5c158] text-xs">
+                                <span class="rating-star">★★★★★</span>
+                                <span class="text-stone-400 text-[10px] ml-1">4.85</span>
+                            </div>
+                        </div>
+                        <div class="mt-5 pt-4 border-t border-stone-950/70 flex items-center justify-between">
+                            <div>
+                                <span class="product-price font-semibold tracking-wider text-white">Rs.3,499</span>
+                                <span class="price-old">Rs.13,999</span>
+                            </div>
+                            <button class="btn-buy">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2: Luna -->
+                <div class="carousel-item group product-card flex flex-col transition-all duration-300">
+                    <div class="relative">
+                        <span class="absolute top-3 left-3 z-20 px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest badge-off">73% OFF</span>
+                        <div class="img-wrapper rounded-sm">
+                            <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400&h=400&fit=crop&crop=center" alt="Luna" class="primary-img">
+                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop&crop=center" alt="Luna secondary" class="secondary-img">
+                        </div>
+                    </div>
+                    <div class="mt-4 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="product-name font-medium tracking-wide text-white group-hover:text-[#e5c158] transition-colors">Luna</h3>
+                            <p class="text-[11px] text-stone-500 tracking-wider mt-0.5 font-light">1.39" HD · +4</p>
+                            <div class="flex items-center gap-2 mt-2">
+                                <span class="color-dot bg-[#2d2d2d]"></span>
+                                <span class="color-dot bg-[#b8860b]"></span>
+                            </div>
+                            <div class="flex items-center gap-1 mt-2 text-[#e5c158] text-xs">
+                                <span class="rating-star">★★★★★</span>
+                                <span class="text-stone-400 text-[10px] ml-1">4.88</span>
+                            </div>
+                        </div>
+                        <div class="mt-5 pt-4 border-t border-stone-950/70 flex items-center justify-between">
+                            <div>
+                                <span class="product-price font-semibold tracking-wider text-white">Rs.5,999</span>
+                                <span class="price-old">Rs.21,999</span>
+                            </div>
+                            <button class="btn-buy">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3: Edge -->
+                <div class="carousel-item group product-card flex flex-col transition-all duration-300">
+                    <div class="relative">
+                        <span class="absolute top-3 left-3 z-20 px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest badge-off">68% OFF</span>
+                        <div class="img-wrapper rounded-sm">
+                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop&crop=center" alt="Edge" class="primary-img">
+                            <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=400&fit=crop&crop=center" alt="Edge secondary" class="secondary-img">
+                        </div>
+                    </div>
+                    <div class="mt-4 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="product-name font-medium tracking-wide text-white group-hover:text-[#e5c158] transition-colors">Edge</h3>
+                            <p class="text-[11px] text-stone-500 tracking-wider mt-0.5 font-light">1.83" HD · +2</p>
+                            <div class="flex items-center gap-2 mt-2">
+                                <span class="color-dot bg-[#2b2b2b]"></span>
+                                <span class="color-dot bg-[#3b3b3b]"></span>
+                            </div>
+                            <div class="flex items-center gap-1 mt-2 text-[#e5c158] text-xs">
+                                <span class="rating-star">★★★★★</span>
+                                <span class="text-stone-400 text-[10px] ml-1">4.82</span>
+                            </div>
+                        </div>
+                        <div class="mt-5 pt-4 border-t border-stone-950/70 flex items-center justify-between">
+                            <div>
+                                <span class="product-price font-semibold tracking-wider text-white">Rs.6,499</span>
+                                <span class="price-old">Rs.19,999</span>
+                            </div>
+                            <button class="btn-buy">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4: Gravity -->
+                <div class="carousel-item group product-card flex flex-col transition-all duration-300">
+                    <div class="relative">
+                        <span class="absolute top-3 left-3 z-20 px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest badge-off">77% OFF</span>
+                        <div class="img-wrapper rounded-sm">
+                            <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=400&fit=crop&crop=center" alt="Gravity" class="primary-img">
+                            <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&h=400&fit=crop&crop=center" alt="Gravity secondary" class="secondary-img">
+                        </div>
+                    </div>
+                    <div class="mt-4 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="product-name font-medium tracking-wide text-white group-hover:text-[#e5c158] transition-colors">Gravity</h3>
+                            <p class="text-[11px] text-stone-500 tracking-wider mt-0.5 font-light">Env. Noise Cancel · +3</p>
+                            <div class="flex items-center gap-2 mt-2">
+                                <span class="color-dot bg-[#1f1f1f]"></span>
+                                <span class="color-dot bg-[#4a4a4a]"></span>
+                            </div>
+                            <div class="flex items-center gap-1 mt-2 text-[#e5c158] text-xs">
+                                <span class="rating-star">★★★★★</span>
+                                <span class="text-stone-400 text-[10px] ml-1">4.84</span>
+                            </div>
+                        </div>
+                        <div class="mt-5 pt-4 border-t border-stone-950/70 flex items-center justify-between">
+                            <div>
+                                <span class="product-price font-semibold tracking-wider text-white">Rs.3,499</span>
+                                <span class="price-old">Rs.14,999</span>
+                            </div>
+                            <button class="btn-buy">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 5: Zen (New Arrival) -->
+                <div class="carousel-item group product-card flex flex-col transition-all duration-300">
+                    <div class="relative">
+                        <span class="absolute top-3 left-3 z-20 px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest badge-new">NEW ARRIVAL</span>
+                        <div class="img-wrapper rounded-sm">
+                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f7b4?w=400&h=400&fit=crop&crop=center" alt="Zen" class="primary-img">
+                            <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400&h=400&fit=crop&crop=center" alt="Zen secondary" class="secondary-img">
+                        </div>
+                    </div>
+                    <div class="mt-4 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="product-name font-medium tracking-wide text-white group-hover:text-[#e5c158] transition-colors">Zen</h3>
+                            <p class="text-[11px] text-stone-500 tracking-wider mt-0.5 font-light">Ultra-Light · +5</p>
+                            <div class="flex items-center gap-2 mt-2">
+                                <span class="color-dot bg-[#2b2b2b]"></span>
+                                <span class="color-dot bg-[#8b7355]"></span>
+                            </div>
+                            <div class="flex items-center gap-1 mt-2 text-[#e5c158] text-xs">
+                                <span class="rating-star">★★★★☆</span>
+                                <span class="text-stone-400 text-[10px] ml-1">4.72</span>
+                            </div>
+                        </div>
+                        <div class="mt-5 pt-4 border-t border-stone-950/70 flex items-center justify-between">
+                            <div>
+                                <span class="product-price font-semibold tracking-wider text-white">Rs.4,999</span>
+                                <span class="price-old">Rs.12,999</span>
+                            </div>
+                            <button class="btn-buy">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- scroll buttons -->
+            <div class="flex justify-center gap-4 mt-6 md:mt-8">
+                <button id="scrollLeft" class="scroll-btn"><i class="fas fa-chevron-left text-xs"></i></button>
+                <button id="scrollRight" class="scroll-btn"><i class="fas fa-chevron-right text-xs"></i></button>
+            </div>
+        </div>
+
+        <div class="text-stone-600 text-[10px] text-center mt-6 tracking-widest border-t border-stone-900/40 pt-5">
+            <i class="fas fa-mouse-pointer mr-2 text-[#e5c158]"></i> Hover over image to switch view · scroll carousel
+        </div>
+    </section>
+
+    <script>
+        (function() {
+            const track = document.getElementById('carouselTrack');
+            const leftBtn = document.getElementById('scrollLeft');
+            const rightBtn = document.getElementById('scrollRight');
+
+            if (track && leftBtn && rightBtn) {
+                const scrollAmount = 360; // increased to match bigger cards
+                leftBtn.addEventListener('click', () => {
+                    track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                });
+                rightBtn.addEventListener('click', () => {
+                    track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

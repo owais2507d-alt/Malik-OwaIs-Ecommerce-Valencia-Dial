@@ -62,7 +62,7 @@ class AuthController extends Controller
     public function showVerifyOtp() 
     {
         if (!session()->has('verify_email')) {
-            return redirect()->route('register');
+            return redirect()->route('user.register');
         }
         return view('user.auth.verify-otp');
     }

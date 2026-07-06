@@ -33,7 +33,7 @@
                 <p class="text-gray-600 mt-1">Welcome back, Master Admin 👋</p>
             </div>
 
-            <a href="#"
+            <a href="{{ route('admin.products.create') }}"
                 class="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-sm font-semibold px-6 py-3 rounded-2xl shadow-xl shadow-blue-500/30 transition-all duration-200 active:scale-95">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="3">
@@ -46,36 +46,68 @@
         <!-- Stats Cards Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div class="card bg-white border border-gray-100 rounded-3xl p-6 shadow-xs hover:shadow-md transition-all">
-                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Vault Value</p>
-                <p class="text-3xl font-bold text-gray-900 mt-3">$2,487,500.00</p>
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Products</p>
+                <p class="text-3xl font-bold text-gray-900 mt-3">{{ $totalProducts }}</p>
                 <p class="text-emerald-600 text-xs font-semibold mt-4 flex items-center gap-1">
-                    <span class="bg-emerald-500/10 px-2 py-0.5 rounded-md">↑ 18.4%</span> <span class="text-gray-400">vs
-                        last month</span>
+                    <span class="bg-emerald-500/10 px-2 py-0.5 rounded-md">{{ $activeProducts }} Active</span> <span class="text-gray-400">in catalog</span>
                 </p>
             </div>
 
             <div class="card bg-white border border-gray-100 rounded-3xl p-6 shadow-xs hover:shadow-md transition-all">
-                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Active Allocations</p>
-                <p class="text-3xl font-bold text-gray-900 mt-3">47</p>
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Categories</p>
+                <p class="text-3xl font-bold text-gray-900 mt-3">{{ $totalCategories }}</p>
                 <p class="text-amber-600 text-xs font-semibold mt-4">
-                    <span class="bg-amber-500/10 px-2 py-0.5 rounded-md">12 Pending Approval</span>
+                    <span class="bg-amber-500/10 px-2 py-0.5 rounded-md">Organized Collections</span>
                 </p>
             </div>
 
             <div class="card bg-white border border-gray-100 rounded-3xl p-6 shadow-xs hover:shadow-md transition-all">
-                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Watches in Vault</p>
-                <p class="text-3xl font-bold text-gray-900 mt-3">184</p>
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Stock</p>
+                <p class="text-3xl font-bold text-gray-900 mt-3">{{ $totalStock }}</p>
                 <p class="text-blue-600 text-xs font-semibold mt-4">
-                    <span class="bg-blue-500/10 px-2 py-0.5 rounded-md">• Synchronized Stream</span>
+                    <span class="bg-blue-500/10 px-2 py-0.5 rounded-md">{{ $lowStock }} Low Stock Alerts</span>
                 </p>
             </div>
 
             <div class="card bg-white border border-gray-100 rounded-3xl p-6 shadow-xs hover:shadow-md transition-all">
-                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Avg. Dispatch Time</p>
-                <p class="text-3xl font-bold text-gray-900 mt-3">9.4 <span
-                        class="text-xl font-normal text-gray-400">days</span></p>
-                <p class="text-gray-400 text-xs font-semibold mt-4">Automated fulfillment sync</p>
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Customers</p>
+                <p class="text-3xl font-bold text-gray-900 mt-3">{{ $totalUsers }}</p>
+                <p class="text-gray-400 text-xs font-semibold mt-4">Registered clients</p>
             </div>
+
+            <div class="card bg-white border border-gray-100 rounded-3xl p-6 shadow-xs hover:shadow-md transition-all">
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Orders</p>
+                <p class="text-3xl font-bold text-gray-900 mt-3">{{ $orderStats['total'] }}</p>
+                <p class="text-amber-600 text-xs font-semibold mt-4 flex items-center gap-1">
+                    <span class="bg-amber-500/10 px-2 py-0.5 rounded-md">{{ $orderStats['pending'] }} Pending</span>
+                    <span class="text-gray-400">·</span>
+                    <span class="bg-blue-500/10 px-2 py-0.5 rounded-md text-blue-600">{{ $orderStats['processing'] }} Processing</span>
+                </p>
+            </div>
+
+            <div class="card bg-white border border-gray-100 rounded-3xl p-6 shadow-xs hover:shadow-md transition-all">
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Revenue</p>
+                <p class="text-3xl font-bold text-gray-900 mt-3">${{ number_format($orderStats['revenue'], 0) }}</p>
+                <p class="text-emerald-600 text-xs font-semibold mt-4">
+                    <span class="bg-emerald-500/10 px-2 py-0.5 rounded-md">{{ $orderStats['delivered'] }} Delivered</span>
+                </p>
+            </div>
+
+            @php $mm = \App\Models\Setting::getValue('maintenance_mode', '0'); @endphp
+            <a href="{{ route('admin.maintenance.index') }}" class="card bg-white border border-gray-100 rounded-3xl p-6 shadow-xs transition-all hover:shadow-md block {{ $mm === '1' ? 'ring-2 ring-red-300' : '' }}">
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">
+                    <i class="fas fa-shield-alt mr-1"></i> Maintenance
+                </p>
+                <div class="mt-3 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full {{ $mm === '1' ? 'bg-red-500' : 'bg-emerald-500' }}"></span>
+                    <span class="text-xs font-semibold {{ $mm === '1' ? 'text-red-600' : 'text-emerald-600' }}">
+                        {{ $mm === '1' ? 'Active — Site is down' : 'Inactive — Site is live' }}
+                    </span>
+                </div>
+                <p class="text-[10px] text-gray-400 mt-3 tracking-wider uppercase font-medium">
+                    <i class="fas fa-arrow-right mr-1"></i> Manage Settings
+                </p>
+            </a>
         </div>
 
         <!-- Charts Section -->
@@ -100,13 +132,13 @@
             </div>
         </div>
 
-        <!-- Recent Pipeline Activity Table -->
+        <!-- Recent Orders Table -->
         <div class="card bg-white border border-gray-100 rounded-3xl p-6 shadow-xs">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-base font-bold text-gray-800">Recent Pipeline Activity</h2>
-                <a href="#"
+                <h2 class="text-base font-bold text-gray-800">Recent Orders</h2>
+                <a href="{{ route('admin.orders.index') }}"
                     class="text-blue-600 hover:text-blue-700 text-sm font-semibold flex items-center gap-1 transition-all">View
-                    Full Log <span>→</span></a>
+                    All <span>→</span></a>
             </div>
 
             <div class="overflow-x-auto">
@@ -123,105 +155,38 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-50 text-gray-700 font-medium">
-                        <!-- Order 1 -->
+                        @forelse($recentOrders as $order)
                         <tr class="hover:bg-gray-50/50 transition-colors">
-                            <td class="py-4 font-mono text-xs text-blue-600 font-bold">#VAL-00124</td>
-                            <td class="py-4 text-gray-900">Alexander Hamilton</td>
-                            <td class="py-4 text-gray-500">New York</td>
-                            <td class="py-4 text-right font-bold text-gray-900 font-mono">$12,450.00</td>
+                            <td class="py-4 font-mono text-xs text-blue-600 font-bold">{{ $order->order_number }}</td>
+                            <td class="py-4 text-gray-900">{{ $order->shipping_name }}</td>
+                            <td class="py-4 text-gray-500">{{ $order->shipping_city }}</td>
+                            <td class="py-4 text-right font-bold text-gray-900 font-mono">${{ number_format($order->total, 2) }}</td>
                             <td class="py-4 text-center">
-                                <span
-                                    class="inline-flex items-center px-3 py-1 text-[11px] font-bold rounded-full bg-emerald-50 text-emerald-700">
-                                    Delivered
+                                <span class="inline-flex items-center px-3 py-1 text-[11px] font-bold rounded-full
+                                    @switch($order->status)
+                                        @case('pending') bg-amber-50 text-amber-700 @break
+                                        @case('confirmed') bg-blue-50 text-blue-700 @break
+                                        @case('processing') bg-indigo-50 text-indigo-700 @break
+                                        @case('shipped') bg-blue-50 text-blue-700 @break
+                                        @case('delivered') bg-emerald-50 text-emerald-700 @break
+                                        @case('cancelled') bg-red-50 text-red-700 @break
+                                    @endswitch
+                                ">
+                                    {{ ucfirst($order->status) }}
                                 </span>
                             </td>
                             <td class="py-4 text-right">
-                                <a href="#"
+                                <a href="{{ route('admin.orders.show', $order) }}"
                                     class="text-xs font-bold border border-gray-200 hover:border-blue-500 hover:text-blue-500 px-4 py-2 rounded-xl transition-all inline-block">
-                                    OPEN DOSSIER
+                                    VIEW
                                 </a>
                             </td>
                         </tr>
-
-                        <!-- Order 2 -->
-                        <tr class="hover:bg-gray-50/50 transition-colors">
-                            <td class="py-4 font-mono text-xs text-blue-600 font-bold">#VAL-00123</td>
-                            <td class="py-4 text-gray-900">Victoria Chen</td>
-                            <td class="py-4 text-gray-500">Singapore</td>
-                            <td class="py-4 text-right font-bold text-gray-900 font-mono">$34,500.00</td>
-                            <td class="py-4 text-center">
-                                <span
-                                    class="inline-flex items-center px-3 py-1 text-[11px] font-bold rounded-full bg-amber-50 text-amber-700">
-                                    Pending
-                                </span>
-                            </td>
-                            <td class="py-4 text-right">
-                                <a href="#"
-                                    class="text-xs font-bold border border-gray-200 hover:border-blue-500 hover:text-blue-500 px-4 py-2 rounded-xl transition-all inline-block">
-                                    OPEN DOSSIER
-                                </a>
-                            </td>
+                        @empty
+                        <tr>
+                            <td colspan="6" class="py-8 text-center text-gray-400">No orders yet</td>
                         </tr>
-
-                        <!-- Order 3 -->
-                        <tr class="hover:bg-gray-50/50 transition-colors">
-                            <td class="py-4 font-mono text-xs text-blue-600 font-bold">#VAL-00122</td>
-                            <td class="py-4 text-gray-900">Marcus Aurelius</td>
-                            <td class="py-4 text-gray-500">Rome</td>
-                            <td class="py-4 text-right font-bold text-gray-900 font-mono">$42,800.00</td>
-                            <td class="py-4 text-center">
-                                <span
-                                    class="inline-flex items-center px-3 py-1 text-[11px] font-bold rounded-full bg-amber-50 text-amber-700">
-                                    Processing
-                                </span>
-                            </td>
-                            <td class="py-4 text-right">
-                                <a href="#"
-                                    class="text-xs font-bold border border-gray-200 hover:border-blue-500 hover:text-blue-500 px-4 py-2 rounded-xl transition-all inline-block">
-                                    OPEN DOSSIER
-                                </a>
-                            </td>
-                        </tr>
-
-                        <!-- Order 4 -->
-                        <tr class="hover:bg-gray-50/50 transition-colors">
-                            <td class="py-4 font-mono text-xs text-blue-600 font-bold">#VAL-00121</td>
-                            <td class="py-4 text-gray-900">Isabella Rossi</td>
-                            <td class="py-4 text-gray-500">Milan</td>
-                            <td class="py-4 text-right font-bold text-gray-900 font-mono">$8,750.00</td>
-                            <td class="py-4 text-center">
-                                <span
-                                    class="inline-flex items-center px-3 py-1 text-[11px] font-bold rounded-full bg-emerald-50 text-emerald-700">
-                                    Delivered
-                                </span>
-                            </td>
-                            <td class="py-4 text-right">
-                                <a href="#"
-                                    class="text-xs font-bold border border-gray-200 hover:border-blue-500 hover:text-blue-500 px-4 py-2 rounded-xl transition-all inline-block">
-                                    OPEN DOSSIER
-                                </a>
-                            </td>
-                        </tr>
-
-                        <!-- Order 5 -->
-                        <tr class="hover:bg-gray-50/50 transition-colors">
-                            <td class="py-4 font-mono text-xs text-blue-600 font-bold">#VAL-00120</td>
-                            <td class="py-4 text-gray-900">James Donovan</td>
-                            <td class="py-4 text-gray-500">London</td>
-                            <td class="py-4 text-right font-bold text-gray-900 font-mono">$9,200.00</td>
-                            <td class="py-4 text-center">
-                                <span
-                                    class="inline-flex items-center px-3 py-1 text-[11px] font-bold rounded-full bg-amber-50 text-amber-700">
-                                    Pending
-                                </span>
-                            </td>
-                            <td class="py-4 text-right">
-                                <a href="#"
-                                    class="text-xs font-bold border border-gray-200 hover:border-blue-500 hover:text-blue-500 px-4 py-2 rounded-xl transition-all inline-block">
-                                    OPEN DOSSIER
-                                </a>
-                            </td>
-                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
@@ -243,13 +208,12 @@
             blueGradient.addColorStop(0, 'rgba(59, 130, 246, 0.25)');
             blueGradient.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
 
-            // Sample revenue data (matching the dynamic data from the original)
-            const revenueData = [1240000, 1580000, 1390000, 1920000, 2210000, 2480000];
+            const revenueData = @json($revenueData);
 
             new Chart(revenueCtx, {
                 type: 'line',
                 data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    labels: @json($monthLabels),
                     datasets: [{
                         label: 'Revenue',
                         data: revenueData,
@@ -297,10 +261,10 @@
             new Chart(document.getElementById('collectionChart'), {
                 type: 'doughnut',
                 data: {
-                    labels: ['Nautilus', 'Daytona', 'Submariner', 'Royal Oak', 'Others'],
+                    labels: @json($categoryLabels),
                     datasets: [{
-                        data: [42, 28, 35, 51, 28],
-                        backgroundColor: ['#2563eb', '#4f46e5', '#6366f1', '#818cf8', '#94a3b8'],
+                        data: @json($categoryData),
+                        backgroundColor: @json($categoryColors),
                         borderColor: '#ffffff',
                         borderWidth: 3
                     }]

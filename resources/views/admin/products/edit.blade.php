@@ -171,7 +171,7 @@
 
             <!-- Image -->
             <div class="mt-6">
-                <label class="form-label">Product Image</label>
+                <label class="form-label">Primary Image</label>
 
                 @if($product->image)
                 <div class="flex items-center gap-4 mb-4 bg-gray-50 p-4 rounded-xl">
@@ -195,6 +195,32 @@
                 @error('image') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
             </div>
 
+            <!-- Secondary Image -->
+            <div class="mt-6">
+                <label class="form-label">Secondary Image <span class="text-gray-400 text-xs font-normal">(appears on hover)</span></label>
+
+                @if($product->image_secondary)
+                <div class="flex items-center gap-4 mb-4 bg-gray-50 p-4 rounded-xl">
+                    <img src="{{ asset('storage/' . $product->image_secondary) }}" alt="{{ $product->name }}" class="current-img">
+                    <div>
+                        <p class="text-sm font-medium text-gray-700">Current Secondary</p>
+                        <p class="text-xs text-gray-400">Leave empty to keep current image</p>
+                    </div>
+                </div>
+                @endif
+
+                <div class="image-upload-area" id="uploadArea2">
+                    <div id="placeholder-content2">
+                        <i class="fas fa-images text-4xl text-gray-300 mb-3"></i>
+                        <p class="text-sm font-medium text-gray-600">Click to upload new image</p>
+                        <p class="text-xs text-gray-400 mt-1">JPG, PNG, WebP • Max 2MB</p>
+                    </div>
+                    <img id="preview-img2" src="#" alt="Preview" class="hidden max-h-48 mx-auto rounded-lg">
+                    <input type="file" name="image_secondary" id="imageInput2" class="hidden" accept="image/*">
+                </div>
+                @error('image_secondary') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
+            </div>
+
             <!-- Submit -->
             <div class="flex items-center gap-3 pt-8 border-t border-gray-100 mt-8">
                 <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl text-sm font-medium transition-all">
@@ -210,24 +236,29 @@
 </div>
 
 <script>
-    const uploadArea = document.getElementById('uploadArea');
-    const imageInput = document.getElementById('imageInput');
-    const previewImg = document.getElementById('preview-img');
-    const placeholder = document.getElementById('placeholder-content');
+    function setupUpload(areaId, inputId, previewId, placeholderId) {
+        const area = document.getElementById(areaId);
+        const input = document.getElementById(inputId);
+        const preview = document.getElementById(previewId);
+        const placeholder = document.getElementById(placeholderId);
 
-    uploadArea.addEventListener('click', () => imageInput.click());
+        area.addEventListener('click', () => input.click());
 
-    imageInput.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(ev) {
-                previewImg.src = ev.target.result;
-                previewImg.classList.remove('hidden');
-                placeholder.classList.add('hidden');
+        input.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    preview.src = ev.target.result;
+                    preview.classList.remove('hidden');
+                    placeholder.classList.add('hidden');
+                }
+                reader.readAsDataURL(file);
             }
-            reader.readAsDataURL(file);
-        }
-    });
+        });
+    }
+
+    setupUpload('uploadArea', 'imageInput', 'preview-img', 'placeholder-content');
+    setupUpload('uploadArea2', 'imageInput2', 'preview-img2', 'placeholder-content2');
 </script>
 @endsection

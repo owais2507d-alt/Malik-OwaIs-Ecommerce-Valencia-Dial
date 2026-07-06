@@ -83,7 +83,7 @@
                         <div class="relative flex items-center border border-stone-800 rounded-lg focus-within:border-[#e5c158]/60 transition-all duration-500 bg-stone-900/30 backdrop-blur-sm overflow-hidden group-focus-within:shadow-[0_0_30px_rgba(229,193,88,0.05)]">
                             <input type="email" placeholder="Enter your email" 
                                    class="bg-transparent text-xs text-stone-300 placeholder-stone-600 focus:outline-none w-full tracking-wide font-light px-4 py-3.5">
-                            <button type="submit" class="absolute right-1 top-1/2 -translate-y-1/2 text-[9px] uppercase tracking-[0.25em] text-stone-400 hover:text-[#e5c158] transition-all duration-500 font-medium px-4 py-2 bg-stone-800/30 hover:bg-[#e5c158]/10 rounded-lg hover:shadow-[0_0_20px_rgba(229,193,88,0.1)]">
+                            <button type="submit" class="btn-newsletter">
                                 Join
                             </button>
                         </div>

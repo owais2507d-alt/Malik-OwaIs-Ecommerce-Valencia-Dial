@@ -46,7 +46,7 @@
                 <h2 class="luxury-title text-3xl lg:text-4xl text-white font-medium leading-tight tracking-wide">
                     Welcome <br>Back To <br><span style="color: var(--text-gold);">The Elite</span>.
                 </h2>
-                <div class="w-12 h-1px" style="background-color: rgba(212, 175, 55, 0.6);"></div>
+                <div class="w-12 h-[1px]" style="background-color: rgba(212, 175, 55, 0.6);"></div>
                 <p class="text-stone-400 text-xs font-light leading-relaxed tracking-wide max-w-xs">
                     Sign in to resume control of your bespoke collections, manage active dashboards, and explore our newest signature premium dials.
                 </p>
@@ -59,13 +59,13 @@
 
         <div class="animate__animated animate__fadeInRight col-span-1 md:col-span-7 p-6 sm:p-12 lg:p-16 flex flex-col justify-center" style="background-color: var(--bg-main);">
             
-            <div class="absolute top-0 left-0 w-full h-2px md:hidden" style="background: gradient-to-r from-transparent via-[var(--text-gold)] to-transparent"></div>
+            <div class="absolute top-0 left-0 w-full h-[2px] md:hidden" style="background: linear-gradient(to right, transparent, var(--text-gold), transparent)"></div>
 
             <div class="w-full max-w-md mx-auto">
                 
                 <div class="text-center md:text-left mb-8">
                     <h1 class="luxury-title text-2xl md:text-3xl uppercase tracking-[0.25em] font-bold mb-1" style="color: var(--text-gold);">SIGN IN</h1>
-                    <div class="w-10 h-1px mx-auto md:mx-0 mb-4" style="background-color: rgba(212, 175, 55, 0.4);"></div>
+                    <div class="w-10 h-[1px] mx-auto md:mx-0 mb-4" style="background-color: rgba(212, 175, 55, 0.4);"></div>
                     <p class="text-stone-400 text-xs font-light tracking-wide">Enter your credentials to manage your premium account.</p>
                 </div>
 
@@ -129,11 +129,11 @@
                     </button>
                 </form>
 
-                <div class="w-full h-1px my-6" style="background-color: var(--border-color);"></div>
+                <div class="w-full h-[1px] my-6" style="background-color: var(--border-color);"></div>
 
                 <div class="text-center md:text-left">
                     <p class="text-stone-400 text-xs font-light tracking-wide">
-                        Don't have an account? <a href="{{ route('user.register') }}" class="smooth-transition tracking-widest uppercase text-[11px] font-medium ml-1" style="color: var(--text-gold);" onmouseover="this.style.color='var(--text-gold-hover)'" onmouseout="this.style.color='var(--text-gold)'">Register</a>
+                        New to our circle? <a href="{{ route('user.register') }}" class="smooth-transition tracking-widest uppercase text-[11px] font-medium ml-1" style="color: var(--text-gold);" onmouseover="this.style.color='var(--text-gold-hover)'" onmouseout="this.style.color='var(--text-gold)'">Create Account</a>
                     </p>
                 </div>
 

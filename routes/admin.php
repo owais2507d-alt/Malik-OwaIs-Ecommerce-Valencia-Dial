@@ -4,6 +4,9 @@ use App\Http\Controllers\Admin\auth\AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\SearchController;
+use App\Http\Controllers\Admin\MaintenanceController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -37,4 +40,16 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
     Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
     Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+
+    //orders
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+    Route::put('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.update-status');
+
+    //search
+    Route::get('/search', [SearchController::class, 'search'])->name('search');
+
+    //maintenance
+    Route::get('/maintenance', [MaintenanceController::class, 'index'])->name('maintenance.index');
+    Route::post('/maintenance', [MaintenanceController::class, 'update'])->name('maintenance.update');
 });

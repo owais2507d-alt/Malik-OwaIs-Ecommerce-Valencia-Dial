@@ -46,7 +46,7 @@
                 <h2 class="luxury-title text-3xl lg:text-4xl text-white font-medium leading-tight tracking-wide">
                     Securing <br>Your Digital <br><span style="color: var(--text-gold);">Identity</span>.
                 </h2>
-                <div class="w-12 h-1px" style="background-color: rgba(212, 175, 55, 0.6);"></div>
+                <div class="w-12 h-[1px]" style="background-color: rgba(212, 175, 55, 0.6);"></div>
                 <p class="text-stone-400 text-xs font-light leading-relaxed tracking-wide max-w-xs">
                     Verification is the final gateway to security. Enter the secure signature passkey transmitted to your encrypted mailbox to confirm authenticity.
                 </p>
@@ -59,13 +59,13 @@
 
         <div class="animate__animated animate__fadeInRight col-span-1 md:col-span-7 p-6 sm:p-12 lg:p-16 flex flex-col justify-center" style="background-color: var(--bg-main);">
             
-            <div class="absolute top-0 left-0 w-full h-2px md:hidden" style="background: gradient-to-r from-transparent via-[var(--text-gold)] to-transparent"></div>
+            <div class="absolute top-0 left-0 w-full h-[2px] md:hidden" style="background: linear-gradient(to right, transparent, var(--text-gold), transparent)"></div>
 
             <div class="w-full max-w-md mx-auto">
                 
                 <div class="text-center md:text-left mb-8">
                     <h1 class="luxury-title text-2xl md:text-3xl uppercase tracking-[0.25em] font-bold mb-1" style="color: var(--text-gold);">VERIFY OTP</h1>
-                    <div class="w-10 h-1px mx-auto md:mx-0 mb-4" style="background-color: rgba(212, 175, 55, 0.4);"></div>
+                    <div class="w-10 h-[1px] mx-auto md:mx-0 mb-4" style="background-color: rgba(212, 175, 55, 0.4);"></div>
                     <p class="text-stone-400 text-xs font-light tracking-wide">We sent a 6-digit verification security code to your email.</p>
                 </div>
 

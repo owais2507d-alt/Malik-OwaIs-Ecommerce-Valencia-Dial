@@ -32,12 +32,18 @@ class ProductController extends Controller
             'stock' => 'required|integer|min:0',
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'image_secondary' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'status' => 'required|in:active,inactive',
         ]);
 
         $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('products', 'public');
+        }
+
+        $imageSecondaryPath = null;
+        if ($request->hasFile('image_secondary')) {
+            $imageSecondaryPath = $request->file('image_secondary')->store('products', 'public');
         }
 
         Product::create([
@@ -48,6 +54,7 @@ class ProductController extends Controller
             'stock' => $request->stock,
             'description' => $request->description,
             'image' => $imagePath,
+            'image_secondary' => $imageSecondaryPath,
             'status' => $request->status,
         ]);
 
@@ -69,7 +76,8 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:4098',
+            'image_secondary' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'status' => 'required|in:active,inactive',
         ]);
 
@@ -81,6 +89,14 @@ class ProductController extends Controller
             $imagePath = $request->file('image')->store('products', 'public');
         }
 
+        $imageSecondaryPath = $product->image_secondary;
+        if ($request->hasFile('image_secondary')) {
+            if ($product->image_secondary) {
+                Storage::disk('public')->delete($product->image_secondary);
+            }
+            $imageSecondaryPath = $request->file('image_secondary')->store('products', 'public');
+        }
+
         $product->update([
             'name' => $request->name,
             'brand' => $request->brand,
@@ -89,6 +105,7 @@ class ProductController extends Controller
             'stock' => $request->stock,
             'description' => $request->description,
             'image' => $imagePath,
+            'image_secondary' => $imageSecondaryPath,
             'status' => $request->status,
         ]);
 
@@ -99,6 +116,9 @@ class ProductController extends Controller
     {
         if ($product->image) {
             Storage::disk('public')->delete($product->image);
+        }
+        if ($product->image_secondary) {
+            Storage::disk('public')->delete($product->image_secondary);
         }
         $product->delete();
 

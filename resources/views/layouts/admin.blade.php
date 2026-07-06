@@ -83,20 +83,14 @@
                     <i class="fas fa-box w-5"></i>
                     <span>Products</span>
                 </a>
-
-             
-                {{-- <a href="" class="nav-link flex items-center gap-3 px-6 py-4 rounded-2xl text-white text-[15px]">
+                <a href="{{ route('admin.orders.index') }}" class="nav-link flex items-center gap-3 px-6 py-4 rounded-2xl text-white text-[15px] {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
                     <i class="fas fa-shopping-bag w-5"></i>
                     <span>Orders</span>
                 </a>
-                <a href="#" class="nav-link flex items-center gap-3 px-6 py-4 rounded-2xl text-white text-[15px]">
-                    <i class="fas fa-users w-5"></i>
-                    <span>Customers</span>
+                <a href="{{ route('admin.maintenance.index') }}" class="nav-link flex items-center gap-3 px-6 py-4 rounded-2xl text-white text-[15px] {{ request()->routeIs('admin.maintenance.*') ? 'active' : '' }}">
+                    <i class="fas fa-shield-alt w-5"></i>
+                    <span>Maintenance</span>
                 </a>
-                <a href="#" class="nav-link flex items-center gap-3 px-6 py-4 rounded-2xl text-white text-[15px]">
-                    <i class="fas fa-chart-bar w-5"></i>
-                    <span>Reports</span>
-                </a> --}}
             </div>
 
             <!-- Logout -->
@@ -128,16 +122,67 @@
                         <p class="text-gray-600">Hi, <span class="font-semibold text-gray-800">{{ Auth::user()->name ?? 'Admin' }}</span> 👋</p>
                     </div>
 
-                    <div class="relative w-80">
-                        <input type="text" placeholder="Search anything..." 
-                               class="w-full bg-gray-100 border border-gray-300 rounded-3xl py-3 pl-12 pr-5 focus:outline-none focus:border-blue-400">
+                    <form action="{{ route('admin.search') }}" method="GET" class="relative w-80">
+                        <input type="text" name="q" placeholder="Search products, orders..." 
+                               value="{{ request('q') }}"
+                               class="w-full bg-gray-100 border border-gray-300 rounded-3xl py-3 pl-12 pr-5 focus:outline-none focus:border-blue-400"
+                               onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='#d1d5db'">
                         <i class="fas fa-search absolute left-5 top-3.5 text-gray-400"></i>
-                    </div>
+                    </form>
 
-                    <button class="relative text-gray-600 hover:text-blue-600 transition-colors">
-                        <i class="fas fa-bell text-2xl"></i>
-                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center">3</span>
-                    </button>
+                    @php
+                        $lowStockCount = \App\Models\Product::where('stock', '>', 0)->where('stock', '<=', 5)->count();
+                        $pendingOrdersCount = \App\Models\Order::where('status', 'pending')->count();
+                        $notificationCount = $lowStockCount + $pendingOrdersCount;
+                    @endphp
+                    <div class="relative group">
+                        <button class="relative text-gray-600 hover:text-blue-600 transition-colors" onclick="toggleNotifications()">
+                            <i class="fas fa-bell text-2xl"></i>
+                            @if($notificationCount > 0)
+                                <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">{{ $notificationCount > 9 ? '9+' : $notificationCount }}</span>
+                            @endif
+                        </button>
+                        <div id="notificationDropdown" class="hidden absolute right-0 mt-3 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50">
+                            <div class="p-4 border-b border-gray-100">
+                                <h3 class="font-bold text-gray-800 text-sm">Notifications</h3>
+                            </div>
+                            <div class="max-h-72 overflow-y-auto divide-y divide-gray-50">
+                                @if($lowStockCount > 0)
+                                    <a href="{{ route('admin.products.index') }}" class="flex items-start gap-3 p-4 hover:bg-amber-50/50 transition-colors">
+                                        <div class="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center shrink-0">
+                                            <i class="fas fa-exclamation-triangle text-amber-600 text-xs"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-semibold text-gray-800">Low Stock Alert</p>
+                                            <p class="text-xs text-gray-500">{{ $lowStockCount }} product(s) running low on stock</p>
+                                        </div>
+                                    </a>
+                                @endif
+                                @if($pendingOrdersCount > 0)
+                                    <a href="{{ route('admin.orders.index', ['status' => 'pending']) }}" class="flex items-start gap-3 p-4 hover:bg-blue-50/50 transition-colors">
+                                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center shrink-0">
+                                            <i class="fas fa-clock text-blue-600 text-xs"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-semibold text-gray-800">Pending Orders</p>
+                                            <p class="text-xs text-gray-500">{{ $pendingOrdersCount }} order(s) awaiting confirmation</p>
+                                        </div>
+                                    </a>
+                                @endif
+                                @if($notificationCount === 0)
+                                    <div class="p-6 text-center text-gray-400 text-sm">
+                                        <i class="fas fa-check-circle text-emerald-400 text-2xl mb-2"></i>
+                                        <p>All clear — no alerts</p>
+                                    </div>
+                                @endif
+                            </div>
+                            @if($notificationCount > 0)
+                                <div class="p-3 border-t border-gray-100 text-center">
+                                    <span class="text-xs font-semibold text-blue-600">{{ $notificationCount }} notification(s)</span>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
 
                     <div class="flex items-center gap-3">
                         <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name ?? 'Admin') }}&background=3b82f6&color=fff" 
@@ -167,6 +212,23 @@
                 sidebar.classList.toggle('-translate-x-full');
             });
         }
+
+        // Notification Dropdown Toggle
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notificationDropdown');
+            if (dropdown) {
+                dropdown.classList.toggle('hidden');
+            }
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('notificationDropdown');
+            const bellBtn = document.querySelector('.group');
+            if (dropdown && bellBtn && !bellBtn.contains(event.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
     </script>
     @stack('scripts')
 </body>
