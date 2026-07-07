@@ -87,6 +87,10 @@
                     <i class="fas fa-shopping-bag w-5"></i>
                     <span>Orders</span>
                 </a>
+                <a href="{{ route('admin.hero-settings.index') }}" class="nav-link flex items-center gap-3 px-6 py-4 rounded-2xl text-white text-[15px] {{ request()->routeIs('admin.hero-settings.*') ? 'active' : '' }}">
+                    <i class="fas fa-image w-5"></i>
+                    <span>Hero Settings</span>
+                </a>
                 <a href="{{ route('admin.maintenance.index') }}" class="nav-link flex items-center gap-3 px-6 py-4 rounded-2xl text-white text-[15px] {{ request()->routeIs('admin.maintenance.*') ? 'active' : '' }}">
                     <i class="fas fa-shield-alt w-5"></i>
                     <span>Maintenance</span>

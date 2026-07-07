@@ -32,6 +32,11 @@
             background-color: var(--color-bg-main);
         }
 
+        ::-webkit-scrollbar { width: 6px; background: #0a0a0d; }
+        ::-webkit-scrollbar-thumb { background: #e5c158; border-radius: 20px; }
+        ::-webkit-scrollbar-thumb:hover { background: #d4b047; }
+        * { scrollbar-width: thin; scrollbar-color: #e5c158 #0a0a0d; }
+
         .luxury-title {
             font-family: 'Cormorant Garamond', serif;
         }
@@ -44,6 +49,9 @@
         .bg-dark-gold { background-color: var(--color-dark-gold); }
         .border-dark-gold { border-color: var(--color-dark-gold); }
         .border-dark-gold-dim { border-color: var(--color-dark-gold-dim); }
+
+        .hover-gold-glow { transition: all 0.3s ease; }
+        .hover-gold-glow:hover { color: #e5c158; text-shadow: 0 0 20px rgba(229,193,88,0.15); }
 
         /* ============================
            BUTTON SYSTEM
@@ -374,6 +382,15 @@
 
     
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 600,
+            offset: 80,
+            once: true,
+            easing: 'ease-out-cubic'
+        });
+    </script>
     @stack('scripts')
 </body>
 

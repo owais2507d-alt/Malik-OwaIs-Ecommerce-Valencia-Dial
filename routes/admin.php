@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\Admin\MaintenanceController;
+use App\Http\Controllers\Admin\HeroSettingsController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -52,4 +53,8 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     //maintenance
     Route::get('/maintenance', [MaintenanceController::class, 'index'])->name('maintenance.index');
     Route::post('/maintenance', [MaintenanceController::class, 'update'])->name('maintenance.update');
+
+    //hero settings
+    Route::get('/hero-settings', [HeroSettingsController::class, 'index'])->name('hero-settings.index');
+    Route::post('/hero-settings', [HeroSettingsController::class, 'update'])->name('hero-settings.update');
 });

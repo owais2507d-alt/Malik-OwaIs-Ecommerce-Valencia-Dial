@@ -71,43 +71,49 @@ select:focus { border-color: rgba(212,175,55,0.3); }
         @if($products->count())
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             @foreach($products as $product)
-            <div class="product-card group" data-aos="fade-up">
-                <div class="relative aspect-square overflow-hidden bg-[#050507]">
-                    {{-- Crossfade using Tailwind only --}}
-                    <div class="relative w-full h-full overflow-hidden">
+            <a href="{{ route('user.product.detail', $product) }}" class="product-card group block" data-aos="fade-up">
+                <div class="relative p-3">
+                    @if($product->stock <= 3 && $product->stock > 0)
+                    <span class="absolute top-3 left-3 z-20 px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest badge-off">75% OFF</span>
+                    @else
+                    <span class="absolute top-3 left-3 z-20 px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest badge-new">NEW ARRIVAL</span>
+                    @endif
+                    <div class="img-wrapper rounded-sm">
                         <img src="{{ $product->image ? asset('storage/' . $product->image) : 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&h=400&fit=crop' }}"
-                             alt="{{ $product->name }}"
-                             class="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
-                             loading="lazy">
+                             alt="{{ $product->name }}" class="primary-img" loading="lazy">
                         @if($product->image_secondary)
                         <img src="{{ asset('storage/' . $product->image_secondary) }}"
-                             alt="{{ $product->name }}"
-                             class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 opacity-0 group-hover:opacity-100"
-                             loading="lazy">
+                             alt="{{ $product->name }}" class="secondary-img" loading="lazy">
                         @endif
                     </div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400"></div>
-                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-400">
-                        <form action="{{ route('user.cart.add', $product) }}" method="POST" class="translate-y-4 group-hover:translate-y-0 transition-all duration-400">
+                </div>
+                <div class="px-3 pb-3 flex-1 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-sm font-medium tracking-wide text-white group-hover:text-[#e5c158] transition-colors">{{ $product->name }}</h3>
+                        <p class="text-[11px] text-stone-500 tracking-wider mt-0.5 font-light">{{ $product->category->name ?? 'General' }} · +2</p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <span class="color-dot bg-[#3b2b52]"></span>
+                            <span class="color-dot bg-[#1a1a1a]"></span>
+                        </div>
+                        <div class="flex items-center gap-1 mt-2">
+                            <span class="rating-star">★★★★★</span>
+                            <span class="text-stone-400 text-[11px] ml-1">4.85</span>
+                        </div>
+                    </div>
+                    <div class="mt-5 pt-4 border-t border-stone-950/70 flex items-center justify-between">
+                        <span class="text-base font-semibold tracking-wider text-white">${{ number_format($product->price, 2) }}</span>
+                        <form action="{{ route('user.cart.add', $product) }}" method="POST" onclick="event.stopPropagation()">
                             @csrf
                             <input type="hidden" name="quantity" value="1">
                             @if($product->stock > 0)
-                            <button type="submit" class="btn-add-cart">Add to Cart</button>
+                            <button type="submit" class="btn-buy">Buy Now</button>
                             @else
-                            <span class="btn-disabled">Out of Stock</span>
+                            <span class="text-[10px] text-stone-600 uppercase tracking-wider">Sold Out</span>
                             @endif
                         </form>
                     </div>
                 </div>
-                <div class="p-5 space-y-2">
-                    <div class="flex items-center justify-between">
-                        <span class="text-[0.5rem] uppercase tracking-[0.2em] text-[#a1a1aa] font-medium">{{ $product->brand ?? 'Valencia' }}</span>
-                        <span class="text-xs font-medium text-[#d4af37]">${{ number_format($product->price, 2) }}</span>
-                    </div>
-                    <h3 class="text-sm font-light text-white tracking-wide">{{ $product->name }}</h3>
-                    <p class="text-[0.5rem] text-[#666] uppercase tracking-[0.15em] leading-relaxed line-clamp-2">{{ $product->description ?? '' }}</p>
-                </div>
-            </div>
+            </a>
             @endforeach
         </div>
         <div class="mt-12">{{ $products->links() }}</div>
@@ -125,7 +131,7 @@ select:focus { border-color: rgba(212,175,55,0.3); }
 
 <section class="py-20 bg-[#060608] border-t border-[rgba(255,255,255,0.04)]">
     <div class="max-w-3xl mx-auto px-6 text-center" data-aos="fade-up">
-        <h2 class="luxury-title text-3xl md:text-4xl font-light text-white">Explore All <span class="text-[#d4af37]">Collections</span></h2>
+        <h2 class="luxury-title text-3xl md:text-4xl font-light text-white">Explore All <span class="text-[#e5c158]">Collections</span></h2>
         <p class="text-[#a1a1aa] text-sm font-light mt-4 max-w-md mx-auto">Browse our full range including acoustic masterpieces.</p>
         <a href="{{ route('user.shop') }}" class="btn-primary mt-8">View All Products</a>
     </div>

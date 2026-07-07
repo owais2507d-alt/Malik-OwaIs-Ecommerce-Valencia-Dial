@@ -4,91 +4,363 @@
 
 @push('styles')
 <style>
-:root { --gold: #e5c158; --bg-deep: #050507; --bg-card: #0a0a0d; }
+:root { 
+    --gold: #e5c158; 
+    --bg-deep: #050507; 
+    --bg-card: #0a0a0d;
+    --gold-glow: rgba(229, 193, 88, 0.15);
+}
 body { background: var(--bg-deep); color: #e4e4e7; }
-.luxury-title { font-family: 'Cormorant Garamond', serif; }
 
-.product-minimal { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.04); transition: all 0.6s cubic-bezier(0.16,1,0.3,1); }
-.product-minimal:hover { border-color: rgba(229,193,88,0.2); transform: translateY(-4px); }
+.luxury-title { font-family: 'Cormorant Garamond', serif; letter-spacing: 0.02em; }
 
-.feature-card { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.04); transition: all 0.5s ease; }
-.feature-card:hover { border-color: rgba(229,193,88,0.12); background: #0d0d12; }
+/* ===== BUTTONS ===== */
+.btn-primary {
+    background: var(--gold);
+    color: #050507;
+    padding: 0.75rem 2rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 600;
+    border: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.btn-primary:hover {
+    background: #d4b047;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(229, 193, 88, 0.2);
+}
 
-.stat-number { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; line-height: 1; color: var(--gold); }
+.btn-outline {
+    background: transparent;
+    color: white;
+    padding: 0.75rem 2rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.btn-outline:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: rgba(229, 193, 88, 0.05);
+}
 
-.section-marker { font-size: 0.55rem; letter-spacing: 0.4em; text-transform: uppercase; color: rgba(229,193,88,0.6); font-weight: 500; border-left: 2px solid #e5c158; padding-left: 14px; }
+.btn-add-cart {
+    background: var(--gold);
+    color: #050507;
+    padding: 0.6rem 1.5rem;
+    font-size: 0.5rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+    border: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.btn-add-cart:hover {
+    background: #d4b047;
+    transform: scale(1.05);
+}
 
-.gold-line { width: 3rem; height: 1px; background: rgba(229,193,88,0.35); }
-.gold-divider { width: 100%; max-width: 12rem; height: 1px; background: linear-gradient(90deg, transparent, rgba(229,193,88,0.2), transparent); margin: 2rem auto; }
+.btn-disabled {
+    background: #1a1a1a;
+    color: #555;
+    padding: 0.6rem 1.5rem;
+    font-size: 0.5rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: not-allowed;
+    border: 1px solid #2a2a2a;
+}
 
-.carousel-track { display: flex; gap: 2rem; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; padding: 0.25rem 0.25rem 1rem 0.25rem; scrollbar-width: none; }
+/* ===== SECTION MARKERS ===== */
+.section-marker {
+    font-size: 0.55rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: rgba(229, 193, 88, 0.6);
+    font-weight: 500;
+    border-left: 2px solid var(--gold);
+    padding-left: 14px;
+}
+
+.gold-line {
+    width: 3rem;
+    height: 1px;
+    background: rgba(229, 193, 88, 0.35);
+}
+
+.gold-divider {
+    width: 100%;
+    max-width: 12rem;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(229, 193, 88, 0.2), transparent);
+    margin: 2rem auto;
+}
+
+/* ===== CARDS ===== */
+
+
+/* ===== CAROUSEL ===== */
+.carousel-track {
+    display: flex;
+    gap: 2rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    padding: 0.25rem 0.25rem 1rem 0.25rem;
+    scrollbar-width: none;
+}
 .carousel-track::-webkit-scrollbar { display: none; }
-.carousel-item { flex: 0 0 280px; scroll-snap-align: start; }
-@media (min-width: 640px) { .carousel-item { flex: 0 0 260px; } }
-@media (min-width: 1024px) { .carousel-item { flex: 0 0 270px; } }
 
-.img-wrapper { position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; background: #0b0b0f; border: 1px solid #1c1c22; transition: border 0.3s; }
+.carousel-item {
+    flex: 0 0 320px;
+    scroll-snap-align: start;
+    transition: transform 0.2s ease;
+}
+@media (min-width: 640px) {
+    .carousel-item { flex: 0 0 300px; }
+}
+@media (min-width: 1024px) {
+    .carousel-item { flex: 0 0 340px; }
+}
+
+.img-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    background: #0b0b0f;
+    border: 1px solid #1c1c22;
+    transition: border 0.3s;
+}
 .group:hover .img-wrapper { border-color: #3a3a44; }
-.img-wrapper .primary-img, .img-wrapper .secondary-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 0.6s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.6s ease; will-change: transform, opacity; }
-.img-wrapper .primary-img { opacity: 1; z-index: 2; transform: scale(1); }
-.img-wrapper .secondary-img { opacity: 0; z-index: 1; transform: scale(1.05); }
-.group:hover .img-wrapper .primary-img { opacity: 0; transform: scale(1.1); }
-.group:hover .img-wrapper .secondary-img { opacity: 1; transform: scale(1); }
 
-.product-card { background: rgba(10,10,13,0.4); backdrop-filter: blur(2px); border: 1px solid #1b1b22; transition: all 0.3s ease; }
-.product-card:hover { background: #0f0f14; border-color: #3a3a44; transform: translateY(-4px); }
+.img-wrapper .primary-img,
+.img-wrapper .secondary-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.6s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.6s ease;
+    will-change: transform, opacity;
+}
+.img-wrapper .primary-img {
+    opacity: 1;
+    z-index: 2;
+    transform: scale(1);
+}
+.img-wrapper .secondary-img {
+    opacity: 0;
+    z-index: 1;
+    transform: scale(1.05);
+}
+.group:hover .img-wrapper .primary-img {
+    opacity: 0;
+    transform: scale(1.1);
+}
+.group:hover .img-wrapper .secondary-img {
+    opacity: 1;
+    transform: scale(1);
+}
 
-.badge-new { background: rgba(229,193,88,0.08); border: 1px solid rgba(229,193,88,0.2); color: #e5c158; }
-.badge-off { background: rgba(168,85,247,0.12); border: 1px solid rgba(168,85,247,0.2); color: #c084fc; }
+.product-card {
+    background: rgba(10,10,13,0.4);
+    backdrop-filter: blur(2px);
+    border: 1px solid #1b1b22;
+    transition: all 0.3s ease;
+    padding: 1.5rem;
+}
+.product-card:hover {
+    background: #0f0f14;
+    border-color: #3a3a44;
+    transform: translateY(-4px);
+}
 
-.scroll-btn { background: #0e0e12; border: 1px solid #222; color: #aaa; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 999px; transition: 0.2s; cursor: pointer; }
-.scroll-btn:hover { background: #1a1a1f; border-color: #e5c158; color: #e5c158; }
+/* ===== BADGES ===== */
+.badge-new {
+    background: rgba(229, 193, 88, 0.08);
+    border: 1px solid rgba(229, 193, 88, 0.2);
+    color: #e5c158;
+}
+.badge-off {
+    background: rgba(168, 85, 247, 0.12);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    color: #c084fc;
+}
 
-.color-dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; border: 1px solid #2a2a30; transition: border 0.2s; cursor: default; }
+.scroll-btn {
+    background: #0e0e12;
+    border: 1px solid #222;
+    color: #aaa;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    transition: 0.2s;
+    cursor: pointer;
+}
+.scroll-btn:hover {
+    background: #1a1a1f;
+    border-color: #e5c158;
+    color: #e5c158;
+}
+
+.color-dot {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid #2a2a30;
+    transition: border 0.2s;
+    cursor: default;
+}
 .color-dot:hover { border-color: #e5c158; }
 
-.btn-buy { background: #7a1f1f; color: white; font-size: 10px; letter-spacing: 0.1em; padding: 0.45rem 1rem; border-radius: 2px; transition: 0.2s; border: none; font-weight: 500; }
-.btn-buy:hover { background: #9f2b2b; }
+.rating-star { 
+    color: #e5c158; 
+    font-size: 13px; 
+    letter-spacing: 1px;
+}
 
-@media (max-width: 640px) { .stat-number { font-size: 2.5rem; } }
+.stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    line-height: 1;
+    color: var(--gold);
+}
+@media (max-width: 640px) {
+    .stat-number { font-size: 2.5rem; }
+}
+
+/* ===== PRODUCT GRID ===== */
+.product-grid-card .product-image-wrapper {
+    position: relative;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    background: #050507;
+    border: 1px solid #1a1a1a;
+    transition: border 0.3s ease;
+}
+.product-grid-card:hover .product-image-wrapper {
+    border-color: rgba(229, 193, 88, 0.3);
+}
+
+.product-grid-card .product-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.product-grid-card .product-image-wrapper .hover-img {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+}
+.product-grid-card:hover .product-image-wrapper .main-img {
+    opacity: 0;
+    transform: scale(1.05);
+}
+.product-grid-card:hover .product-image-wrapper .hover-img {
+    opacity: 1;
+}
+
+.product-grid-card .overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.product-grid-card:hover .overlay {
+    opacity: 1;
+}
+
+/* ===== HERO ===== */
+.hero-gradient {
+    background: radial-gradient(ellipse at 70% 30%, rgba(229, 193, 88, 0.03) 0%, transparent 70%),
+                radial-gradient(ellipse at 30% 70%, rgba(229, 193, 88, 0.02) 0%, transparent 60%),
+                linear-gradient(180deg, #0a0a0d 0%, #050507 100%);
+}
 </style>
 @endpush
 
 @section('content')
 
-{{-- 1. HERO — Split layout: text left, product visual right --}}
-<section class="relative min-h-[85vh] flex items-center justify-center border-b border-stone-900 bg-gradient-to-b from-[#0a0a0d] to-[#050507] px-6 overflow-hidden">
-    <div class="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center py-12">
-        <div class="space-y-6 text-center lg:text-left" data-aos="fade-right">
-            <span class="text-[11px] uppercase tracking-[0.3em] text-[#e5c158] font-semibold">Est. 2026</span>
-            <h1 class="text-4xl md:text-7xl font-extralight tracking-widest text-white leading-tight uppercase">
-                Valencia <br class="hidden md:block"><span class="font-normal text-[#e5c158]">Dial</span>
-            </h1>
-            <div class="gold-divider mx-auto lg:mx-0"></div>
-            <p class="text-xs md:text-sm text-stone-400 tracking-wider max-w-md mx-auto lg:mx-0 font-light leading-relaxed">
-                A digital atelier where exceptional craftsmanship meets timeless design. Luxury audio tech and micro-engineered timepieces forged for modern pioneers.
-            </p>
-            <div class="pt-4 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <a href="{{ route('user.shop') }}" class="px-8 py-3 bg-[#e5c158] hover:bg-[#d4b047] text-black text-xs font-semibold tracking-[0.2em] uppercase transition-all duration-300">
-                    Explore Collection
-                </a>
-                @guest
-                <a href="{{ route('user.register') }}" class="px-8 py-3 border border-stone-800 hover:border-[#e5c158]/50 text-white text-xs font-medium tracking-[0.2em] uppercase transition-all duration-300 bg-stone-950/40">
-                    Join the Vault
-                </a>
-                @endguest
-            </div>
+{{-- ============================================================ --}}
+{{-- 1. HERO — Full-screen video background, centered content      --}}
+{{-- ============================================================ --}}
+@php
+    $heroVideoUrl = $heroVideo ?? 'https://cdn.coverr.co/videos/coverr-luxury-watch-on-a-marble-surface-5767/1080p.mp4';
+    $isYoutube = preg_match('/(youtube\.com|youtu\.be)/', $heroVideoUrl);
+    $youtubeId = '';
+    if ($isYoutube) {
+        preg_match('/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/', $heroVideoUrl, $matches);
+        $youtubeId = $matches[1] ?? '';
+    }
+@endphp
+<section class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden border-b border-stone-900">
+    @if($isYoutube && $youtubeId)
+    <iframe src="https://www.youtube.com/embed/{{ $youtubeId }}?autoplay=1&mute=1&loop=1&playlist={{ $youtubeId }}&controls=0&showinfo=0&modestbranding=1&iv_load_policy=3&rel=0&background=1"
+            class="absolute inset-0 w-full h-full pointer-events-none"
+            frameborder="0"
+            allow="autoplay; fullscreen"
+            allowfullscreen></iframe>
+    @else
+    <video autoplay muted loop playsinline
+           poster="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=1920&h=1080&fit=crop"
+           class="absolute inset-0 w-full h-full object-cover">
+        <source src="{{ $heroVideoUrl }}" type="video/mp4">
+    </video>
+    @endif
+    <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/80"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-[#050507]/60 via-transparent to-[#050507]/60"></div>
+
+    <div class="relative z-10 max-w-4xl mx-auto text-center px-6">
+        <p class="text-[0.55rem] tracking-[0.45em] uppercase text-[#e5c158]/80 font-medium mb-6" data-aos="fade-down">
+            {{ $heroTagline ?? 'Est. 2026' }}
+        </p>
+        <h1 class="luxury-title text-5xl md:text-7xl lg:text-8xl font-light text-white tracking-[0.06em] uppercase leading-[1.1]" data-aos="fade-up" data-aos-delay="100">
+            {{ $heroTitle ?? 'Valencia' }} <span class="text-[#e5c158]">{{ $heroTitleAccent ?? 'Dial' }}</span>
+        </h1>
+        <div class="gold-divider" data-aos="fade-up" data-aos-delay="200"></div>
+        <p class="text-stone-300 text-sm md:text-base font-light max-w-2xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="300">
+            {{ $heroSubtitle ?? 'A digital atelier where exceptional craftsmanship meets timeless design.' }}
+        </p>
+        <div class="flex items-center justify-center gap-4 mt-10 flex-wrap" data-aos="fade-up" data-aos-delay="400">
+            <a href="{{ $heroCtaPrimaryLink ?? route('user.shop') }}" class="btn-primary text-xs md:text-sm px-8 py-4">
+                {{ $heroCtaPrimaryText ?? 'Explore Collection' }}
+            </a>
+            <a href="{{ $heroCtaSecondaryLink ?? route('user.register') }}" class="btn-outline text-xs md:text-sm px-8 py-4">
+                {{ $heroCtaSecondaryText ?? 'Join the Vault' }}
+            </a>
         </div>
-        <div class="relative flex justify-center items-center" data-aos="fade-left">
-            <div class="absolute w-72 h-72 md:w-96 md:h-96 bg-[#e5c158]/5 rounded-full blur-3xl"></div>
-            <div class="relative w-full max-w-md aspect-square bg-[#0a0a0d]/50 border border-stone-900 flex items-center justify-center backdrop-blur-md overflow-hidden">
-                <span class="text-[10px] tracking-[0.3em] text-stone-600 uppercase">[Premium Product Close-Up]</span>
-            </div>
-        </div>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40" data-aos="fade-up" data-aos-delay="600">
+        <span class="text-[0.45rem] tracking-[0.4em] uppercase text-stone-400">Scroll</span>
+        <div class="w-px h-10 bg-gradient-to-b from-[#e5c158] to-transparent"></div>
     </div>
 </section>
 
-{{-- 2. CART SECTION — Product showcase with add-to-cart --}}
+{{-- ============================================================ --}}
+{{-- 2. PRODUCT GRID — Shop the Collection                       --}}
+{{-- ============================================================ --}}
 <section class="py-20 md:py-28 border-b border-stone-900">
     <div class="max-w-7xl mx-auto px-6">
         <div class="mb-14 text-center" data-aos="fade-up">
@@ -100,53 +372,61 @@ body { background: var(--bg-deep); color: #e4e4e7; }
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             @php $cartProducts = $topSellers->merge($featured); @endphp
             @forelse($cartProducts as $product)
-            <div class="group" data-aos="fade-up" data-aos-delay="{{ $loop->index * 60 }}">
-                <div class="relative aspect-square overflow-hidden bg-[#050507] border border-stone-900 group-hover:border-[#e5c158]/20 transition-all duration-500">
-                    <div class="relative w-full h-full overflow-hidden">
+            <a href="{{ route('user.product.detail', $product) }}" class="product-card group block" data-aos="fade-up" data-aos-delay="{{ $loop->index * 60 }}">
+                <div class="relative p-3">
+                    @if($product->stock <= 3 && $product->stock > 0)
+                    <span class="absolute top-3 left-3 z-20 px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest badge-off">75% OFF</span>
+                    @else
+                    <span class="absolute top-3 left-3 z-20 px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest badge-new">NEW ARRIVAL</span>
+                    @endif
+                    <div class="img-wrapper rounded-sm">
                         <img src="{{ $product->image ? asset('storage/' . $product->image) : 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&h=400&fit=crop' }}"
-                             alt="{{ $product->name }}"
-                             class="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
-                             loading="lazy">
+                             alt="{{ $product->name }}" class="primary-img" loading="lazy">
                         @if($product->image_secondary)
                         <img src="{{ asset('storage/' . $product->image_secondary) }}"
-                             alt="{{ $product->name }}"
-                             class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 opacity-0 group-hover:opacity-100"
-                             loading="lazy">
+                             alt="{{ $product->name }}" class="secondary-img" loading="lazy">
                         @endif
                     </div>
-                    <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex items-center justify-center">
+                </div>
+                <div class="px-3 pb-3 flex-1 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-sm font-medium tracking-wide text-white group-hover:text-[#e5c158] transition-colors truncate">{{ $product->name }}</h3>
+                        <p class="text-[11px] text-stone-500 tracking-wider font-light">{{ $product->category->name ?? 'Luxury' }} · +2</p>
+                        <div class="flex items-center gap-1 mt-1">
+                            <span class="rating-star text-xs">★★★★★</span>
+                            <span class="text-stone-400 text-[10px] ml-1">4.85</span>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-stone-950/70 flex items-center justify-between">
+                        <span class="text-sm font-semibold tracking-wider text-white">${{ number_format($product->price, 2) }}</span>
                         <form action="{{ route('user.cart.add', $product) }}" method="POST" onclick="event.stopPropagation()">
                             @csrf
                             <input type="hidden" name="quantity" value="1">
                             @if($product->stock > 0)
-                            <button type="submit" class="btn-add-cart">Add to Cart</button>
+                            <button type="submit" class="btn-buy">Buy Now</button>
                             @else
-                            <span class="btn-disabled">Sold Out</span>
+                            <span class="text-[10px] text-stone-600 uppercase tracking-wider">Sold Out</span>
                             @endif
                         </form>
                     </div>
-                    @if($product->stock <= 3 && $product->stock > 0)
-                    <span class="absolute top-2 right-2 text-[0.35rem] tracking-[0.25em] uppercase px-2 py-1 bg-[#e5c158]/15 text-[#e5c158] border border-[#e5c158]/20">Limited</span>
-                    @endif
                 </div>
-                <div class="pt-3 pb-2">
-                    <p class="text-[0.4rem] tracking-[0.3em] uppercase text-stone-500 font-medium">{{ $product->brand ?? 'Valencia' }}</p>
-                    <h3 class="text-sm text-white font-light tracking-wide truncate">{{ $product->name }}</h3>
-                    <p class="text-sm text-[#e5c158] font-light mt-0.5">${{ number_format($product->price, 2) }}</p>
-                </div>
-            </div>
+            </a>
             @empty
             <p class="col-span-full text-center text-stone-500 py-16">No products available.</p>
             @endforelse
         </div>
 
         <div class="text-center mt-10" data-aos="fade-up">
-            <a href="{{ route('user.shop') }}" class="btn-outline btn-lg">Browse Full Collection →</a>
+            <a href="{{ route('user.shop') }}" class="btn-outline text-sm px-10 py-3">
+                Browse Full Collection <span class="ml-2">→</span>
+            </a>
         </div>
     </div>
 </section>
 
-{{-- 3. QUICK CATEGORY CIRCULAR CAROUSEL --}}
+{{-- ============================================================ --}}
+{{-- 3. CATEGORY CAROUSEL                                         --}}
+{{-- ============================================================ --}}
 <section class="py-16 border-b border-stone-900 bg-[#07070a]">
     <div class="max-w-7xl mx-auto px-6">
         <div class="text-center mb-10" data-aos="fade-up">
@@ -174,19 +454,35 @@ body { background: var(--bg-deep); color: #e4e4e7; }
     </div>
 </section>
 
-{{-- 4. STATS BANNER --}}
+{{-- ============================================================ --}}
+{{-- 4. STATS BANNER                                              --}}
+{{-- ============================================================ --}}
 <section class="py-16 md:py-20 border-b border-stone-900">
     <div class="max-w-7xl mx-auto px-6">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-            <div class="text-center" data-aos="fade-up"><p class="stat-number">{{ $categories->count() }}</p><p class="text-[0.5rem] uppercase tracking-[0.35em] text-stone-500 mt-2">Collections</p></div>
-            <div class="text-center" data-aos="fade-up" data-aos-delay="80"><p class="stat-number">{{ $topSellers->count() + $featured->count() }}+</p><p class="text-[0.5rem] uppercase tracking-[0.35em] text-stone-500 mt-2">Masterpieces</p></div>
-            <div class="text-center" data-aos="fade-up" data-aos-delay="160"><p class="stat-number">100%</p><p class="text-[0.5rem] uppercase tracking-[0.35em] text-stone-500 mt-2">Authenticated</p></div>
-            <div class="text-center" data-aos="fade-up" data-aos-delay="240"><p class="stat-number">24h</p><p class="text-[0.5rem] uppercase tracking-[0.35em] text-stone-500 mt-2">Concierge</p></div>
+            <div class="text-center" data-aos="fade-up">
+                <p class="stat-number">{{ $categories->count() }}</p>
+                <p class="text-[0.5rem] uppercase tracking-[0.35em] text-stone-500 mt-2">Collections</p>
+            </div>
+            <div class="text-center" data-aos="fade-up" data-aos-delay="80">
+                <p class="stat-number">{{ $topSellers->count() + $featured->count() }}+</p>
+                <p class="text-[0.5rem] uppercase tracking-[0.35em] text-stone-500 mt-2">Masterpieces</p>
+            </div>
+            <div class="text-center" data-aos="fade-up" data-aos-delay="160">
+                <p class="stat-number">100%</p>
+                <p class="text-[0.5rem] uppercase tracking-[0.35em] text-stone-500 mt-2">Authenticated</p>
+            </div>
+            <div class="text-center" data-aos="fade-up" data-aos-delay="240">
+                <p class="stat-number">24/7</p>
+                <p class="text-[0.5rem] uppercase tracking-[0.35em] text-stone-500 mt-2">Concierge</p>
+            </div>
         </div>
     </div>
 </section>
 
-{{-- 5. BEST SELLERS — Horizontal scroll carousel with premium card design --}}
+{{-- ============================================================ --}}
+{{-- 5. BEST SELLERS CAROUSEL — Premium Card Design             --}}
+{{-- ============================================================ --}}
 <section class="w-full max-w-7xl mx-auto border-b border-stone-900/80 pb-12 px-4 md:px-6 py-8 md:py-14">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 pb-4 border-b border-stone-900/70" data-aos="fade-up">
         <div>
@@ -201,12 +497,12 @@ body { background: var(--bg-deep); color: #e4e4e7; }
     <div class="relative">
         <div id="carouselTrack" class="carousel-track">
             @forelse($topSellers as $product)
-            <div class="carousel-item group product-card p-5 flex flex-col transition-all duration-300">
+            <a href="{{ route('user.product.detail', $product) }}" class="carousel-item group product-card flex flex-col transition-all duration-300">
                 <div class="relative">
                     @if($product->stock <= 3 && $product->stock > 0)
-                    <span class="absolute top-3 left-3 z-20 px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest badge-off">75% OFF</span>
+                    <span class="absolute top-3 left-3 z-20 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest badge-off">75% OFF</span>
                     @else
-                    <span class="absolute top-3 left-3 z-20 px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest badge-new">NEW ARRIVAL</span>
+                    <span class="absolute top-3 left-3 z-20 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest badge-new">NEW ARRIVAL</span>
                     @endif
                     <div class="img-wrapper rounded-sm">
                         <img src="{{ $product->image ? asset('storage/' . $product->image) : 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&h=400&fit=crop&crop=center' }}"
@@ -223,22 +519,23 @@ body { background: var(--bg-deep); color: #e4e4e7; }
                 </div>
                 <div class="mt-4 flex-1 flex flex-col justify-between">
                     <div>
-                        <h3 class="text-sm font-medium tracking-wide text-white group-hover:text-[#e5c158] transition-colors">{{ $product->name }}</h3>
-                        <p class="text-[11px] text-stone-500 tracking-wider mt-0.5 font-light">{{ $product->category->name ?? 'Luxury' }} · +2</p>
-                        <div class="flex items-center gap-2 mt-2">
+                        <h3 class="text-base font-medium tracking-wide text-white group-hover:text-[#e5c158] transition-colors">{{ $product->name }}</h3>
+                        <p class="text-[11px] text-stone-500 tracking-wider mt-0.5 font-light">{{ $product->category->name ?? 'Luxury Collection' }}</p>
+                        <div class="flex items-center gap-2 mt-3">
                             <span class="color-dot bg-[#3b2b52]"></span>
                             <span class="color-dot bg-[#1a1a1a]"></span>
+                            <span class="color-dot bg-[#8b7355]"></span>
                         </div>
-                        <div class="flex items-center gap-1 mt-2 text-[#e5c158] text-xs">
-                            <span class="rating-star text-[#e5c158] text-xs tracking-wide">★★★★★</span>
-                            <span class="text-stone-400 text-[10px] ml-1">4.85</span>
+                        <div class="flex items-center gap-1 mt-2">
+                            <span class="rating-star">★★★★★</span>
+                            <span class="text-stone-400 text-[11px] ml-1">{{ number_format(4.5 + ($loop->index * 0.1), 2) }}</span>
                         </div>
                     </div>
                     <div class="mt-5 pt-4 border-t border-stone-950/70 flex items-center justify-between">
                         <div>
-                            <span class="text-sm font-semibold tracking-wider text-white">${{ number_format($product->price, 2) }}</span>
+                            <span class="text-base font-semibold tracking-wider text-white">${{ number_format($product->price, 2) }}</span>
                         </div>
-                        <form action="{{ route('user.cart.add', $product) }}" method="POST">
+                        <form action="{{ route('user.cart.add', $product) }}" method="POST" onclick="event.stopPropagation()">
                             @csrf
                             <input type="hidden" name="quantity" value="1">
                             @if($product->stock > 0)
@@ -249,7 +546,7 @@ body { background: var(--bg-deep); color: #e4e4e7; }
                         </form>
                     </div>
                 </div>
-            </div>
+            </a>
             @empty
             <p class="text-stone-500 text-xs py-16">No products available yet.</p>
             @endforelse
@@ -266,7 +563,9 @@ body { background: var(--bg-deep); color: #e4e4e7; }
     </div>
 </section>
 
-{{-- 6. CINEMATIC VIDEO LOOP BANNER --}}
+{{-- ============================================================ --}}
+{{-- 6. CINEMATIC VIDEO BANNER                                    --}}
+{{-- ============================================================ --}}
 <section class="relative my-12 h-[50vh] min-h-[350px] bg-stone-950 flex items-center justify-center overflow-hidden border-y border-stone-900">
     <div class="absolute inset-0 bg-gradient-to-r from-[#050507] via-[#050507]/70 to-[#050507] z-10"></div>
     <div class="absolute inset-0 w-full h-full flex items-center justify-center text-stone-800 select-none">
@@ -278,13 +577,15 @@ body { background: var(--bg-deep); color: #e4e4e7; }
         <p class="text-xs text-stone-400 font-light tracking-wide leading-relaxed max-w-lg mx-auto">
             Watch our craft manifesto to discover how we process luxury watch elements and acoustic purity configurations.
         </p>
-        <a href="{{ route('user.about') }}" class="inline-block mt-4 px-8 py-3 border border-stone-800 hover:border-[#e5c158]/50 text-white text-xs font-medium tracking-[0.2em] uppercase transition-all duration-300">
+        <a href="{{ route('user.about') }}" class="btn-outline inline-block mt-4">
             Discover More
         </a>
     </div>
 </section>
 
-{{-- 7. FEATURED --}}
+{{-- ============================================================ --}}
+{{-- 7. FEATURED TIMEPIECES                                       --}}
+{{-- ============================================================ --}}
 <section class="py-20 md:py-28 border-b border-stone-900">
     <div class="max-w-7xl mx-auto px-6">
         <div class="flex items-end justify-between mb-14" data-aos="fade-up">
@@ -297,45 +598,49 @@ body { background: var(--bg-deep); color: #e4e4e7; }
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             @forelse($featured as $i => $product)
-            <div class="feature-card group" data-aos="fade-up" data-aos-delay="{{ $i * 120 }}">
-                <div class="relative aspect-square overflow-hidden bg-[#050507]">
-                    <div class="relative w-full h-full overflow-hidden">
+            <a href="{{ route('user.product.detail', $product) }}" class="product-card group block" data-aos="fade-up" data-aos-delay="{{ $i * 120 }}">
+                <div class="relative p-4">
+                    @if($product->stock <= 3 && $product->stock > 0)
+                    <span class="absolute top-4 left-4 z-20 px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest badge-off">LIMITED</span>
+                    @else
+                    <span class="absolute top-4 left-4 z-20 px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest badge-new">FEATURED</span>
+                    @endif
+                    <div class="img-wrapper rounded-sm">
                         <img src="{{ $product->image ? asset('storage/' . $product->image) : 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=600&h=600&fit=crop' }}"
-                             alt="{{ $product->name }}"
-                             class="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
-                             loading="lazy">
+                             alt="{{ $product->name }}" class="primary-img" loading="lazy">
                         @if($product->image_secondary)
                         <img src="{{ asset('storage/' . $product->image_secondary) }}"
-                             alt="{{ $product->name }}"
-                             class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 opacity-0 group-hover:opacity-100"
-                             loading="lazy">
+                             alt="{{ $product->name }}" class="secondary-img" loading="lazy">
                         @endif
                     </div>
-                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-                        <form action="{{ route('user.cart.add', $product) }}" method="POST">
+                </div>
+                <div class="px-4 pb-4 flex-1 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-base font-medium tracking-wide text-white group-hover:text-[#e5c158] transition-colors">{{ $product->name }}</h3>
+                        <p class="text-[11px] text-stone-500 tracking-wider mt-0.5 font-light">{{ $product->category->name ?? 'Luxury Collection' }}</p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <span class="color-dot bg-[#3b2b52]"></span>
+                            <span class="color-dot bg-[#1a1a1a]"></span>
+                        </div>
+                        <div class="flex items-center gap-1 mt-2">
+                            <span class="rating-star">★★★★★</span>
+                            <span class="text-stone-400 text-[11px] ml-1">{{ number_format(4.5 + ($i * 0.1), 2) }}</span>
+                        </div>
+                    </div>
+                    <div class="mt-5 pt-4 border-t border-stone-950/70 flex items-center justify-between">
+                        <span class="text-base font-semibold tracking-wider text-white">${{ number_format($product->price, 2) }}</span>
+                        <form action="{{ route('user.cart.add', $product) }}" method="POST" onclick="event.stopPropagation()">
                             @csrf
                             <input type="hidden" name="quantity" value="1">
                             @if($product->stock > 0)
-                            <button type="submit" class="btn-add-cart">Add to Cart</button>
+                            <button type="submit" class="btn-buy">Buy Now</button>
                             @else
-                            <span class="btn-disabled">Sold Out</span>
+                            <span class="text-[10px] text-stone-600 uppercase tracking-wider">Sold Out</span>
                             @endif
                         </form>
                     </div>
                 </div>
-                <div class="p-6 space-y-3">
-                    <div class="flex items-center justify-between">
-                        <span class="text-[0.45rem] tracking-[0.3em] uppercase text-stone-500">{{ $product->brand ?? 'Valencia' }}</span>
-                        <span class="text-xs text-stone-600">{{ $product->category->name ?? 'Collection' }}</span>
-                    </div>
-                    <h3 class="text-base text-white font-light tracking-wide group-hover:text-[#e5c158] transition-colors">{{ $product->name }}</h3>
-                    <div class="gold-line"></div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-lg text-[#e5c158] font-light">${{ number_format($product->price, 2) }}</span>
-                        <span class="text-[0.4rem] tracking-[0.25em] uppercase {{ $product->stock > 0 ? 'text-emerald-500/60' : 'text-red-400/60' }}">{{ $product->stock > 0 ? 'In Stock' : 'Unavailable' }}</span>
-                    </div>
-                </div>
-            </div>
+            </a>
             @empty
             <p class="col-span-full text-center text-stone-500 py-16">No featured products yet.</p>
             @endforelse
@@ -343,7 +648,9 @@ body { background: var(--bg-deep); color: #e4e4e7; }
     </div>
 </section>
 
-{{-- 8. TRUST --}}
+{{-- ============================================================ --}}
+{{-- 8. TRUST SECTION                                              --}}
+{{-- ============================================================ --}}
 <section class="py-20 md:py-28">
     <div class="max-w-7xl mx-auto px-6">
         <div class="text-center mb-16" data-aos="fade-up">
@@ -395,16 +702,30 @@ body { background: var(--bg-deep); color: #e4e4e7; }
 
 @push('scripts')
 <script>
-(function() {
+document.addEventListener('DOMContentLoaded', function() {
     const track = document.getElementById('carouselTrack');
     const leftBtn = document.getElementById('scrollLeft');
     const rightBtn = document.getElementById('scrollRight');
+    
     if (track && leftBtn && rightBtn) {
-        const scrollAmount = 320;
-        leftBtn.addEventListener('click', () => track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }));
-        rightBtn.addEventListener('click', () => track.scrollBy({ left: scrollAmount, behavior: 'smooth' }));
+        const scrollAmount = 360;
+        leftBtn.addEventListener('click', function() {
+            track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        });
+        rightBtn.addEventListener('click', function() {
+            track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        });
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') {
+                track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            } else if (e.key === 'ArrowRight') {
+                track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+        });
     }
-})();
+});
 </script>
 @endpush
 

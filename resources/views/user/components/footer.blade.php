@@ -49,7 +49,6 @@
                 <ul class="space-y-3 text-xs font-light">
                     <li><a href="{{ route('user.shop') }}" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">All Products</a></li>
                     <li><a href="{{ route('user.shop') }}" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">Precision Timepieces</a></li>
-                    <li><a href="{{ route('user.gallery') }}" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">Visual Gallery</a></li>
                     <li><a href="{{ route('user.about') }}" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">The Atelier</a></li>
                 </ul>
             </div>

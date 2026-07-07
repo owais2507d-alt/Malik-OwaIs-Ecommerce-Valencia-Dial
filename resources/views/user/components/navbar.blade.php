@@ -16,7 +16,6 @@
                 <a href="{{ route('user.home') }}" class="text-stone-200 hover-gold-glow smooth-transition">Home</a>
                 <a href="{{ route('user.watches') }}" class="text-stone-400 hover-gold-glow smooth-transition">Watches</a>
                 <a href="{{ route('user.shop') }}" class="text-stone-400 hover-gold-glow smooth-transition">All Products</a>
-                <a href="{{ route('user.gallery') }}" class="text-stone-400 hover-gold-glow smooth-transition">Gallery</a>
                 <a href="{{ route('user.about') }}" class="text-stone-400 hover-gold-glow smooth-transition">About</a>
                 <a href="{{ route('user.contact') }}" class="text-stone-400 hover-gold-glow smooth-transition">Contact</a>
             </nav>
@@ -83,8 +82,6 @@
                     class="text-stone-400 py-2 border-b border-stone-900/40 hover:text-white">Watches</a>
                 <a href="{{ route('user.shop') }}" @click="mobileMenuOpen = false"
                     class="text-stone-400 py-2 border-b border-stone-900/40 hover:text-white">All Products</a>
-                <a href="{{ route('user.gallery') }}" @click="mobileMenuOpen = false"
-                    class="text-stone-400 py-2 border-b border-stone-900/40 hover:text-white">Gallery</a>
                 <a href="{{ route('user.about') }}" @click="mobileMenuOpen = false"
                     class="text-stone-400 py-2 border-b border-stone-900/40 hover:text-white">About</a>
                 <a href="{{ route('user.contact') }}" @click="mobileMenuOpen = false"
