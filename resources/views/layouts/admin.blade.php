@@ -87,9 +87,17 @@
                     <i class="fas fa-shopping-bag w-5"></i>
                     <span>Orders</span>
                 </a>
-                <a href="{{ route('admin.hero-settings.index') }}" class="nav-link flex items-center gap-3 px-6 py-4 rounded-2xl text-white text-[15px] {{ request()->routeIs('admin.hero-settings.*') ? 'active' : '' }}">
-                    <i class="fas fa-image w-5"></i>
-                    <span>Hero Settings</span>
+                <a href="{{ route('admin.slides.index') }}" class="nav-link flex items-center gap-3 px-6 py-4 rounded-2xl text-white text-[15px] {{ request()->routeIs('admin.slides.*') ? 'active' : '' }}">
+                    <i class="fas fa-images w-5"></i>
+                    <span>Slides</span>
+                </a>
+                <a href="{{ route('admin.deals.index') }}" class="nav-link flex items-center gap-3 px-6 py-4 rounded-2xl text-white text-[15px] {{ request()->routeIs('admin.deals.*') ? 'active' : '' }}">
+                    <i class="fas fa-clock w-5"></i>
+                    <span>Deals</span>
+                </a>
+                <a href="{{ route('admin.video-settings.index') }}" class="nav-link flex items-center gap-3 px-6 py-4 rounded-2xl text-white text-[15px] {{ request()->routeIs('admin.video-settings.*') ? 'active' : '' }}">
+                    <i class="fas fa-video w-5"></i>
+                    <span>Video Section</span>
                 </a>
                 <a href="{{ route('admin.maintenance.index') }}" class="nav-link flex items-center gap-3 px-6 py-4 rounded-2xl text-white text-[15px] {{ request()->routeIs('admin.maintenance.*') ? 'active' : '' }}">
                     <i class="fas fa-shield-alt w-5"></i>

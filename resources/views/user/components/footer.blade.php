@@ -1,147 +1,101 @@
-<footer class="bg-[#030305] text-stone-400 border-t border-stone-900/60 pt-20 pb-10 relative overflow-hidden">
-    <!-- Ambient glow effect -->
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-[#e5c158]/[0.02] blur-[100px] pointer-events-none"></div>
-    
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-        
-        <!-- Main Footer Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 pb-16 border-b border-stone-900/40">
-            
-            <!-- Brand Column -->
-            <div class="lg:col-span-2 space-y-6">
-                <div>
-                    <span class="text-2xl font-light tracking-[0.3em] text-white uppercase block">
-                        Valencia <span class="text-[#e5c158] gold-glow">Dial</span>
-                    </span>
-                    <div class="h-[1px] w-16 bg-gradient-to-r from-[#e5c158] to-transparent mt-3"></div>
-                </div>
-                <p class="text-xs text-stone-500 font-light leading-relaxed max-w-sm tracking-wide">
-                    Crafting future-focused aesthetics with precision mechanics. An ecosystem engineered for individuals who seek absolute distinction in horology and immersive acoustics.
-                </p>
-                
-                <!-- Social Icons - Advanced -->
-                <div class="flex items-center gap-6 pt-2">
-                    <a href="#" class="group relative w-10 h-10 flex items-center justify-center rounded-full border border-stone-800/60 hover:border-[#e5c158]/40 transition-all duration-500 hover:shadow-[0_0_20px_rgba(229,193,88,0.1)]">
-                        <span class="text-[10px] tracking-widest text-stone-500 group-hover:text-[#e5c158] transition-colors duration-300 font-medium">IG</span>
-                        <span class="absolute inset-0 rounded-full bg-[#e5c158]/5 scale-0 group-hover:scale-100 transition-transform duration-500"></span>
-                    </a>
-                    <a href="#" class="group relative w-10 h-10 flex items-center justify-center rounded-full border border-stone-800/60 hover:border-[#e5c158]/40 transition-all duration-500 hover:shadow-[0_0_20px_rgba(229,193,88,0.1)]">
-                        <span class="text-[10px] tracking-widest text-stone-500 group-hover:text-[#e5c158] transition-colors duration-300 font-medium">TW</span>
-                        <span class="absolute inset-0 rounded-full bg-[#e5c158]/5 scale-0 group-hover:scale-100 transition-transform duration-500"></span>
-                    </a>
-                    <a href="#" class="group relative w-10 h-10 flex items-center justify-center rounded-full border border-stone-800/60 hover:border-[#e5c158]/40 transition-all duration-500 hover:shadow-[0_0_20px_rgba(229,193,88,0.1)]">
-                        <span class="text-[10px] tracking-widest text-stone-500 group-hover:text-[#e5c158] transition-colors duration-300 font-medium">FB</span>
-                        <span class="absolute inset-0 rounded-full bg-[#e5c158]/5 scale-0 group-hover:scale-100 transition-transform duration-500"></span>
-                    </a>
-                    <a href="#" class="group relative w-10 h-10 flex items-center justify-center rounded-full border border-stone-800/60 hover:border-[#e5c158]/40 transition-all duration-500 hover:shadow-[0_0_20px_rgba(229,193,88,0.1)]">
-                        <span class="text-[10px] tracking-widest text-stone-500 group-hover:text-[#e5c158] transition-colors duration-300 font-medium">YT</span>
-                        <span class="absolute inset-0 rounded-full bg-[#e5c158]/5 scale-0 group-hover:scale-100 transition-transform duration-500"></span>
-                    </a>
+<footer class="bg-[#050508] border-t border-white/5 relative overflow-hidden">
+    {{-- Decorative top gradient line --}}
+    <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent"></div>
+
+    {{-- Top section with newsletter --}}
+    <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-20 md:py-28">
+        {{-- Brand + Newsletter row --}}
+        <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-14 pb-16 border-b border-white/5">
+            <div class="max-w-md">
+                <a href="{{ url('/') }}" class="inline-flex items-baseline gap-2 group">
+                    <span class="font-serif text-4xl font-bold tracking-[0.08em] gold">VALENCIA</span>
+                    <span class="font-serif text-4xl font-light text-white/60">DIAL</span>
+                </a>
+                <p class="text-white/30 text-sm mt-5 leading-relaxed tracking-wide">Timeless elegance, crafted for those who appreciate the finer things in life. Curating the world's finest timepieces since 1987.</p>
+                <div class="flex gap-4 mt-8">
+                    <a href="#" class="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:bg-gold hover:text-[#050508] hover:border-gold transition-all duration-300 text-sm"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:bg-gold hover:text-[#050508] hover:border-gold transition-all duration-300 text-sm"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:bg-gold hover:text-[#050508] hover:border-gold transition-all duration-300 text-sm"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:bg-gold hover:text-[#050508] hover:border-gold transition-all duration-300 text-sm"><i class="fab fa-pinterest-p"></i></a>
+                    <a href="#" class="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:bg-gold hover:text-[#050508] hover:border-gold transition-all duration-300 text-sm"><i class="fab fa-x-twitter"></i></a>
                 </div>
             </div>
-
-            <!-- Curated Lines -->
-            <div class="space-y-5">
-                <h4 class="text-[10px] uppercase tracking-[0.3em] text-stone-200 font-bold relative inline-block">
-                    Curated Lines
-                    <span class="absolute -bottom-1 left-0 w-6 h-[1px] bg-[#e5c158]/40"></span>
-                </h4>
-                <ul class="space-y-3 text-xs font-light">
-                    <li><a href="{{ route('user.shop') }}" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">All Products</a></li>
-                    <li><a href="{{ route('user.shop') }}" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">Precision Timepieces</a></li>
-                    <li><a href="{{ route('user.about') }}" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">The Atelier</a></li>
-                </ul>
-            </div>
-
-            <!-- Concierge -->
-            <div class="space-y-5">
-                <h4 class="text-[10px] uppercase tracking-[0.3em] text-stone-200 font-bold relative inline-block">
-                    Concierge
-                    <span class="absolute -bottom-1 left-0 w-6 h-[1px] bg-[#e5c158]/40"></span>
-                </h4>
-                <ul class="space-y-3 text-xs font-light">
-                    <li><a href="{{ route('user.contact') }}" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">Contact Us</a></li>
-                    <li><a href="{{ route('user.about') }}" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">About Us</a></li>
-                    <li><a href="{{ route('user.shop') }}" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">Browse Collection</a></li>
-                    <li><a href="{{ route('user.contact') }}" class="hover:text-[#e5c158] transition-all duration-300 tracking-wide block hover:translate-x-2">Private Consultations</a></li>
-                </ul>
-            </div>
-
-            <!-- Newsletter - Advanced -->
-            <div class="space-y-5">
-                <h4 class="text-[10px] uppercase tracking-[0.3em] text-stone-200 font-bold relative inline-block">
-                    The Dispatch
-                    <span class="absolute -bottom-1 left-0 w-6 h-[1px] bg-[#e5c158]/40"></span>
-                </h4>
-                <p class="text-xs text-stone-500 font-light leading-relaxed tracking-wide">
-                    Subscribe to receive advance priority access blueprints and stock drops.
-                </p>
-                <form class="pt-1">
-                    <div class="relative group">
-                        <div class="absolute -inset-0.5 bg-gradient-to-r from-[#e5c158]/20 to-transparent rounded-lg blur opacity-0 group-focus-within:opacity-100 transition-opacity duration-500"></div>
-                        <div class="relative flex items-center border border-stone-800 rounded-lg focus-within:border-[#e5c158]/60 transition-all duration-500 bg-stone-900/30 backdrop-blur-sm overflow-hidden group-focus-within:shadow-[0_0_30px_rgba(229,193,88,0.05)]">
-                            <input type="email" placeholder="Enter your email" 
-                                   class="bg-transparent text-xs text-stone-300 placeholder-stone-600 focus:outline-none w-full tracking-wide font-light px-4 py-3.5">
-                            <button type="submit" class="btn-newsletter">
-                                Join
-                            </button>
-                        </div>
-                    </div>
-                </form>
-                
-                <!-- Trust Badge -->
-                <div class="flex items-center gap-4 pt-2">
-                    <div class="flex items-center gap-1.5">
-                        <svg class="w-3 h-3 text-[#e5c158]/60" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        <span class="text-[8px] tracking-widest text-stone-500 uppercase">4.9/5</span>
-                    </div>
-                    <span class="text-stone-800 text-[10px]">|</span>
-                    <span class="text-[8px] tracking-widest text-stone-500 uppercase">Encrypted Vault</span>
+            <div class="w-full lg:max-w-md">
+                <h5 class="text-white/50 text-xs uppercase tracking-[4px] font-medium mb-5">Stay Informed</h5>
+                <div class="flex gap-3">
+                    <input type="email" placeholder="Enter your email"
+                           class="flex-1 bg-white/5 border border-white/10 rounded-full px-6 py-4 text-sm text-white placeholder-white/20 focus:outline-none focus:border-gold/40 transition-all duration-300">
+                    <button class="w-13 h-13 rounded-full bg-gold text-[#050508] flex items-center justify-center hover:bg-gold/90 transition-all duration-300 w-12 h-12"><i class="fas fa-arrow-right text-sm"></i></button>
                 </div>
-            </div>
-
-        </div>
-
-        <!-- Bottom Bar - Advanced -->
-        <div class="flex flex-col md:flex-row items-center justify-between pt-10 text-[10px] tracking-[0.15em] text-stone-600 font-light space-y-4 md:space-y-0">
-            <p class="flex items-center gap-2">
-                <span class="text-[#e5c158]/40">◆</span>
-                © 2026 The Atelier Vault. All blueprints reserved.
-                <span class="text-[#e5c158]/40">◆</span>
-            </p>
-            <div class="flex items-center gap-8">
-                <a href="#" class="relative hover:text-[#e5c158] transition-colors duration-300 group">
-                    Privacy Policy
-                    <span class="absolute -bottom-0.5 left-0 w-0 h-[1px] bg-[#e5c158] group-hover:w-full transition-all duration-300"></span>
-                </a>
-                <a href="#" class="relative hover:text-[#e5c158] transition-colors duration-300 group">
-                    Terms of Service
-                    <span class="absolute -bottom-0.5 left-0 w-0 h-[1px] bg-[#e5c158] group-hover:w-full transition-all duration-300"></span>
-                </a>
-                <a href="#" class="relative hover:text-[#e5c158] transition-colors duration-300 group">
-                    Cookie Policy
-                    <span class="absolute -bottom-0.5 left-0 w-0 h-[1px] bg-[#e5c158] group-hover:w-full transition-all duration-300"></span>
-                </a>
-            </div>
-            <div class="flex items-center gap-2 text-[8px] tracking-widest text-stone-700">
-                <span class="w-1 h-1 rounded-full bg-[#e5c158]/30 animate-pulse"></span>
-                SECURE CONNECTION
+                <p class="text-white/20 text-xs mt-4 tracking-wide">Subscribe for exclusive drops and horology insights.</p>
             </div>
         </div>
 
+        {{-- Links grid --}}
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-12 py-16">
+            <div>
+                <h5 class="text-white/60 text-xs uppercase tracking-[4px] font-semibold mb-6">Shop</h5>
+                <ul class="space-y-4">
+                    <li><a href="{{ route('user.shop') }}" class="text-white/35 text-sm hover:text-gold transition-colors duration-300 tracking-wide">All Products</a></li>
+                    <li><a href="{{ route('user.watches') }}" class="text-white/35 text-sm hover:text-gold transition-colors duration-300 tracking-wide">Watches</a></li>
+                    <li><a href="{{ route('user.shop') }}" class="text-white/35 text-sm hover:text-gold transition-colors duration-300 tracking-wide">Luxury Collection</a></li>
+                    <li><a href="{{ route('user.shop') }}" class="text-white/35 text-sm hover:text-gold transition-colors duration-300 tracking-wide">New Arrivals</a></li>
+                    <li><a href="{{ route('user.shop') }}" class="text-white/35 text-sm hover:text-gold transition-colors duration-300 tracking-wide">Best Sellers</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="text-white/60 text-xs uppercase tracking-[4px] font-semibold mb-6">Support</h5>
+                <ul class="space-y-4">
+                    <li><a href="{{ route('user.contact') }}" class="text-white/35 text-sm hover:text-gold transition-colors duration-300 tracking-wide">Contact Us</a></li>
+                    <li><a href="#" class="text-white/35 text-sm hover:text-gold transition-colors duration-300 tracking-wide">Shipping Info</a></li>
+                    <li><a href="#" class="text-white/35 text-sm hover:text-gold transition-colors duration-300 tracking-wide">Returns & Exchanges</a></li>
+                    <li><a href="#" class="text-white/35 text-sm hover:text-gold transition-colors duration-300 tracking-wide">Warranty</a></li>
+                    <li><a href="#" class="text-white/35 text-sm hover:text-gold transition-colors duration-300 tracking-wide">FAQs</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="text-white/60 text-xs uppercase tracking-[4px] font-semibold mb-6">Company</h5>
+                <ul class="space-y-4">
+                    <li><a href="{{ route('user.about') }}" class="text-white/35 text-sm hover:text-gold transition-colors duration-300 tracking-wide">About Us</a></li>
+                    <li><a href="{{ route('user.contact') }}" class="text-white/35 text-sm hover:text-gold transition-colors duration-300 tracking-wide">Careers</a></li>
+                    <li><a href="#" class="text-white/35 text-sm hover:text-gold transition-colors duration-300 tracking-wide">Press</a></li>
+                    <li><a href="#" class="text-white/35 text-sm hover:text-gold transition-colors duration-300 tracking-wide">Privacy Policy</a></li>
+                    <li><a href="#" class="text-white/35 text-sm hover:text-gold transition-colors duration-300 tracking-wide">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="text-white/60 text-xs uppercase tracking-[4px] font-semibold mb-6">Contact</h5>
+                <ul class="space-y-4">
+                    <li class="text-white/35 text-sm flex items-start gap-3 tracking-wide">
+                        <i class="fas fa-map-marker-alt text-gold/60 text-xs mt-1"></i>
+                        <span>Horology House, 64 Rue de la Paix, Paris</span>
+                    </li>
+                    <li class="text-white/35 text-sm flex items-center gap-3 tracking-wide">
+                        <i class="fas fa-phone text-gold/60 text-xs"></i>
+                        <a href="tel:+33123456789" class="hover:text-gold transition-colors">+33 1 23 45 67 89</a>
+                    </li>
+                    <li class="text-white/35 text-sm flex items-center gap-3 tracking-wide">
+                        <i class="fas fa-envelope text-gold/60 text-xs"></i>
+                        <a href="mailto:concierge@valenciadial.com" class="hover:text-gold transition-colors">concierge@valenciadial.com</a>
+                    </li>
+                    <li class="text-white/35 text-sm flex items-center gap-3 tracking-wide">
+                        <i class="fas fa-clock text-gold/60 text-xs"></i>
+                        <span>Mon–Sat: 10:00 – 19:00</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        {{-- Bottom bar --}}
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6 pt-10 border-t border-white/5">
+            <div class="flex flex-wrap items-center gap-5">
+                <span class="w-11 h-8 rounded bg-white/5 flex items-center justify-center text-white/30 text-sm"><i class="fab fa-cc-visa"></i></span>
+                <span class="w-11 h-8 rounded bg-white/5 flex items-center justify-center text-white/30 text-sm"><i class="fab fa-cc-mastercard"></i></span>
+                <span class="w-11 h-8 rounded bg-white/5 flex items-center justify-center text-white/30 text-sm"><i class="fab fa-cc-amex"></i></span>
+                <span class="w-11 h-8 rounded bg-white/5 flex items-center justify-center text-white/30 text-sm"><i class="fab fa-cc-paypal"></i></span>
+                <span class="w-11 h-8 rounded bg-white/5 flex items-center justify-center text-white/30 text-sm"><i class="fab fa-cc-apple-pay"></i></span>
+            </div>
+            <p class="text-white/20 text-xs tracking-[0.15em]">&copy; 2026 VALENCIA DIAL. All rights reserved.</p>
+        </div>
     </div>
 </footer>
-
-<style>
-    .gold-glow {
-        text-shadow: 0 0 20px rgba(229, 193, 88, 0.15);
-    }
-    
-    @keyframes pulse {
-        0%, 100% { opacity: 0.3; }
-        50% { opacity: 1; }
-    }
-    .animate-pulse {
-        animation: pulse 2s ease-in-out infinite;
-    }
-</style>

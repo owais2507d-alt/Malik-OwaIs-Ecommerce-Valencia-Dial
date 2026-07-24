@@ -7,8 +7,7 @@ use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\AboutController;
 use App\Http\Controllers\User\ShopController;
 use App\Http\Controllers\User\ContactController;
-use App\Http\Controllers\User\CartController;
-use App\Http\Controllers\User\CheckoutController;
+
 
 
 Route::middleware('guest')->group(function () {
@@ -50,16 +49,4 @@ Route::post('/contact', [ContactController::class, 'send'])->name('user.contact.
 Route::get('/watches', [ShopController::class, 'watches'])->name('user.watches');
 Route::get('/product/{product}', [ShopController::class, 'show'])->name('user.product.detail');
 
-// Cart Routes
-Route::prefix('cart')->name('user.cart.')->group(function () {
-    Route::get('/', [CartController::class, 'index'])->name('index');
-    Route::post('/add/{product}', [CartController::class, 'add'])->name('add');
-    Route::post('/update/{id}', [CartController::class, 'update'])->name('update');
-    Route::delete('/remove/{id}', [CartController::class, 'remove'])->name('remove');
-    Route::delete('/clear', [CartController::class, 'clear'])->name('clear');
-});
-
-// Checkout
-Route::get('/checkout', [CheckoutController::class, 'index'])->name('user.checkout');
-Route::post('/checkout', [CheckoutController::class, 'placeOrder'])->name('user.checkout.place');
 

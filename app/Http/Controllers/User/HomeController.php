@@ -4,8 +4,10 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Deal;
 use App\Models\Product;
 use App\Models\Setting;
+use App\Models\Slide;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -18,7 +20,7 @@ class HomeController extends Controller
             ->where('status', 'active')
             ->where('stock', '>', 0)
             ->latest()
-            ->take(6)
+            ->take(4)
             ->get();
 
         $featured = Product::with('category')
@@ -27,22 +29,37 @@ class HomeController extends Controller
             ->take(3)
             ->get();
 
-        $heroTitle = Setting::getValue('hero_title', 'Valencia');
-        $heroTitleAccent = Setting::getValue('hero_title_accent', 'Dial');
-        $heroTagline = Setting::getValue('hero_tagline', 'Est. 2026');
-        $heroSubtitle = Setting::getValue('hero_subtitle', 'A digital atelier where exceptional craftsmanship meets timeless design.');
-        $heroCtaPrimaryText = Setting::getValue('hero_cta_primary_text', 'Explore Collection');
-        $heroCtaPrimaryLink = Setting::getValue('hero_cta_primary_link', route('user.shop'));
-        $heroCtaSecondaryText = Setting::getValue('hero_cta_secondary_text', 'Join the Vault');
-        $heroCtaSecondaryLink = Setting::getValue('hero_cta_secondary_link', route('user.register'));
-        $heroVideo = Setting::getValue('hero_video', 'https://cdn.coverr.co/videos/coverr-luxury-watch-on-a-marble-surface-5767/1080p.mp4');
+        $slides = Slide::where('is_active', true)
+            ->orderBy('order')
+            ->get();
+
+        $activeDeal = Deal::where('is_active', true)
+            ->where('end_date', '>', now())
+            ->orderBy('end_date')
+            ->first();
+
+        $videoSectionFile = Setting::getValue('video_section_file', '');
+        $rawUrl = Setting::getValue('video_section_url', '');
+        $videoSectionUrl = $this->convertToEmbedUrl($rawUrl);
+        $videoSectionSubtitle = Setting::getValue('video_section_subtitle', 'Watch');
+        $videoSectionTitle = Setting::getValue('video_section_title', 'THE CRAFT BEHIND THE CRAFT');
+        $videoSectionDescription = Setting::getValue('video_section_description', 'Witness the artistry of master horologists at work — where every second is a masterpiece in the making.');
 
         return view('user.home', compact(
             'categories', 'topSellers', 'featured',
-            'heroTitle', 'heroTitleAccent', 'heroTagline', 'heroSubtitle',
-            'heroCtaPrimaryText', 'heroCtaPrimaryLink',
-            'heroCtaSecondaryText', 'heroCtaSecondaryLink',
-            'heroVideo'
+            'slides', 'activeDeal', 'videoSectionFile', 'videoSectionUrl',
+            'videoSectionSubtitle', 'videoSectionTitle', 'videoSectionDescription'
         ));
+    }
+
+    private function convertToEmbedUrl(string $url): string
+    {
+        if (empty($url)) return '';
+
+        if (preg_match('/(?:youtube\.com\/(?:shorts\/|embed\/|watch\?v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $url, $matches)) {
+            return 'https://www.youtube.com/embed/' . $matches[1];
+        }
+
+        return $url;
     }
 }

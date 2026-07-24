@@ -7,7 +7,9 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\Admin\MaintenanceController;
-use App\Http\Controllers\Admin\HeroSettingsController;
+use App\Http\Controllers\Admin\SliderController;
+use App\Http\Controllers\Admin\DealController;
+use App\Http\Controllers\Admin\VideoSettingController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -54,7 +56,24 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     Route::get('/maintenance', [MaintenanceController::class, 'index'])->name('maintenance.index');
     Route::post('/maintenance', [MaintenanceController::class, 'update'])->name('maintenance.update');
 
-    //hero settings
-    Route::get('/hero-settings', [HeroSettingsController::class, 'index'])->name('hero-settings.index');
-    Route::post('/hero-settings', [HeroSettingsController::class, 'update'])->name('hero-settings.update');
+    //slides
+    Route::get('/slides', [SliderController::class, 'index'])->name('slides.index');
+    Route::get('/slides/create', [SliderController::class, 'create'])->name('slides.create');
+    Route::post('/slides', [SliderController::class, 'store'])->name('slides.store');
+    Route::get('/slides/{slide}/edit', [SliderController::class, 'edit'])->name('slides.edit');
+    Route::put('/slides/{slide}', [SliderController::class, 'update'])->name('slides.update');
+    Route::delete('/slides/{slide}', [SliderController::class, 'destroy'])->name('slides.destroy');
+
+    //deals
+    Route::get('/deals', [DealController::class, 'index'])->name('deals.index');
+    Route::get('/deals/create', [DealController::class, 'create'])->name('deals.create');
+    Route::post('/deals', [DealController::class, 'store'])->name('deals.store');
+    Route::get('/deals/{deal}/edit', [DealController::class, 'edit'])->name('deals.edit');
+    Route::put('/deals/{deal}', [DealController::class, 'update'])->name('deals.update');
+    Route::delete('/deals/{deal}', [DealController::class, 'destroy'])->name('deals.destroy');
+
+    //video settings
+    Route::get('/video-settings', [VideoSettingController::class, 'index'])->name('video-settings.index');
+    Route::post('/video-settings', [VideoSettingController::class, 'update'])->name('video-settings.update');
+
 });

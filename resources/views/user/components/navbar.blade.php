@@ -1,113 +1,83 @@
-<header
-        class="sticky top-0 z-50 bg-[#040405]/90 backdrop-blur-xl border-b border-stone-900/60 px-4 sm:px-6 lg:px-12 py-5 sm:py-6">
-        <div class="max-w-1600px mx-auto flex items-center justify-between">
+<header class="fixed top-0 left-0 w-full z-50 bg-[#0a0a0f]/95 backdrop-blur-md border-b border-white/5">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 md:h-20">
 
-            <div class="flex-shrink-0">
-                <a href="{{ url('/') }}"
-                    class="luxury-title block text-xl sm:text-2xl tracking-[0.25em] text-stone-200 font-light smooth-transition hover:opacity-80 uppercase leading-none">
-                    VALENCIA
-                    <span
-                        class="block text-[9px] sm:text-[10px] tracking-[0.45em] text-dark-gold font-semibold mt-1.5">DIAL</span>
-                </a>
-            </div>
+      <a href="{{ url('/') }}" class="flex items-center gap-2 group">
+        <span class="font-serif text-2xl md:text-3xl font-bold tracking-wider gold">VALENCIA</span>
+        <span class="font-serif text-2xl md:text-3xl font-light text-white/80">DIAL</span>
+      </a>
 
-            <nav
-                class="hidden lg:flex items-center space-x-10 xl:space-x-14 text-[10px] uppercase tracking-[0.35em] font-medium">
-                <a href="{{ route('user.home') }}" class="text-stone-200 hover-gold-glow smooth-transition">Home</a>
-                <a href="{{ route('user.watches') }}" class="text-stone-400 hover-gold-glow smooth-transition">Watches</a>
-                <a href="{{ route('user.shop') }}" class="text-stone-400 hover-gold-glow smooth-transition">All Products</a>
-                <a href="{{ route('user.about') }}" class="text-stone-400 hover-gold-glow smooth-transition">About</a>
-                <a href="{{ route('user.contact') }}" class="text-stone-400 hover-gold-glow smooth-transition">Contact</a>
-            </nav>
+      <nav class="hidden lg:flex items-center gap-8 text-sm font-medium">
+        <a href="{{ route('user.home') }}" class="nav-link text-white/80">HOME</a>
+        <a href="{{ route('user.shop') }}" class="nav-link text-white/80">SHOP</a>
+        <a href="{{ route('user.watches') }}" class="nav-link text-white/80">WATCHES</a>
+        <a href="{{ route('user.about') }}" class="nav-link text-white/80">ABOUT</a>
+        <a href="{{ route('user.contact') }}" class="nav-link text-white/80">CONTACT</a>
+      </nav>
 
-            <div class="hidden lg:flex items-center space-x-8 text-[10px] uppercase tracking-[0.25em] font-light">
-                <a href="{{ route('user.cart.index') }}" class="text-stone-300 hover:text-white smooth-transition flex items-center space-x-2 group">
-                    <span class="tracking-[0.3em] group-hover:text-dark-gold smooth-transition">CART</span>
-                    <span
-                        class="text-dark-gold group-hover:text-stone-200 smooth-transition font-normal">({{ count(session('cart', [])) }})</span>
-                </a>
+      <div class="flex items-center gap-3">
+        @auth
+        <span class="hidden lg:block text-white/40 text-xs tracking-wider">Welcome, <span class="gold">{{ Auth::user()->name }}</span></span>
+        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('desktop-logout').submit();" class="hidden lg:inline-block text-[10px] uppercase tracking-[0.2em] text-white/40 hover:text-red-400 transition px-4 py-2 border border-white/5 rounded-full">LOGOUT</a>
+        <form id="desktop-logout" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
+        @else
+        <a href="{{ route('user.login') }}" class="hidden lg:inline-block text-[10px] uppercase tracking-[0.2em] text-white/80 hover:text-gold transition px-5 py-2 border border-white/10 rounded-full hover:border-gold">SIGN IN</a>
+        <a href="{{ route('user.register') }}" class="hidden lg:inline-flex items-center text-[10px] uppercase tracking-[0.2em] font-semibold text-black bg-gradient-to-r from-[#d4af37] to-[#b8952e] px-5 py-2 rounded-full hover:shadow-lg hover:shadow-gold/20 transition-all">JOIN</a>
+        @endauth
 
-                <span class="text-stone-800">|</span>
+        <button id="menu-toggle" class="lg:hidden text-white/80 text-2xl focus:outline-none transition-transform duration-300 hover:scale-110">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
 
-                @auth
-                    <div class="flex items-center space-x-6">
-                        <span class="text-stone-400">Vault: <span
-                                class="text-dark-gold font-medium tracking-wider">{{ Auth::user()->name }}</span></span>
-                        <a href="{{ route('logout') }}"
-                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                            class="text-stone-500 hover:text-red-400 smooth-transition font-medium tracking-widest">
-                            Exit
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
-                    </div>
-                @else
-                    <div class="flex items-center space-x-4 font-medium">
-                        <a href="{{ route('user.login') }}"
-                            class="text-stone-400 hover:text-stone-100 smooth-transition">Login</a>
-                        <span class="text-stone-800">/</span>
-                        <a href="{{ route('user.register') }}"
-                            class="text-stone-400 hover:text-stone-100 smooth-transition">Register</a>
-                    </div>
-                @endauth
-            </div>
+    </div>
 
-            <div class="flex items-center lg:hidden space-x-5">
-                <a href="{{ route('user.cart.index') }}" class="text-[10px] tracking-[0.2em] text-stone-300 font-medium">
-                    CART <span class="text-dark-gold">({{ count(session('cart', [])) }})</span>
-                </a>
+    <div id="mobile-menu" class="lg:hidden hidden pb-6 border-t border-white/5 mt-2 pt-4">
+      <nav class="flex flex-col gap-3 text-sm font-medium">
+        <a href="{{ route('user.home') }}" class="text-white/80 hover:text-gold transition px-2 py-1.5">HOME</a>
+        <a href="{{ route('user.shop') }}" class="text-white/80 hover:text-gold transition px-2 py-1.5">SHOP</a>
+        <a href="{{ route('user.watches') }}" class="text-white/80 hover:text-gold transition px-2 py-1.5">WATCHES</a>
+        <a href="{{ route('user.about') }}" class="text-white/80 hover:text-gold transition px-2 py-1.5">ABOUT</a>
+        <a href="{{ route('user.contact') }}" class="text-white/80 hover:text-gold transition px-2 py-1.5">CONTACT</a>
+        <div class="flex items-center gap-6 pt-3 border-t border-white/5 mt-1">
+          @auth
+            <span class="text-white/40 text-xs">Welcome, <span class="gold">{{ Auth::user()->name }}</span></span>
+            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('mobile-logout').submit();" class="text-white/40 hover:text-red-400 transition text-xs">LOGOUT</a>
+            <form id="mobile-logout" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
+          @else
+            <a href="{{ route('user.login') }}" class="gold-hover transition text-sm"><i class="fas fa-user"></i></a>
 
-                <button @click="mobileMenuOpen = !mobileMenuOpen"
-                    class="text-stone-300 focus:outline-none p-1 cursor-pointer z-50">
-                    <svg class="w-6 h-6 smooth-transition" fill="none" stroke="currentColor" stroke-width="1"
-                        viewBox="0 0 24 24" x-show="!mobileMenuOpen">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
-                    </svg>
-                    <svg class="w-6 h-6 smooth-transition" fill="none" stroke="currentColor" stroke-width="1"
-                        viewBox="0 0 24 24" x-show="mobileMenuOpen" style="display: none;">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
+          @endauth
         </div>
+      </nav>
+    </div>
+  </div>
+</header>
 
-        <div class="lg:hidden fixed inset-x-0 top-[73px] h-screen bg-[#040405]/98 backdrop-blur-2xl border-t border-stone-900/60 z-40 transition-all duration-300"
-            x-show="mobileMenuOpen" x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
-            x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0"
-            x-transition:leave-end="opacity-0 -translate-y-4" style="display: none;">
-            <div class="flex flex-col space-y-6 text-center tracking-[0.3em] text-[11px] uppercase pt-12 px-6">
-                <a href="{{ route('user.home') }}" @click="mobileMenuOpen = false"
-                    class="text-stone-200 py-2 border-b border-stone-900/40 hover:text-white">Home</a>
-                <a href="{{ route('user.watches') }}" @click="mobileMenuOpen = false"
-                    class="text-stone-400 py-2 border-b border-stone-900/40 hover:text-white">Watches</a>
-                <a href="{{ route('user.shop') }}" @click="mobileMenuOpen = false"
-                    class="text-stone-400 py-2 border-b border-stone-900/40 hover:text-white">All Products</a>
-                <a href="{{ route('user.about') }}" @click="mobileMenuOpen = false"
-                    class="text-stone-400 py-2 border-b border-stone-900/40 hover:text-white">About</a>
-                <a href="{{ route('user.contact') }}" @click="mobileMenuOpen = false"
-                    class="text-stone-400 py-2 border-b border-stone-900/40 hover:text-white">Contact</a>
-
-                <div class="pt-6">
-                    @auth
-                        <p class="text-stone-500 text-[10px] mb-3 normal-case tracking-wide">Logged in as: <span
-                                class="text-dark-gold font-medium">{{ Auth::user()->name }}</span></p>
-                        <a href="{{ route('logout') }}"
-                            onclick="event.preventDefault(); document.getElementById('mobile-logout-form').submit();"
-                            class="text-red-900/80 font-medium block py-2 tracking-widest text-[10px] border border-red-950/40 bg-red-950/10">Exit
-                            Vault</a>
-                        <form id="mobile-logout-form" action="{{ route('logout') }}" method="POST" class="hidden">@csrf
-                        </form>
-                    @else
-                        <div class="grid grid-cols-2 gap-4 pt-4">
-                            <a href="{{ route('user.login') }}" class="btn-outline text-center py-3">
-                                Login
-                            </a>
-                            <a href="{{ route('user.register') }}" class="btn-primary text-center py-3">
-                                Register
-                            </a>
-                        </div>
-                    @endauth
-                </div>
-            </div>
-        </div>
-    </header>
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleBtn = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (toggleBtn && mobileMenu) {
+        toggleBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            mobileMenu.classList.toggle('hidden');
+            const icon = this.querySelector('i');
+            if (mobileMenu.classList.contains('hidden')) {
+                icon.className = 'fas fa-bars';
+            } else {
+                icon.className = 'fas fa-times';
+            }
+        });
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                const icon = toggleBtn.querySelector('i');
+                icon.className = 'fas fa-bars';
+            });
+        });
+    }
+});
+</script>
+@endpush
